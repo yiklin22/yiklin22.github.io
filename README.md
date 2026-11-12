@@ -1,6 +1,6 @@
 # Portfolio site
 
-One static page, no build step: `index.html` plus two chart images in `assets/`.
+One static page, no build step: `index.html`, with its drawings inline.
 
 ## Look at it
 
@@ -25,3 +25,11 @@ python3 -m http.server 8000     # then http://localhost:8000
 2. Repository **Settings → Pages → Deploy from a branch → `main` / root**.
 3. The project links on the page point at `github.com/yiklin22/<project>`; they only work for visitors once those
    repositories are public too.
+
+## Redraw the cost chart
+
+The longhaul chart is inline SVG generated from the figures in `longhaul/docs/results/sweeps.md`:
+
+```bash
+python3 tools/chart.py     # rewrites the chart between the LONGHAUL_CHART markers in index.html
+```
