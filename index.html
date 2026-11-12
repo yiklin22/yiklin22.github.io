@@ -262,7 +262,7 @@
         </div>
         <div class="verdict" aria-live="polite">
           <div class="stamp" id="stamp"><span class="word" id="stamp-word">Pass</span><span class="why" id="stamp-why">meets a 2% error target</span></div>
-          <small>Target: at most 2% wrong among approved fields, the target fieldgate is held to.</small>
+          <small>Target: at most 2% wrong among approved fields, the strictest of the three targets fieldgate is tested at.</small>
         </div>
       </div>
       <div class="controls">
@@ -287,14 +287,24 @@
 
       <dl class="results">
         <div class="result">
-          <dt><span class="fig num">43% <i>to</i> 1.6%</span><span class="ticket">1,000 simulated deployments</span></dt>
-          <dd><b>The usual way of picking a threshold fails often.</b>Taking the loosest cut that looked fine on a labelled sample broke a 2% error target in 43% of simulated deployments. The certified cut broke it in 1.6%, inside its 5% allowance.
-            <div class="bars" aria-hidden="true"><span style="--v:.435">usual way</span><span class="is" style="--v:.016">certified</span></div></dd>
+          <dt><span class="fig num">17.2% <i>to</i> 2.7%</span><span class="ticket">200 held-out receipts · 1,793 fields</span></dt>
+          <dd><b>Nearly half the fields skip review, and far fewer of them are wrong.</b>The model alone gets 17.2% of values wrong. With a cut certified for a 5% error target, 47% of fields were approved with no one looking, and 23 of those 843 were wrong. Every field's own error rate came in under its target.
+            <div class="bars" aria-hidden="true"><span style="--v:.86">wrong, no routing</span><span class="is" style="--v:.135">wrong, approved</span></div></dd>
         </div>
         <div class="result">
-          <dt><span class="fig num">0.957 <i>to</i> 0.979</span><span class="ticket">row pairing F1 · 200 receipts</span></dt>
-          <dd><b>Rows rebuilt from OCR boxes.</b>Layout models read columns, which separates a label from its amount. Estimating the photo's tilt from the boxes and regrouping the rows recovered most of the lost pairings, scored against the dataset's own row labels.
-            <div class="bars" aria-hidden="true"><span style="--v:.957">reading order as given</span><span class="is" style="--v:.979">rows rebuilt</span></div></dd>
+          <dt><span class="fig num">0.41 <i>to</i> 0.95</span><span class="ticket">AUROC · same 200 receipts</span></dt>
+          <dd><b>Asking the model how sure it is was worse than a coin flip.</b>The model's stated confidence separated right values from wrong ones with an AUROC of 0.41, and token probability reached 0.74. Combining them with what is printed on the page and whether the amounts add up reached 0.95.
+            <div class="bars" aria-hidden="true"><span style="--v:.410">stated confidence</span><span class="is" style="--v:.949">all evidence</span></div></dd>
+        </div>
+        <div class="result">
+          <dt><span class="fig num">40% <i>to</i> 8%</span><span class="ticket">200 re-splits · 1,800 cuts</span></dt>
+          <dd><b>The usual way of picking a threshold fails often.</b>Taking the loosest cut that looked fine on labelled receipts broke a 5% error target on held-out receipts 40% of the time. The certified cut broke it 8% of the time, chance misses on small held-out sets included. In a simulation where the true rate is known, the figures are 43% and 1.6%.
+            <div class="bars" aria-hidden="true"><span style="--v:.40">usual way</span><span class="is" style="--v:.08">certified</span></div></dd>
+        </div>
+        <div class="result">
+          <dt><span class="fig num">58.8% <i>to</i> 82.8%</span><span class="ticket">field accuracy · same model</span></dt>
+          <dd><b>Rows rebuilt from OCR boxes.</b>Layout models read columns, which separates a label from its amount. Estimating the photo's tilt from the boxes and regrouping the rows lifted field accuracy by 24 points on the same receipts with the same model.
+            <div class="bars" aria-hidden="true"><span style="--v:.588">reading order as given</span><span class="is" style="--v:.828">rows rebuilt</span></div></dd>
         </div>
       </dl>
 
@@ -341,7 +351,7 @@
         <section class="panel limits" aria-labelledby="fg-limits">
           <h3 id="fg-limits">What this does not show</h3>
           <div class="in">
-            <p>One dataset (CORD receipts) and one 1.7B model. The guarantee holds only while new documents resemble the labelled ones, which is why the audit monitor exists. A tilt that shifts a receipt by exactly one row cannot be detected from upright boxes, and a test pins that case down.</p>
+            <p>One dataset (CORD receipts) and one 1.7B model. No whole receipt can skip review: the item count is right only half the time, so every receipt is still opened. The guarantee holds only while new documents resemble the labelled ones, which is why the audit monitor exists. I looked at the held-out receipts during development and changed the cut-selection rule once after the first full analysis; the project README says what changed.</p>
           </div>
         </section>
       </div>
