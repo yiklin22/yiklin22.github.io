@@ -1,265 +1,299 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="claude:viewport-fit-sides" content="cover">
-<title>Eagle AI Portfolio</title>
-<meta name="description" content="AI engineer building document, agent and knowledge systems on open-source foundations, each with a measured answer to a question customers ask.">
+<title>Eagle: AI Systems, Measured</title>
+<meta name="description" content="AI engineer. Three AI systems tested like products: what each one does, the number that answers a customer's question, and what that number does not show.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&display=swap">
 <style>
-  /* Layout: a control room. The page opens on a working instrument (scored fields streaming through an
-     approval gate the visitor can move), then each project is a band: the customer's question set large,
-     the readings that answer it as big figures, one drawing, and the limits of the measurement. */
   :root {
-    --ground: #0a0f1f;  --band: #0f1630;  --raised: #162046;  --ink: #eef1fa;  --soft: #a3add0;  --rule: #27335c;
-    --grid: rgba(120, 140, 210, 0.09);
-    --go: #6cb4ff;      --hold: #ffbe5c;  --miss: #ff7a7a;    --aux: #5fd6c4;  --on-go: #06122b;
-    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    --measure: 62ch;
-    color-scheme: dark;
-  }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --ground: #f4f5fa;  --band: #ffffff;  --raised: #e9ecf7;  --ink: #0c1230;  --soft: #525c7e;  --rule: #d3d8e8;
-      --grid: rgba(40, 60, 140, 0.07);
-      --go: #1a4fd6;      --hold: #a36100;  --miss: #c4382f;    --aux: #0b7a6c;  --on-go: #ffffff;
-      color-scheme: light;
-    }
-  }
-  :root[data-theme="light"] {
-    --ground: #f4f5fa;  --band: #ffffff;  --raised: #e9ecf7;  --ink: #0c1230;  --soft: #525c7e;  --rule: #d3d8e8;
-    --grid: rgba(40, 60, 140, 0.07);
-    --go: #1a4fd6;      --hold: #a36100;  --miss: #c4382f;    --aux: #0b7a6c;  --on-go: #ffffff;
+    --paper: #ffffff;   --tint: #f2f4fb;   --ink: #0d0f14;    --ink-2: #444a5c;  --hair: #c9cdd9;
+    --house: #1f3fd0;   --house-deep: #142c9e; --on-house: #ffffff; --on-house-2: #c8d1fb;
+    --stamp: #ffd21a;   --miss: #c8281c;   --hold: #a86a00;
+    --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+    --text: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --gutter: max(16px, env(safe-area-inset-left, 0px));
     color-scheme: light;
   }
 
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 1.0625rem/1.6 var(--body); -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 76rem; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-  a { color: var(--go); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
-  a:hover { text-decoration-thickness: 2px; }
-  a:focus-visible, input:focus-visible { outline: 2px solid var(--go); outline-offset: 3px; border-radius: 2px; }
-  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  html { scrollbar-color: var(--house) var(--tint); }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.125rem/1.6 var(--text); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--stamp); color: var(--ink); }
+  input, textarea { caret-color: var(--house); }
+  .wrap { max-width: 78rem; margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3 { font-family: var(--display); font-stretch: 75%; text-wrap: balance; margin: 0; }
   p { margin: 0; }
-  .label { font: 500 0.75rem/1.3 var(--data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); }
+  a { color: var(--house); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid var(--house); outline-offset: 3px; border-radius: 1px; }
+  .on-house :focus-visible { outline-color: var(--stamp); }
+  .num { font-variant-numeric: tabular-nums lining-nums; }
+  .arrow { width: 0.9em; height: 0.9em; vertical-align: -0.08em; }
 
-  /* ---------- top bar ---------- */
-  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 2rem; padding-block: 1.1rem; }
-  .bar .name { font: 800 1.25rem/1 var(--display); letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 0.6rem; }
-  .bar .name::before { content: ""; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--go); box-shadow: 0 0 0 4px color-mix(in srgb, var(--go) 22%, transparent); }
-  .bar nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.6rem; font: 500 0.8125rem/1.6 var(--data); letter-spacing: 0.04em; }
-  .bar nav a { color: var(--soft); text-decoration: none; }
-  .bar nav a:hover { color: var(--ink); }
+  /* ---------- masthead ---------- */
+  .masthead { background: var(--house); color: var(--on-house); }
+  .masthead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.6rem 2rem; padding-block: 1.1rem 1rem; }
+  .brand { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
+  .brand b { font: 900 2rem/1 var(--display); font-stretch: 62%; letter-spacing: -0.01em; }
+  .brand span { font: 600 1rem/1.2 var(--display); font-stretch: 85%; color: var(--on-house-2); }
+  .contents { display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; font: 600 1rem/1.4 var(--display); font-stretch: 85%; }
+  .contents a { color: var(--on-house); text-decoration: none; padding-block: 0.3rem; border-bottom: 2px solid transparent; }
+  .contents a:hover { border-bottom-color: var(--stamp); }
+  .contents .gh { color: var(--ink); background: var(--stamp); padding: 0.3rem 0.7rem; border: 0; }
+  .contents .gh:hover { background: var(--paper); }
+  .issue { border-bottom: 2px solid var(--ink); }
+  .issue .wrap { display: flex; flex-wrap: wrap; gap: 0.2rem 2rem; justify-content: space-between; padding-block: 0.55rem; font: 500 0.9375rem/1.4 var(--display); font-stretch: 88%; color: var(--ink-2); }
 
-  /* ---------- hero ---------- */
-  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule);
-          background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-          background-size: 44px 44px; background-position: center top; }
-  .hero::after { content: ""; position: absolute; inset: auto 0 0 0; height: 38%; background: linear-gradient(to top, var(--ground), transparent); pointer-events: none; }
-  .hero > * { position: relative; z-index: 1; }
-  .statement { display: grid; gap: 1.6rem; padding-block: clamp(2rem, 6vw, 4.5rem) clamp(1.75rem, 4vw, 3rem); }
-  .statement h1 { font-weight: 800; font-size: clamp(2.6rem, 7.4vw, 6.25rem); line-height: 0.96; letter-spacing: -0.035em; max-width: 15ch; }
-  .statement h1 em { font-style: normal; color: var(--go); }
-  .statement .deck { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem 3rem; align-items: end; }
-  .statement .deck p { max-width: 38rem; font-size: 1.125rem; color: var(--soft); }
-  .statement .deck p strong { color: var(--ink); font-weight: 500; }
-  .seeking { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0; list-style: none; }
-  .seeking li { font: 500 0.8125rem/1 var(--data); padding: 0.55rem 0.75rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--band); }
+  /* ---------- lead ---------- */
+  .lead { padding-block: clamp(2rem, 4.5vw, 3.5rem) clamp(1.75rem, 3vw, 2.5rem); }
+  .lead h1 { font-weight: 850; font-size: clamp(2.6rem, 6vw, 5.25rem); line-height: 0.95; letter-spacing: -0.015em; max-width: 21ch; }
+  .lead h1 em { font-style: normal; color: var(--house); }
+  .lead-body { display: grid; grid-template-columns: minmax(0, 40rem) minmax(0, 1fr); gap: 1.5rem 3rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); align-items: end; }
+  .lead-body p { font-size: 1.25rem; line-height: 1.55; max-width: 38em; }
+  .seeking { margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--ink); }
+  .seeking li { font: 700 1.125rem/1.3 var(--display); font-stretch: 80%; padding-block: 0.5rem; border-bottom: 1px solid var(--hair); }
+  .lead-body .seeking-label { font: 500 0.9375rem/1.3 var(--display); font-stretch: 88%; color: var(--ink-2); padding-bottom: 0.4rem; }
 
-  /* the instrument */
-  .instrument { border: 1px solid var(--rule); border-radius: 14px; background: color-mix(in srgb, var(--band) 88%, transparent); overflow: hidden; margin-bottom: clamp(2rem, 5vw, 3.5rem);
-                box-shadow: 0 30px 80px -40px color-mix(in srgb, var(--go) 45%, transparent); }
-  .instrument .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.35rem 1.5rem; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--rule); }
-  .instrument .head .note { font-size: 0.8125rem; color: var(--soft); }
-  .instrument canvas { display: block; width: 100%; height: clamp(15rem, 34vw, 23rem); }
-  .panel { display: grid; grid-template-columns: minmax(0, 1.1fr) repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule); }
-  .panel > div { padding: 1rem 1.2rem 1.1rem; display: grid; gap: 0.45rem; align-content: start; min-width: 0; }
-  .panel > div + div { border-left: 1px solid var(--rule); }
-  .panel label { font: 500 0.75rem/1.3 var(--data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); }
-  .panel .set { display: flex; align-items: center; gap: 0.9rem; }
-  .panel input[type="range"] { flex: 1; min-width: 0; accent-color: var(--go); height: 1.5rem; }
-  .panel output, .panel .value { font: 500 clamp(1.5rem, 3vw, 2.125rem)/1 var(--data); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-  .panel .value.go { color: var(--go); } .panel .value.miss { color: var(--miss); } .panel .value.hold { color: var(--hold); }
+  /* ---------- the test rig ---------- */
+  .rig { background: var(--house); color: var(--on-house); padding-block: clamp(2rem, 4vw, 3rem); }
+  .rig-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.75rem 2rem; margin-bottom: 1.25rem; }
+  .rig h2 { font-weight: 800; font-size: clamp(1.75rem, 3.6vw, 2.75rem); line-height: 1; max-width: 22ch; }
+  .rig-note { font-size: 1rem; color: var(--on-house-2); max-width: 34em; }
+  .bench { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 1.5rem 2rem; align-items: stretch; }
+  .bench canvas { display: block; width: 100%; height: clamp(15rem, 30vw, 20rem); border-top: 2px solid var(--on-house); border-bottom: 2px solid var(--on-house); }
+  .key { display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; margin: 0.75rem 0 0; padding: 0; list-style: none; font: 500 0.9375rem/1.4 var(--display); font-stretch: 88%; color: var(--on-house-2); }
+  .key i { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; margin-right: 0.45rem; vertical-align: -0.05em; }
+  .key .k-ok { background: var(--on-house); }
+  .key .k-bad { background: var(--stamp); box-shadow: 0 0 0 2px var(--house), 0 0 0 3.5px var(--stamp); }
+  .key .k-hold { background: var(--on-house-2); opacity: 0.6; }
 
-  /* ---------- project bands ---------- */
-  .project { padding-block: clamp(3.5rem, 8vw, 6.5rem); border-bottom: 1px solid var(--rule); scroll-margin-top: 0.5rem; }
-  .project.alt { background: var(--band); }
-  .project .wrap { display: grid; gap: clamp(2rem, 4vw, 3.25rem); }
-  .project .intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 1.75rem 4rem; align-items: end; }
-  .project .intro > div { display: grid; gap: 1rem; min-width: 0; }
-  .project h2 { font-weight: 800; font-size: clamp(2rem, 4.8vw, 3.9rem); line-height: 1; letter-spacing: -0.03em; }
-  .project .tag { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; }
-  .project .tag .n { font: 500 0.75rem/1 var(--data); letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.6rem; border-radius: 4px; background: var(--go); color: var(--on-go); }
-  .project .built { color: var(--soft); max-width: var(--measure); }
-  .project .where { display: flex; flex-wrap: wrap; gap: 0.3rem 1.25rem; align-items: baseline; font: 500 0.875rem/1.5 var(--data); }
-  .stack { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0; list-style: none; }
-  .stack li { font: 400 0.75rem/1 var(--data); padding: 0.4rem 0.55rem; border: 1px solid var(--rule); border-radius: 4px; color: var(--soft); }
+  .verdict { display: grid; place-items: center; align-content: center; gap: 0.5rem; }
+  .stamp { width: 13.5rem; aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; text-align: center; gap: 0.15rem;
+           background: var(--stamp); color: var(--ink); box-shadow: 0 0 0 5px var(--house), 0 0 0 8px var(--stamp), 0 10px 24px -8px rgba(0, 0, 0, 0.45);
+           transform: rotate(-6deg); }
+  .stamp .word { font: 900 3.4rem/0.9 var(--display); font-stretch: 62%; letter-spacing: 0.01em; }
+  .stamp .why { font: 600 0.9375rem/1.25 var(--display); font-stretch: 85%; padding-inline: 1.5rem; }
+  .stamp.fail { background: var(--paper); color: var(--miss); box-shadow: 0 0 0 5px var(--house), 0 0 0 8px var(--paper), 0 10px 24px -8px rgba(0, 0, 0, 0.45); }
+  .stamp.none { background: transparent; color: var(--on-house); box-shadow: 0 0 0 3px var(--on-house-2); }
+  .stamp.press { animation: press 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes press { from { transform: rotate(-6deg) scale(1.18); filter: blur(1.5px); opacity: 0.4; } to { transform: rotate(-6deg) scale(1); filter: blur(0); opacity: 1; } }
+  .verdict small { font: 500 0.875rem/1.3 var(--display); font-stretch: 88%; color: var(--on-house-2); text-align: center; max-width: 14rem; }
 
-  /* readings: the figures are the point of the page, so they are set large */
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 0 2.5rem; margin: 0; border-top: 2px solid var(--ink); }
-  .tile { display: grid; gap: 0.7rem; align-content: start; padding: 1.4rem 0 1.5rem; border-bottom: 1px solid var(--rule); min-width: 0; }
-  .tile dt { display: grid; gap: 0.5rem; }
-  .tile dt .fig { font: 800 clamp(2.25rem, 4.6vw, 3.6rem)/0.95 var(--display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
-  .tile dt .fig i { font-style: normal; color: var(--soft); font-weight: 500; }
-  .tile dt .of { font: 400 0.75rem/1.3 var(--data); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); }
-  .tile dd { margin: 0; display: grid; gap: 0.75rem; color: var(--soft); font-size: 0.9688rem; }
-  .tile dd b { display: block; color: var(--ink); font-weight: 600; font-size: 1.0625rem; margin-bottom: 0.2rem; }
-  .bars { display: grid; gap: 0.35rem; }
-  .bars span { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.2rem; font: 400 0.6875rem/1.2 var(--data); letter-spacing: 0.04em; color: var(--soft); }
-  .bars span::after { content: ""; height: 0.5rem; border-radius: 1px; width: max(3px, calc(var(--v) * 100%)); background: var(--soft); transform-origin: left; transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .bars span.is::after { background: var(--go); }
-  .js .tile:not(.seen) .bars span::after { transform: scaleX(0); }
+  .controls { display: grid; grid-template-columns: minmax(16rem, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 1rem 2rem; margin-top: 1.25rem; align-items: end; }
+  .controls label { display: block; font: 600 1rem/1.3 var(--display); font-stretch: 85%; margin-bottom: 0.5rem; }
+  .set { display: flex; align-items: center; gap: 1rem; }
+  .set output { font: 800 2rem/1 var(--display); font-stretch: 70%; min-width: 3.2ch; }
+  input[type="range"] { flex: 1; min-width: 0; height: 2.75rem; margin: 0; background: transparent; accent-color: var(--stamp); cursor: pointer; -webkit-appearance: none; appearance: none; }
+  input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--on-house); }
+  input[type="range"]::-moz-range-track { height: 4px; background: var(--on-house); }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 1.6rem; height: 1.6rem; margin-top: -0.7rem; border-radius: 50%; background: var(--stamp); border: 3px solid var(--ink); }
+  input[type="range"]::-moz-range-thumb { width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--stamp); border: 3px solid var(--ink); }
+  .reading { border-top: 1px solid var(--on-house-2); padding-top: 0.5rem; }
+  .reading span { display: block; font: 500 0.9375rem/1.3 var(--display); font-stretch: 88%; color: var(--on-house-2); }
+  .reading b { display: block; font: 850 clamp(2.25rem, 4vw, 3.25rem)/1 var(--display); font-stretch: 65%; margin-top: 0.2rem; }
 
-  figure { margin: 0; display: grid; gap: 0.75rem; min-width: 0; }
-  figure .frame { border: 1px solid var(--rule); border-radius: 12px; overflow-x: auto; background: var(--ground); }
+  /* ---------- a test entry ---------- */
+  .entry { padding-block: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 4vw, 3rem); border-bottom: 2px solid var(--ink); }
+  .entry-head { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1rem 3rem; align-items: start; padding-bottom: 1.5rem; border-bottom: 6px solid var(--ink); }
+  .plate .what { display: inline-block; font: 700 1rem/1 var(--display); font-stretch: 85%; background: var(--house); color: var(--on-house); padding: 0.35rem 0.6rem 0.3rem; }
+  .plate .name { display: block; font: 900 clamp(2.4rem, 4.6vw, 3.6rem)/0.95 var(--display); font-stretch: 62%; margin-top: 0.6rem; letter-spacing: -0.005em; overflow-wrap: anywhere; }
+  .entry h2 { font-weight: 800; font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1; letter-spacing: -0.01em; max-width: 20ch; }
+
+  .results { margin: 0; }
+  .result { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 0.5rem 3rem; padding-block: 1.5rem; border-bottom: 1px solid var(--hair); }
+  .fig { display: block; width: max-content; font: 850 3.5rem/1 var(--display); font-stretch: 62%; white-space: nowrap; letter-spacing: -0.005em; }
+  .fig i { font: italic 400 0.42em/1 var(--text); color: var(--ink-2); margin-inline: 0.12em; letter-spacing: 0; vertical-align: 0.35em; }
+  .ticket { display: inline-block; margin-top: 0.6rem; font: 600 0.875rem/1.3 var(--display); font-stretch: 85%; color: var(--ink-2); border: 1px solid var(--ink-2); padding: 0.2rem 0.5rem; }
+  .result dd { margin: 0; max-width: 46rem; }
+  .result dd b { display: block; font: 750 1.375rem/1.2 var(--display); font-stretch: 82%; margin-bottom: 0.35rem; }
+  .bars { display: grid; gap: 0.35rem; margin-top: 0.9rem; max-width: 34rem; }
+  .bars span { display: grid; grid-template-columns: 11rem minmax(0, 1fr); align-items: center; gap: 0.75rem; font: 500 0.9375rem/1.2 var(--display); font-stretch: 88%; color: var(--ink-2); }
+  .bars span::after { content: ""; display: block; height: 0.75rem; width: calc(var(--v) * 100%); min-width: 3px; background: var(--hair); }
+  .bars span.is { color: var(--ink); font-weight: 700; }
+  .bars span.is::after { background: var(--house); }
+  .js .bars span::after { transform: scaleX(0); transform-origin: left; transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .js .seen .bars span::after { transform: scaleX(1); }
+
+  figure { margin: 2.25rem 0 0; display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 0.75rem 3rem; }
+  figure .frame { grid-column: 2; overflow-x: auto; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--hair); padding-block: 1.25rem; scrollbar-width: thin; }
+  figcaption { grid-column: 1; grid-row: 1; font-size: 1rem; line-height: 1.5; color: var(--ink-2); padding-top: 0.9rem; }
   figure svg { display: block; width: 100%; min-width: 36rem; height: auto; }
-  figcaption { font-size: 0.875rem; color: var(--soft); max-width: 70ch; }
-  svg text { font-family: var(--data); font-size: 12px; fill: var(--soft); }
-  svg .strong { fill: var(--ink); font-weight: 500; }
-  svg .axis { stroke: var(--rule); stroke-width: 1; fill: none; }
-  svg .gridline { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 5; fill: none; }
-  svg .box { fill: var(--band); stroke: var(--rule); }
-  svg .flow { fill: none; stroke: var(--soft); stroke-width: 1.25; }
-  svg .tip { fill: var(--soft); }
-  svg .s-go { stroke: var(--go); fill: none; stroke-width: 3; stroke-linejoin: round; }
-  svg .s-hold { stroke: var(--hold); fill: none; stroke-width: 2.25; stroke-linejoin: round; }
-  svg .s-aux { stroke: var(--aux); fill: none; stroke-width: 2.25; stroke-dasharray: 7 4; stroke-linejoin: round; }
-  svg .s-ref { stroke: var(--soft); fill: none; stroke-width: 1.5; stroke-dasharray: 2 4; }
-  svg .f-go { fill: var(--go); } svg .f-hold { fill: var(--hold); } svg .f-aux { fill: var(--aux); } svg .f-ref { fill: var(--soft); } svg .f-miss { fill: var(--miss); }
-  svg .ring { stroke: var(--ground); stroke-width: 2; }
+  svg text { font-family: var(--display); font-stretch: 88%; font-size: 13px; fill: var(--ink-2); }
+  svg .strong { fill: var(--ink); font-weight: 700; }
+  svg .axis { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+  svg .gridline { stroke: var(--hair); stroke-width: 1; fill: none; }
+  svg .box { fill: var(--tint); stroke: var(--ink); stroke-width: 1.25; }
+  svg .flow { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  svg .tip { fill: var(--ink); }
+  svg .s-go { stroke: var(--house); fill: none; stroke-width: 3.5; stroke-linejoin: round; }
+  svg .s-hold { stroke: var(--hold); fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+  svg .s-aux { stroke: var(--ink); fill: none; stroke-width: 2.25; stroke-dasharray: 7 4; stroke-linejoin: round; }
+  svg .s-ref { stroke: var(--ink-2); fill: none; stroke-width: 1.5; stroke-dasharray: 2 4; }
+  svg .f-go { fill: var(--house); } svg .f-hold { fill: var(--hold); } svg .f-aux { fill: var(--ink); } svg .f-ref { fill: var(--ink-2); }
+  svg .ring { stroke: var(--paper); stroke-width: 2; }
 
-  .limits { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.4rem 1.5rem; align-items: baseline; padding: 1.1rem 1.3rem; border-left: 3px solid var(--hold); background: color-mix(in srgb, var(--hold) 9%, transparent); border-radius: 0 8px 8px 0; }
-  .limits .label { color: var(--hold); }
-  .limits p:last-child { font-size: 0.9688rem; max-width: 80ch; }
+  .panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; align-items: start; }
+  .panel { border: 2px solid var(--ink); }
+  .panel h3 { font-weight: 800; font-size: 1.25rem; line-height: 1.2; padding: 0.55rem 1rem 0.5rem; background: var(--ink); color: var(--paper); }
+  .panel.limits h3 { background: var(--stamp); color: var(--ink); border-bottom: 2px solid var(--ink); }
+  .panel .in { padding: 1rem 1rem 1.15rem; display: grid; gap: 0.9rem; font-size: 1.0625rem; }
+  .stack { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+  .stack li { font: 600 0.875rem/1.2 var(--display); font-stretch: 85%; border: 1px solid var(--ink-2); padding: 0.25rem 0.5rem; }
+  .source { font: 500 0.9375rem/1.4 var(--display); font-stretch: 88%; color: var(--ink-2); }
+  .source code { font: inherit; font-weight: 700; color: var(--ink); }
+  .repo { font: 700 1.0625rem/1.3 var(--display); font-stretch: 85%; }
 
-  /* the approval path in the knowledge system */
-  .path { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; padding: 0; margin: 0; list-style: none; counter-reset: step; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; background: var(--band); }
-  .path li { counter-increment: step; display: grid; gap: 0.45rem; align-content: start; padding: 1.2rem 1.1rem 1.3rem; position: relative; min-width: 0; }
-  .path li + li { border-left: 1px solid var(--rule); }
-  .path li::before { content: counter(step); font: 500 0.75rem/1 var(--data); color: var(--soft); }
-  .path li b { font: 700 1.0625rem/1.2 var(--display); }
-  .path li span { font-size: 0.875rem; color: var(--soft); }
-  .path li.gate { background: color-mix(in srgb, var(--go) 14%, transparent); }
-  .path li.gate b { color: var(--go); }
+  /* knowledge: the path a source takes */
+  .path { grid-column: 2; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; counter-reset: step; border-top: 2px solid var(--ink); }
+  .path li { counter-increment: step; padding: 0.9rem 1rem 1rem 0; border-right: 1px solid var(--hair); margin-right: 1rem; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); }
+  .path li:last-child { border-right: 0; margin-right: 0; }
+  .path b { display: block; font: 800 1.125rem/1.2 var(--display); font-stretch: 80%; color: var(--ink); margin-bottom: 0.3rem; }
+  .path b::before { content: counter(step) " "; color: var(--house); }
+  .path .gate { background: var(--stamp); padding-left: 0.9rem; color: var(--ink); margin-top: -2px; border-top: 2px solid var(--ink); }
 
   /* ---------- method ---------- */
-  .method { padding-block: clamp(3.5rem, 8vw, 6rem); border-bottom: 1px solid var(--rule); background: var(--band); }
-  .method .wrap { display: grid; gap: 2.5rem; }
-  .method .wrap > div { display: grid; gap: 1rem; }
-  .method h2 { font-weight: 800; font-size: clamp(2rem, 4.8vw, 3.9rem); line-height: 1; letter-spacing: -0.03em; max-width: 16ch; }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0 2.5rem; margin: 0; padding: 0; list-style: none; counter-reset: step; border-top: 2px solid var(--ink); }
-  .steps li { counter-increment: step; display: grid; gap: 0.6rem; align-content: start; padding: 1.3rem 0 0.5rem; }
-  .steps li::before { content: "0" counter(step); font: 800 2.5rem/1 var(--display); letter-spacing: -0.03em; color: var(--go); }
-  .steps h3 { font: 600 1.125rem/1.3 var(--body); }
-  .steps p { color: var(--soft); font-size: 0.9688rem; }
+  .method { padding-block: clamp(3rem, 7vw, 5.5rem); background: var(--tint); border-bottom: 2px solid var(--ink); }
+  .method-grid { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1.5rem 3rem; }
+  .method h2 { font-weight: 800; font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1; }
+  .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3rem; }
+  .steps li { counter-increment: s; border-top: 2px solid var(--ink); padding: 1rem 0 1.75rem; }
+  .steps h3 { font-weight: 800; font-size: 1.5rem; line-height: 1.15; margin-bottom: 0.5rem; }
+  .steps h3::before { content: counter(s) ". "; color: var(--house); }
+  .steps p { font-size: 1.0625rem; color: var(--ink-2); max-width: 34em; }
+  .also { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--hair); font-size: 1.0625rem; max-width: 52rem; grid-column: 2; }
 
-  .also { padding-block: 2.25rem; border-bottom: 1px solid var(--rule); }
-  .also .wrap { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.5rem 2rem; align-items: baseline; }
-  .also p:last-child { color: var(--soft); max-width: var(--measure); }
+  /* ---------- contact ---------- */
+  .close { background: var(--house); color: var(--on-house); padding-block: clamp(3rem, 8vw, 6rem) 2rem; }
+  .close h2 { font-weight: 900; font-size: clamp(2.4rem, 6vw, 5.25rem); line-height: 0.95; max-width: 16ch; font-stretch: 65%; }
+  .close .reach { display: grid; grid-template-columns: minmax(0, 38rem) auto; gap: 1.5rem 3rem; align-items: end; justify-content: space-between; margin-top: 2rem; }
+  .close .reach p { font-size: 1.1875rem; }
+  .cta { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--stamp); color: var(--ink); text-decoration: none; font: 800 1.5rem/1 var(--display); font-stretch: 75%; padding: 1.05rem 1.4rem; box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.5); transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms; }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.55); }
+  .close .fine { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--on-house-2); font: 500 0.9375rem/1.4 var(--display); font-stretch: 88%; color: var(--on-house-2); }
 
-  footer { padding-block: clamp(3.5rem, 9vw, 7rem) 4rem; }
-  footer .wrap { display: grid; gap: 2rem; }
-  footer h2 { font-weight: 800; font-size: clamp(2.25rem, 6.2vw, 5rem); line-height: 0.98; letter-spacing: -0.035em; max-width: 18ch; }
-  footer .reach { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem 3rem; align-items: end; }
-  footer .reach p { color: var(--soft); max-width: var(--measure); }
-  footer .cta { display: inline-flex; align-items: center; gap: 0.6rem; font: 500 1rem/1 var(--data); padding: 1rem 1.3rem; border-radius: 999px; background: var(--go); color: var(--on-go); text-decoration: none; }
-  footer .cta:hover { filter: brightness(1.08); }
-  .fine { font-size: 0.8125rem; color: var(--soft); }
-
-  @media (max-width: 900px) {
-    .statement .deck, .project .intro, footer .reach { grid-template-columns: minmax(0, 1fr); }
-    .panel { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .panel > div:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--rule); }
-    .panel > div:nth-child(2) { border-left: 0; }
-    .path { grid-template-columns: minmax(0, 1fr); }
-    .path li + li { border-left: 0; border-top: 1px solid var(--rule); }
-    .also .wrap, .limits { grid-template-columns: minmax(0, 1fr); }
+  /* ---------- narrower ---------- */
+  @media (max-width: 1000px) {
+    .bench { grid-template-columns: 1fr; }
+    .verdict { grid-template-columns: auto 1fr; justify-items: start; gap: 1.25rem; padding: 0.75rem 0 0 0.6rem; }
+    .stamp { width: 9.5rem; }
+    .stamp .word { font-size: 2.5rem; }
+    .stamp .why { font-size: 0.8125rem; padding-inline: 1rem; }
+    .verdict small { text-align: left; }
+    .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .controls > :first-child { grid-column: 1 / -1; }
   }
-  @media (max-width: 520px) {
-    .panel > div { padding: 0.8rem 0.75rem 0.9rem; }
-    .panel label, .panel .label { letter-spacing: 0.04em; font-size: 0.6875rem; }
+  @media (max-width: 820px) {
+    .lead-body, .entry-head, .result, figure, .method-grid, .close .reach { grid-template-columns: minmax(0, 1fr); }
+    figure .frame, figcaption, .path, .also { grid-column: 1; }
+    figcaption { grid-row: auto; padding-top: 0; }
+    .panels, .steps { grid-template-columns: 1fr; }
+    .path { grid-template-columns: 1fr; }
+    .path li { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--hair); padding-right: 0; }
+    .result { padding-block: 1.25rem; }
   }
-  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-  @media (prefers-reduced-motion: reduce) { .bars span::after { transition: none; } }
+  @media (max-width: 480px) {
+    .controls { gap: 0.75rem; }
+    .reading span { font-size: 0.8125rem; }
+    .bars span { grid-template-columns: 7.5rem minmax(0, 1fr); }
+    .masthead .wrap { flex-direction: column; align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp.press { animation: none; }
+    .js .bars span::after { transition: none; }
+    .cta { transition: none; }
+  }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <header class="wrap bar">
-    <span class="name">Eagle</span>
-    <nav aria-label="Sections">
+<header class="masthead on-house">
+  <div class="wrap">
+    <p class="brand"><b>Eagle</b><span>Test report: three AI systems, measured</span></p>
+    <nav class="contents" aria-label="Contents">
       <a href="#fieldgate">Documents</a>
       <a href="#longhaul">Agents</a>
       <a href="#knowledge">Knowledge</a>
       <a href="#method">Method</a>
-      <a href="#contact">Contact</a>
+      <a class="gh" href="https://github.com/yiklin22">GitHub</a>
     </nav>
-  </header>
-
-  <section class="wrap statement" aria-labelledby="thesis">
-    <h1 id="thesis">I build AI systems, then <em>measure</em> whether they hold up.</h1>
-    <div class="deck">
-      <p><strong>AI engineer.</strong> Before a customer trusts an AI system they ask three things: can I check its work, what will it cost, and when does a person still have to look. Each project here answers one with a number, and says what that number does not show.</p>
-      <ul class="seeking" aria-label="Roles I am looking for">
-        <li>Forward-deployed engineer</li>
-        <li>AI engineer</li>
-        <li>Solutions engineer</li>
-      </ul>
-    </div>
-  </section>
-
+  </div>
+</header>
+<div class="issue">
   <div class="wrap">
-    <section class="instrument" aria-labelledby="inst-h">
-      <div class="head">
-        <span class="label" id="inst-h">Try it: where would you let the AI skip review?</span>
-        <span class="note">Illustration with simulated scores. The measured version is the first project below.</span>
-      </div>
-      <canvas id="gate" aria-hidden="true"></canvas>
-      <div class="panel">
-        <div>
-          <label for="cut">Approve fields scoring at least</label>
-          <div class="set"><input type="range" id="cut" min="0.40" max="0.99" step="0.01" value="0.90"><output id="cut-out" for="cut">0.90</output></div>
-        </div>
-        <div aria-live="polite"><span class="label">Approved, no one looks</span><span class="value go" id="r-approved">–</span></div>
-        <div aria-live="polite"><span class="label">Wrong among approved</span><span class="value miss" id="r-wrong">–</span></div>
-        <div aria-live="polite"><span class="label">Sent to a person</span><span class="value hold" id="r-person">–</span></div>
-      </div>
-    </section>
+    <span>AI engineer, open to forward-deployed and solutions roles</span>
+    <span>Every figure comes from the report in its project's repository</span>
   </div>
 </div>
 
 <main>
+  <section class="wrap lead" aria-labelledby="thesis">
+    <h1 id="thesis">I build AI systems, then <em>measure</em> whether they hold up.</h1>
+    <div class="lead-body">
+      <p>Before a customer trusts an AI system they ask three things: can I check its work, what will it cost, and when does a person still have to look. Each project below answers one with a number, and says what that number does not show.</p>
+      <div>
+        <p class="seeking-label" id="seeking">Looking for</p>
+        <ul class="seeking" aria-labelledby="seeking">
+          <li>Forward-deployed engineer</li>
+          <li>AI engineer</li>
+          <li>Solutions engineer</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <!-- ============================== fieldgate ============================== -->
-  <article class="project" id="fieldgate">
+  <section class="rig on-house" aria-labelledby="rig-h">
     <div class="wrap">
-      <div class="intro">
+      <div class="rig-head">
+        <h2 id="rig-h">Where would you let the AI skip review?</h2>
+        <p class="rig-note">Fields stream in from the left; those scoring at or above the pass mark are approved without a person looking. Drag the mark until the stamp passes, and watch how much work still goes to a person. Simulated scores: the measured version is the first test below.</p>
+      </div>
+      <div class="bench">
         <div>
-          <p class="tag"><span class="n">Documents</span><span class="label">fieldgate</span></p>
-          <h2>Which extracted fields can skip human review?</h2>
+          <canvas id="gate" aria-hidden="true"></canvas>
+          <ul class="key" aria-hidden="true">
+            <li><i class="k-ok"></i>right value, approved</li>
+            <li><i class="k-bad"></i>wrong value, approved</li>
+            <li><i class="k-hold"></i>sent to a person</li>
+          </ul>
         </div>
-        <div>
-          <p class="built">Extraction tools report a confidence score. Few say what error rate you get if you trust it. fieldgate reads scanned receipts with docling OCR and a small language model on a CPU, scores every field from four independent kinds of evidence, and picks the approval cut with a statistical guarantee. Whatever falls below it goes to a review queue with the supporting text outlined on the image.</p>
-          <ul class="stack" aria-label="Built with"><li>docling</li><li>RapidOCR</li><li>Qwen3 1.7B, local</li><li>scikit-learn</li><li>SciPy</li><li>FastAPI</li></ul>
-          <p class="where"><a href="https://github.com/yiklin22/fieldgate">github.com/yiklin22/fieldgate</a></p>
+        <div class="verdict" aria-live="polite">
+          <div class="stamp" id="stamp"><span class="word" id="stamp-word">Pass</span><span class="why" id="stamp-why">meets a 2% error target</span></div>
+          <small>Target: at most 2% wrong among approved fields, the target fieldgate is held to.</small>
         </div>
       </div>
+      <div class="controls">
+        <div>
+          <label for="cut">Approve fields scoring at least</label>
+          <div class="set"><input type="range" id="cut" min="0.40" max="0.99" step="0.01" value="0.90"><output id="cut-out" for="cut" class="num">0.90</output></div>
+        </div>
+        <div class="reading" aria-live="polite"><span>Approved, no one looks</span><b class="num" id="r-approved">–</b></div>
+        <div class="reading" aria-live="polite"><span>Wrong among approved</span><b class="num" id="r-wrong">–</b></div>
+        <div class="reading" aria-live="polite"><span>Sent to a person</span><b class="num" id="r-person">–</b></div>
+      </div>
+    </div>
+  </section>
 
-      <dl class="tiles" id="fieldgate-readings">
-        <div class="tile">
-          <dt><span class="fig">43% <i>→</i> 1.6%</span><span class="of">missed its target · 1,000 simulated deployments</span></dt>
-          <dd><span><b>The usual way of picking a threshold fails often.</b>Taking the loosest cut that looked fine on a labelled sample broke a 2% error target in 43% of simulated deployments. The certified cut broke it in 1.6%, inside its 5% allowance.</span>
+  <!-- ============================== fieldgate ============================== -->
+  <article class="entry" id="fieldgate" aria-labelledby="fg-h">
+    <div class="wrap">
+      <div class="entry-head">
+        <p class="plate"><span class="what">Documents</span><span class="name">fieldgate</span></p>
+        <h2 id="fg-h">Which extracted fields can skip human review?</h2>
+      </div>
+
+      <dl class="results">
+        <div class="result">
+          <dt><span class="fig num">43% <i>to</i> 1.6%</span><span class="ticket">1,000 simulated deployments</span></dt>
+          <dd><b>The usual way of picking a threshold fails often.</b>Taking the loosest cut that looked fine on a labelled sample broke a 2% error target in 43% of simulated deployments. The certified cut broke it in 1.6%, inside its 5% allowance.
             <div class="bars" aria-hidden="true"><span style="--v:.435">usual way</span><span class="is" style="--v:.016">certified</span></div></dd>
         </div>
-        <div class="tile">
-          <dt><span class="fig">0.957 <i>→</i> 0.979</span><span class="of">row pairing F1 · 200 receipts</span></dt>
-          <dd><span><b>Rows rebuilt from OCR boxes.</b>Layout models read columns, which separates a label from its amount. Estimating the photo's tilt from the boxes and regrouping the rows recovered most of the lost pairings, scored against the dataset's own row labels.</span>
+        <div class="result">
+          <dt><span class="fig num">0.957 <i>to</i> 0.979</span><span class="ticket">row pairing F1 · 200 receipts</span></dt>
+          <dd><b>Rows rebuilt from OCR boxes.</b>Layout models read columns, which separates a label from its amount. Estimating the photo's tilt from the boxes and regrouping the rows recovered most of the lost pairings, scored against the dataset's own row labels.
             <div class="bars" aria-hidden="true"><span style="--v:.957">reading order as given</span><span class="is" style="--v:.979">rows rebuilt</span></div></dd>
         </div>
       </dl>
@@ -267,24 +301,24 @@
       <figure>
         <div class="frame">
           <svg viewBox="0 0 720 210" role="img" aria-label="Each extracted field is scored from the model, repeat sampling, the page and arithmetic rules. Fields at or above the certified cut are approved; the rest go to a person. One in ten approved fields is audited to detect drift.">
-            <rect class="box" x="16" y="30" width="170" height="150" rx="8"/>
+            <rect class="box" x="16" y="30" width="170" height="150"/>
             <text class="strong" x="32" y="56">Four kinds of evidence</text>
             <circle class="f-go" cx="38" cy="82" r="4"/><text x="52" y="86">model probability</text>
             <circle class="f-go" cx="38" cy="106" r="4"/><text x="52" y="110">repeat sampling</text>
             <circle class="f-go" cx="38" cy="130" r="4"/><text x="52" y="134">printed on page?</text>
             <circle class="f-go" cx="38" cy="154" r="4"/><text x="52" y="158">amounts add up?</text>
             <path class="flow" d="M186 105 H238"/><path class="tip" d="M238 100 l9 5 -9 5z"/>
-            <rect class="box" x="248" y="68" width="150" height="74" rx="8"/>
+            <rect class="box" x="248" y="68" width="150" height="74"/>
             <text class="strong" x="264" y="94">One score</text>
             <text x="264" y="114">chance the value</text>
             <text x="264" y="130">is right</text>
             <path class="flow" d="M398 105 H416"/>
             <path class="flow" d="M416 105 V56 H470"/><path class="tip" d="M470 51 l9 5 -9 5z"/>
             <path class="flow" d="M416 105 V158 H470"/><path class="tip" d="M470 153 l9 5 -9 5z"/>
-            <rect class="f-go" x="482" y="32" width="6" height="48" rx="3"/>
+            <rect class="f-go" x="482" y="32" width="6" height="48"/>
             <text class="strong" x="500" y="52">At or above the cut</text>
             <text x="500" y="70">approved, no one looks</text>
-            <rect class="f-hold" x="482" y="134" width="6" height="48" rx="3"/>
+            <rect class="f-hold" x="482" y="134" width="6" height="48"/>
             <text class="strong" x="500" y="154">Below the cut</text>
             <text x="500" y="172">a person checks it</text>
             <path class="flow" stroke-dasharray="3 4" d="M596 82 V130"/>
@@ -294,135 +328,152 @@
         <figcaption>The cut is chosen on labelled receipts so that, with 95% confidence, the error rate among approved fields stays at or under the target. Audited approvals feed a monitor that raises an alarm when that stops being true.</figcaption>
       </figure>
 
-      <div class="limits">
-        <p class="label">What this does not show</p>
-        <p>One dataset (CORD receipts) and one 1.7B model. The guarantee holds only while new documents resemble the labelled ones, which is why the audit monitor exists. A tilt that shifts a receipt by exactly one row cannot be detected from upright boxes, and a test pins that case down.</p>
+      <div class="panels">
+        <section class="panel" aria-labelledby="fg-built">
+          <h3 id="fg-built">What I built</h3>
+          <div class="in">
+            <p>Extraction tools report a confidence score. Few say what error rate you get if you trust it. fieldgate reads scanned receipts with docling OCR and a small language model on a CPU, scores every field from four independent kinds of evidence, and picks the approval cut with a statistical guarantee. Whatever falls below it goes to a review queue with the supporting text outlined on the image.</p>
+            <ul class="stack" aria-label="Built with"><li>docling</li><li>RapidOCR</li><li>Qwen3 1.7B, local</li><li>scikit-learn</li><li>SciPy</li><li>FastAPI</li></ul>
+            <p class="source">Figures from <code>fieldgate/docs/results/cord.md</code></p>
+            <p class="repo"><a href="https://github.com/yiklin22/fieldgate">github.com/yiklin22/fieldgate</a></p>
+          </div>
+        </section>
+        <section class="panel limits" aria-labelledby="fg-limits">
+          <h3 id="fg-limits">What this does not show</h3>
+          <div class="in">
+            <p>One dataset (CORD receipts) and one 1.7B model. The guarantee holds only while new documents resemble the labelled ones, which is why the audit monitor exists. A tilt that shifts a receipt by exactly one row cannot be detected from upright boxes, and a test pins that case down.</p>
+          </div>
+        </section>
       </div>
     </div>
   </article>
 
   <!-- ============================== longhaul ============================== -->
-  <article class="project alt" id="longhaul">
+  <article class="entry" id="longhaul" aria-labelledby="lh-h">
     <div class="wrap">
-      <div class="intro">
-        <div>
-          <p class="tag"><span class="n">Agents</span><span class="label">longhaul</span></p>
-          <h2>What does a long-running agent cost, and what does it forget?</h2>
-        </div>
-        <div>
-          <p class="built">Long agent runs outgrow their context, so every team picks a strategy: send everything, trim, clear old tool results, or summarise. Most comparisons price every input token at full rate, which is not what a cached agent loop pays. longhaul is an eval on Inspect AI that replays a 120-turn support shift through Inspect's own compaction strategies and prices each call with cache reads and writes counted separately.</p>
-          <ul class="stack" aria-label="Built with"><li>Inspect AI</li><li>Anthropic prompt caching</li><li>LongMemEval adapter</li><li>CI regression gate</li></ul>
-          <p class="where"><a href="https://github.com/yiklin22/longhaul">github.com/yiklin22/longhaul</a></p>
-        </div>
+      <div class="entry-head">
+        <p class="plate"><span class="what">Agents</span><span class="name">longhaul</span></p>
+        <h2 id="lh-h">What does a long-running agent cost, and what does it forget?</h2>
       </div>
 
-      <dl class="tiles">
-        <div class="tile">
-          <dt><span class="fig">$1.84 <i>vs</i> $28.56</span><span class="of">per shift · modelled</span></dt>
-          <dd><span><b>Caching outweighs the choice of strategy.</b>Sending full history costs about 15 times more with caching off. The best strategy saves a further 38% on top of caching.</span>
+      <dl class="results">
+        <div class="result">
+          <dt><span class="fig num">$1.84 <i>vs</i> $28.56</span><span class="ticket">per shift · modelled</span></dt>
+          <dd><b>Caching outweighs the choice of strategy.</b>Sending full history costs about 15 times more with caching off. The best strategy saves a further 38% on top of caching.
             <div class="bars" aria-hidden="true"><span class="is" style="--v:.064">cached</span><span style="--v:1">uncached</span></div></dd>
         </div>
-        <div class="tile">
-          <dt><span class="fig">94% <i>vs</i> 48%</span><span class="of">evidence kept · 320 probes</span></dt>
-          <dd><span><b>Clearing old tool results beat trimming on both axes.</b>It kept more of the facts the agent needed later and cost less. Trimming also made the agent wrong, not just forgetful: on counting questions it gave a confident undercount 95% of the time.</span>
+        <div class="result">
+          <dt><span class="fig num">94% <i>vs</i> 48%</span><span class="ticket">evidence kept · 320 probes</span></dt>
+          <dd><b>Clearing old tool results beat trimming on both axes.</b>It kept more of the facts the agent needed later and cost less. Trimming also made the agent wrong, not just forgetful: on counting questions it gave a confident undercount 95% of the time.
             <div class="bars" aria-hidden="true"><span class="is" style="--v:.94">clear tool results</span><span style="--v:.48">trim</span></div></dd>
         </div>
-        <div class="tile">
-          <dt><span class="fig">13×</span><span class="of">cost jump at a five-minute pause</span></dt>
-          <dd><span><b>Pauses between turns change the answer.</b>A pause just over five minutes makes a plain five-minute cache rewrite the whole prompt every turn. Past an hour, caching full history costs more than not caching at all.</span></dd>
+        <div class="result">
+          <dt><span class="fig num">13×</span><span class="ticket">cost jump at a five-minute pause</span></dt>
+          <dd><b>Pauses between turns change the answer.</b>A pause just over five minutes makes a plain five-minute cache rewrite the whole prompt every turn. Past an hour, caching full history costs more than not caching at all.</dd>
         </div>
       </dl>
 
       <figure>
-        <div class="frame"><!--LONGHAUL_CHART--><svg viewBox="0 0 760 372" role="img" aria-label="Line chart of modelled cost per shift against the pause between operator turns. Full history with caching costs $1.84 up to a 4.7 minute pause, $2.06 up to 40 minutes and $38.60 at 67 minutes, above the $28.56 it costs with no cache. With only a 5-minute cache it jumps to $24.33 once pauses pass five minutes. Summarising costs $15.53 at 67 minutes, the cheapest."><path class="s-go" d="M64 18 h26"/><text x="98" y="22">Full history, cached</text><path class="s-aux" d="M266.0 18 h26"/><text x="300.0" y="22">Summarise</text><path class="s-hold" d="M387.7 18 h26"/><text x="421.7" y="22">5-minute cache only</text><path class="s-ref" d="M582 18 h26"/><text x="616" y="22">No cache</text><path class="gridline" d="M64 318.0 H540"/><text x="54" y="322.0" text-anchor="end">$1</text><path class="gridline" d="M64 269.5 H540"/><text x="54" y="273.5" text-anchor="end">$2</text><path class="gridline" d="M64 205.3 H540"/><text x="54" y="209.3" text-anchor="end">$5</text><path class="gridline" d="M64 156.7 H540"/><text x="54" y="160.7" text-anchor="end">$10</text><path class="gridline" d="M64 108.2 H540"/><text x="54" y="112.2" text-anchor="end">$20</text><path class="gridline" d="M64 44.0 H540"/><text x="54" y="48.0" text-anchor="end">$50</text><text x="64.0" y="340" text-anchor="middle">10 s</text><text x="143.3" y="340" text-anchor="middle">2 min</text><text x="222.7" y="340" text-anchor="middle">4.7 min</text><text x="302.0" y="340" text-anchor="middle">6.7 min</text><text x="381.3" y="340" text-anchor="middle">15 min</text><text x="460.7" y="340" text-anchor="middle">40 min</text><text x="540.0" y="340" text-anchor="middle">67 min</text><text x="302" y="362" text-anchor="middle">pause between operator turns</text><path class="axis" d="M64 318 H540"/><path class="s-ref" d="M64 83.2 H540"/><text class="strong" x="552" y="84.2">No cache $28.56</text><path class="s-hold" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 94.5 L381.3 94.5 L460.7 94.5 L540.0 94.5"/><circle class="f-hold ring" cx="64.0" cy="275.3" r="4.5"><title>5-minute cache only, 10 s pause: $1.84</title></circle><circle class="f-hold ring" cx="143.3" cy="275.3" r="4.5"><title>5-minute cache only, 2 min pause: $1.84</title></circle><circle class="f-hold ring" cx="222.7" cy="275.3" r="4.5"><title>5-minute cache only, 4.7 min pause: $1.84</title></circle><circle class="f-hold ring" cx="302.0" cy="94.5" r="4.5"><title>5-minute cache only, 6.7 min pause: $24.33</title></circle><circle class="f-hold ring" cx="381.3" cy="94.5" r="4.5"><title>5-minute cache only, 15 min pause: $24.33</title></circle><circle class="f-hold ring" cx="460.7" cy="94.5" r="4.5"><title>5-minute cache only, 40 min pause: $24.33</title></circle><circle class="f-hold ring" cx="540.0" cy="94.5" r="4.5"><title>5-minute cache only, 67 min pause: $24.33</title></circle><text class="strong" x="552" y="104.5">5-minute cache only $24.33</text><path class="s-aux" d="M64.0 297.5 L143.3 297.5 L222.7 297.0 L302.0 278.0 L381.3 278.0 L460.7 277.2 L540.0 125.9"/><circle class="f-aux ring" cx="64.0" cy="297.5" r="4.5"><title>Summarise, 10 s pause: $1.34</title></circle><circle class="f-aux ring" cx="143.3" cy="297.5" r="4.5"><title>Summarise, 2 min pause: $1.34</title></circle><circle class="f-aux ring" cx="222.7" cy="297.0" r="4.5"><title>Summarise, 4.7 min pause: $1.35</title></circle><circle class="f-aux ring" cx="302.0" cy="278.0" r="4.5"><title>Summarise, 6.7 min pause: $1.77</title></circle><circle class="f-aux ring" cx="381.3" cy="278.0" r="4.5"><title>Summarise, 15 min pause: $1.77</title></circle><circle class="f-aux ring" cx="460.7" cy="277.2" r="4.5"><title>Summarise, 40 min pause: $1.79</title></circle><circle class="f-aux ring" cx="540.0" cy="125.9" r="4.5"><title>Summarise, 67 min pause: $15.53</title></circle><text class="strong" x="552" y="129.9">Summarise $15.53</text><path class="s-go" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 267.4 L381.3 267.4 L460.7 267.4 L540.0 62.1"/><circle class="f-go ring" cx="64.0" cy="275.3" r="4.5"><title>Full history, cached, 10 s pause: $1.84</title></circle><circle class="f-go ring" cx="143.3" cy="275.3" r="4.5"><title>Full history, cached, 2 min pause: $1.84</title></circle><circle class="f-go ring" cx="222.7" cy="275.3" r="4.5"><title>Full history, cached, 4.7 min pause: $1.84</title></circle><circle class="f-go ring" cx="302.0" cy="267.4" r="4.5"><title>Full history, cached, 6.7 min pause: $2.06</title></circle><circle class="f-go ring" cx="381.3" cy="267.4" r="4.5"><title>Full history, cached, 15 min pause: $2.06</title></circle><circle class="f-go ring" cx="460.7" cy="267.4" r="4.5"><title>Full history, cached, 40 min pause: $2.06</title></circle><circle class="f-go ring" cx="540.0" cy="62.1" r="4.5"><title>Full history, cached, 67 min pause: $38.60</title></circle><text class="strong" x="552" y="66.1">Full history, cached $38.60</text><text x="312.0" y="114.5">expires before every turn</text><text x="64.0" y="263.3">$1.84</text></svg><!--/LONGHAUL_CHART--></div>
+        <div class="frame"><!--LONGHAUL_CHART--><svg viewBox="0 0 760 372" role="img" aria-label="Line chart of modelled cost per shift against the pause between operator turns. Full history with caching costs $1.84 up to a 4.7 minute pause, $2.06 up to 40 minutes and $38.60 at 67 minutes, above the $28.56 it costs with no cache. With only a 5-minute cache it jumps to $24.33 once pauses pass five minutes. Summarising costs $15.53 at 67 minutes, the cheapest."><path class="s-go" d="M64 18 h26"/><text x="98" y="22">Full history, cached</text><path class="s-aux" d="M250.0 18 h26"/><text x="284.0" y="22">Summarise</text><path class="s-hold" d="M365.6 18 h26"/><text x="399.6" y="22">5-minute cache only</text><path class="s-ref" d="M545 18 h26"/><text x="579" y="22">No cache</text><path class="gridline" d="M64 318.0 H540"/><text x="54" y="322.0" text-anchor="end">$1</text><path class="gridline" d="M64 269.5 H540"/><text x="54" y="273.5" text-anchor="end">$2</text><path class="gridline" d="M64 205.3 H540"/><text x="54" y="209.3" text-anchor="end">$5</text><path class="gridline" d="M64 156.7 H540"/><text x="54" y="160.7" text-anchor="end">$10</text><path class="gridline" d="M64 108.2 H540"/><text x="54" y="112.2" text-anchor="end">$20</text><path class="gridline" d="M64 44.0 H540"/><text x="54" y="48.0" text-anchor="end">$50</text><text x="64.0" y="340" text-anchor="middle">10 s</text><text x="143.3" y="340" text-anchor="middle">2 min</text><text x="222.7" y="340" text-anchor="middle">4.7 min</text><text x="302.0" y="340" text-anchor="middle">6.7 min</text><text x="381.3" y="340" text-anchor="middle">15 min</text><text x="460.7" y="340" text-anchor="middle">40 min</text><text x="540.0" y="340" text-anchor="middle">67 min</text><text x="302" y="362" text-anchor="middle">pause between operator turns</text><path class="axis" d="M64 318 H540"/><path class="s-ref" d="M64 83.2 H540"/><text class="strong" x="552" y="84.2">No cache $28.56</text><path class="s-hold" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 94.5 L381.3 94.5 L460.7 94.5 L540.0 94.5"/><circle class="f-hold ring" cx="64.0" cy="275.3" r="4.5"><title>5-minute cache only, 10 s pause: $1.84</title></circle><circle class="f-hold ring" cx="143.3" cy="275.3" r="4.5"><title>5-minute cache only, 2 min pause: $1.84</title></circle><circle class="f-hold ring" cx="222.7" cy="275.3" r="4.5"><title>5-minute cache only, 4.7 min pause: $1.84</title></circle><circle class="f-hold ring" cx="302.0" cy="94.5" r="4.5"><title>5-minute cache only, 6.7 min pause: $24.33</title></circle><circle class="f-hold ring" cx="381.3" cy="94.5" r="4.5"><title>5-minute cache only, 15 min pause: $24.33</title></circle><circle class="f-hold ring" cx="460.7" cy="94.5" r="4.5"><title>5-minute cache only, 40 min pause: $24.33</title></circle><circle class="f-hold ring" cx="540.0" cy="94.5" r="4.5"><title>5-minute cache only, 67 min pause: $24.33</title></circle><text class="strong" x="552" y="104.5">5-minute cache only $24.33</text><path class="s-aux" d="M64.0 297.5 L143.3 297.5 L222.7 297.0 L302.0 278.0 L381.3 278.0 L460.7 277.2 L540.0 125.9"/><circle class="f-aux ring" cx="64.0" cy="297.5" r="4.5"><title>Summarise, 10 s pause: $1.34</title></circle><circle class="f-aux ring" cx="143.3" cy="297.5" r="4.5"><title>Summarise, 2 min pause: $1.34</title></circle><circle class="f-aux ring" cx="222.7" cy="297.0" r="4.5"><title>Summarise, 4.7 min pause: $1.35</title></circle><circle class="f-aux ring" cx="302.0" cy="278.0" r="4.5"><title>Summarise, 6.7 min pause: $1.77</title></circle><circle class="f-aux ring" cx="381.3" cy="278.0" r="4.5"><title>Summarise, 15 min pause: $1.77</title></circle><circle class="f-aux ring" cx="460.7" cy="277.2" r="4.5"><title>Summarise, 40 min pause: $1.79</title></circle><circle class="f-aux ring" cx="540.0" cy="125.9" r="4.5"><title>Summarise, 67 min pause: $15.53</title></circle><text class="strong" x="552" y="129.9">Summarise $15.53</text><path class="s-go" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 267.4 L381.3 267.4 L460.7 267.4 L540.0 62.1"/><circle class="f-go ring" cx="64.0" cy="275.3" r="4.5"><title>Full history, cached, 10 s pause: $1.84</title></circle><circle class="f-go ring" cx="143.3" cy="275.3" r="4.5"><title>Full history, cached, 2 min pause: $1.84</title></circle><circle class="f-go ring" cx="222.7" cy="275.3" r="4.5"><title>Full history, cached, 4.7 min pause: $1.84</title></circle><circle class="f-go ring" cx="302.0" cy="267.4" r="4.5"><title>Full history, cached, 6.7 min pause: $2.06</title></circle><circle class="f-go ring" cx="381.3" cy="267.4" r="4.5"><title>Full history, cached, 15 min pause: $2.06</title></circle><circle class="f-go ring" cx="460.7" cy="267.4" r="4.5"><title>Full history, cached, 40 min pause: $2.06</title></circle><circle class="f-go ring" cx="540.0" cy="62.1" r="4.5"><title>Full history, cached, 67 min pause: $38.60</title></circle><text class="strong" x="552" y="66.1">Full history, cached $38.60</text><text x="312.0" y="114.5">expires before every turn</text><text x="64.0" y="263.3">$1.84</text></svg><!--/LONGHAUL_CHART--></div>
         <figcaption>Modelled cost of one 120-turn shift as the operator's pause between turns grows, at published Opus 5.5 prices, on a log scale. Each line is labelled at its right end.</figcaption>
       </figure>
 
-      <div class="limits">
-        <p class="label">What this does not show</p>
-        <p>No live-model run yet. The memory figures come from a mock model that reads perfectly, so they measure whether the evidence survived each strategy, which is an upper bound on what any model could score. Costs are modelled from published prices and estimated token counts.</p>
+      <div class="panels">
+        <section class="panel" aria-labelledby="lh-built">
+          <h3 id="lh-built">What I built</h3>
+          <div class="in">
+            <p>Long agent runs outgrow their context, so every team picks a strategy: send everything, trim, clear old tool results, or summarise. Most comparisons price every input token at full rate, which is not what a cached agent loop pays. longhaul is an eval on Inspect AI that replays a 120-turn support shift through Inspect's own compaction strategies and prices each call with cache reads and writes counted separately.</p>
+            <ul class="stack" aria-label="Built with"><li>Inspect AI</li><li>Anthropic prompt caching</li><li>LongMemEval adapter</li><li>CI regression gate</li></ul>
+            <p class="source">Figures from <code>longhaul/README.md</code> and <code>longhaul/docs/results/sweeps.md</code></p>
+            <p class="repo"><a href="https://github.com/yiklin22/longhaul">github.com/yiklin22/longhaul</a></p>
+          </div>
+        </section>
+        <section class="panel limits" aria-labelledby="lh-limits">
+          <h3 id="lh-limits">What this does not show</h3>
+          <div class="in">
+            <p>No live-model run yet. The memory figures come from a mock model that reads perfectly, so they measure whether the evidence survived each strategy, which is an upper bound on what any model could score. Costs are modelled from published prices and estimated token counts.</p>
+          </div>
+        </section>
       </div>
     </div>
   </article>
 
   <!-- ============================== knowledge system ============================== -->
-  <article class="project" id="knowledge">
+  <article class="entry" id="knowledge" aria-labelledby="ks-h">
     <div class="wrap">
-      <div class="intro">
-        <div>
-          <p class="tag"><span class="n">Knowledge</span><span class="label">Personal Knowledge System</span></p>
-          <h2>Can I check the AI's work before it counts?</h2>
-        </div>
-        <div>
-          <p class="built">Chat-with-your-documents tools answer fluently and invent citations. In this local app the AI only proposes. Every claim carries a verbatim quote that code re-checks against the source, and a person approves before anything becomes knowledge. On top of the approved notes sit hybrid search with cited answers, spaced repetition, a Socratic tutor, a browser clipper and a read-only MCP server.</p>
-          <ul class="stack" aria-label="Built with"><li>FastAPI</li><li>Claude Code as the agent</li><li>SQLite FTS5 + embeddings</li><li>MCP</li><li>Chrome extension</li></ul>
-          <p class="where"><a href="https://github.com/yiklin22/ai-knowledge-system">github.com/yiklin22/ai-knowledge-system</a></p>
-        </div>
+      <div class="entry-head">
+        <p class="plate"><span class="what">Knowledge</span><span class="name">Personal Knowledge System</span></p>
+        <h2 id="ks-h">Can I check the AI's work before it counts?</h2>
       </div>
 
-      <dl class="tiles">
-        <div class="tile">
-          <dt><span class="fig">18 <i>of</i> 18</span><span class="of">attacks blocked by code</span></dt>
-          <dd><span><b>A hostile document cannot make the agent approve its own work.</b>Every prompt-injection attack that needed a forbidden action was stopped by the tool policy or the validation gate, whatever the model did. The red team also found a real hole in the quote check, which is now fixed.</span></dd>
+      <dl class="results">
+        <div class="result">
+          <dt><span class="fig num">18 <i>of</i> 18</span><span class="ticket">attacks blocked by code</span></dt>
+          <dd><b>A hostile document cannot make the agent approve its own work.</b>Every prompt-injection attack that needed a forbidden action was stopped by the tool policy or the validation gate, whatever the model did. The red team also found a real hole in the quote check, which is now fixed.</dd>
         </div>
-        <div class="tile">
-          <dt><span class="fig">160 <i>of</i> 160</span><span class="of">quotes found verbatim</span></dt>
-          <dd><span><b>The quotes are real.</b>Every quote in the approved notes appears word for word in its source, and every citation carries a page, section or timestamp.</span></dd>
+        <div class="result">
+          <dt><span class="fig num">160 <i>of</i> 160</span><span class="ticket">quotes found verbatim</span></dt>
+          <dd><b>The quotes are real.</b>Every quote in the approved notes appears word for word in its source, and every citation carries a page, section or timestamp.</dd>
         </div>
-        <div class="tile">
-          <dt><span class="fig">75% <i>vs</i> 50%</span><span class="of">right source ranked first · 20 questions</span></dt>
-          <dd><span><b>Hybrid search finds the right source more often.</b>Fusing keyword and embedding rankings put the answering source first for 15 of 20 questions, against 10 for keyword search alone, over about 7,700 passages.</span>
+        <div class="result">
+          <dt><span class="fig num">75% <i>vs</i> 50%</span><span class="ticket">right source ranked first · 20 questions</span></dt>
+          <dd><b>Hybrid search finds the right source more often.</b>Fusing keyword and embedding rankings put the answering source first for 15 of 20 questions, against 10 for keyword search alone, over about 7,700 passages.
             <div class="bars" aria-hidden="true"><span class="is" style="--v:.75">hybrid</span><span style="--v:.5">keyword only</span></div></dd>
         </div>
       </dl>
 
       <figure>
         <ol class="path" aria-label="How a source becomes knowledge">
-          <li><b>Source saved</b><span>A link, file, chat or clip is stored as it arrived and never edited.</span></li>
-          <li><b>AI proposes</b><span>The agent drafts notes with quotes. It can write only to a proposals folder.</span></li>
-          <li><b>Code checks</b><span>Every quote must appear word for word in the source, or the batch is refused.</span></li>
-          <li class="gate"><b>You approve</b><span>You read the diff. Nothing reaches the vault without this step.</span></li>
-          <li><b>Knowledge</b><span>Approved notes feed search, cited answers, the tutor and recall cards.</span></li>
+          <li><b>Source saved</b>A link, file, chat or clip is stored as it arrived and never edited.</li>
+          <li><b>AI proposes</b>The agent drafts notes with quotes. It can write only to a proposals folder.</li>
+          <li><b>Code checks</b>Every quote must appear word for word in the source, or the batch is refused.</li>
+          <li class="gate"><b>You approve</b>You read the diff. Nothing reaches the vault without this step.</li>
+          <li><b>Knowledge</b>Approved notes feed search, cited answers, the tutor and recall cards.</li>
         </ol>
         <figcaption>The agent has no path around the fourth step: approval is a separate action it is not allowed to take, and the red team tried four ways to reach it.</figcaption>
       </figure>
 
-      <div class="limits">
-        <p class="label">What this does not show</p>
-        <p>The live figures are small samples from one model on one day. I wrote the 20 retrieval questions myself, and a difference of one question is five points. It is a single-user tool that runs on one machine.</p>
+      <div class="panels">
+        <section class="panel" aria-labelledby="ks-built">
+          <h3 id="ks-built">What I built</h3>
+          <div class="in">
+            <p>Chat-with-your-documents tools answer fluently and invent citations. In this local app the AI only proposes. Every claim carries a verbatim quote that code re-checks against the source, and a person approves before anything becomes knowledge. On top of the approved notes sit hybrid search with cited answers, spaced repetition, a Socratic tutor, a browser clipper and a read-only MCP server.</p>
+            <ul class="stack" aria-label="Built with"><li>FastAPI</li><li>Claude Code as the agent</li><li>SQLite FTS5 + embeddings</li><li>MCP</li><li>Chrome extension</li></ul>
+            <p class="source">Figures from <code>ai-knowledge-system/docs</code></p>
+            <p class="repo"><a href="https://github.com/yiklin22/ai-knowledge-system">github.com/yiklin22/ai-knowledge-system</a></p>
+          </div>
+        </section>
+        <section class="panel limits" aria-labelledby="ks-limits">
+          <h3 id="ks-limits">What this does not show</h3>
+          <div class="in">
+            <p>The live figures are small samples from one model on one day. I wrote the 20 retrieval questions myself, and a difference of one question is five points. It is a single-user tool that runs on one machine.</p>
+          </div>
+        </section>
       </div>
     </div>
   </article>
 
   <!-- ============================== method ============================== -->
   <section class="method" id="method" aria-labelledby="method-h">
-    <div class="wrap">
-      <div><p class="label">How I work</p><h2 id="method-h">The same four steps, every project.</h2></div>
+    <div class="wrap method-grid">
+      <h2 id="method-h">The same four steps, every project.</h2>
       <ol class="steps">
         <li><h3>Agree the number first</h3><p>Start from the question a buyer asks and the metric that would answer it: error rate among approved fields, cost per session, quotes that check out.</p></li>
         <li><h3>Build on what exists</h3><p>docling for parsing, Inspect AI for evals, Claude Code as the agent. The work goes into the part nobody has built yet, and the results describe tools people already run.</p></li>
         <li><h3>Test the test</h3><p>A known-good and a known-bad case run through each pipeline in CI. A perfect reader must score 100%, a model that always abstains must fail, and the statistical guarantee is checked against a population whose true error rate is known.</p></li>
         <li><h3>Publish the limits</h3><p>Every figure comes with its sample size and what it does not show. Offline results are labelled offline. A result that needs a live run says so.</p></li>
       </ol>
+      <p class="also">Also: <a href="https://github.com/yiklin22/looking-game">Looking Game</a>, a co-op demo for two to four players in Godot 4. Looking at a teammate makes them grow and looking away lets them shrink, and the three puzzles depend on it.</p>
     </div>
   </section>
-
-  <section class="also" aria-labelledby="also-h">
-    <div class="wrap">
-      <p class="label" id="also-h">Also</p>
-      <p><a href="https://github.com/yiklin22/looking-game">Looking Game</a>, a co-op demo for two to four players in Godot 4. Looking at a teammate makes them grow and looking away lets them shrink, and the three puzzles depend on it.</p>
-    </div>
-  </section>
-
 </main>
 
-<footer id="contact">
+<footer class="close on-house" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
-    <p class="label">Contact</p>
-    <h2>Have a workflow where the AI has to earn trust?</h2>
+    <h2 id="contact-h">Have a workflow where the AI has to earn trust?</h2>
     <div class="reach">
       <p>I am looking for forward-deployed, AI engineering and solutions roles where the job is to take a messy customer process, agree what success means, and ship something that can be checked.</p>
-      <a class="cta" href="https://github.com/yiklin22">github.com/yiklin22 <span aria-hidden="true">→</span></a>
+      <a class="cta" href="https://github.com/yiklin22">github.com/yiklin22 <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg></a>
     </div>
     <p class="fine">The report behind each figure is in the linked repository, with the command that produced it.</p>
   </div>
@@ -432,24 +483,39 @@
 (function () {
   "use strict";
   document.documentElement.classList.add("js");
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Readings animate their bars the first time they come into view.
-  var tiles = document.querySelectorAll(".tile");
-  if ("IntersectionObserver" in window) {
+  // Result bars draw the first time their row comes into view.
+  var rows = document.querySelectorAll(".result");
+  if ("IntersectionObserver" in window && !still) {
     var seen = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("seen"); seen.unobserve(e.target); } });
-    }, { threshold: 0.25 });
-    tiles.forEach(function (t) { seen.observe(t); });
+    }, { threshold: 0.3 });
+    rows.forEach(function (r) { seen.observe(r); });
   } else {
-    tiles.forEach(function (t) { t.classList.add("seen"); });
+    rows.forEach(function (r) { r.classList.add("seen"); });
   }
 
-  // ---- The gate: simulated fields stream left to right; the cut decides who passes without review. ----
+  // Headline figures fill the width of their column, capped so short ones stay in scale.
+  var figs = document.querySelectorAll(".fig");
+  function fit() {
+    figs.forEach(function (f) {
+      f.style.fontSize = "100px";
+      var room = f.parentElement.clientWidth, used = f.getBoundingClientRect().width;
+      if (room && used) { f.style.fontSize = Math.min(100 * room / used, 88) + "px"; }
+    });
+  }
+  var results = document.querySelector(".results");
+  if ("ResizeObserver" in window && results) { new ResizeObserver(fit).observe(results); } else { window.addEventListener("resize", fit); }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+  fit();
+
+  // ---- The rig: simulated fields stream left to right; the pass mark decides who skips review. ----
   var canvas = document.getElementById("gate");
   var slider = document.getElementById("cut");
   if (!canvas || !canvas.getContext || !slider) { return; }
   var ctx = canvas.getContext("2d");
-  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var TARGET = 0.02;
 
   function seeded(seed) {
     return function () {
@@ -469,6 +535,19 @@
     POP.push({ s: Math.min(0.999, s), right: right, jitter: rand() });
   }
 
+  var stamp = document.getElementById("stamp"), word = document.getElementById("stamp-word"), why = document.getElementById("stamp-why");
+  var state = "";
+  function verdict(approved, wrong) {
+    var next = !approved ? "none" : wrong / approved <= TARGET ? "pass" : "fail";
+    if (next === state) { return; }
+    var first = state === "";
+    state = next;
+    stamp.className = "stamp" + (next === "pass" ? "" : " " + next);
+    word.textContent = next === "pass" ? "Pass" : next === "fail" ? "Fail" : "Idle";
+    why.textContent = next === "pass" ? "meets a 2% error target" : next === "fail" ? "misses a 2% error target" : "nothing approved";
+    if (!first && !still) { void stamp.offsetWidth; stamp.classList.add("press"); }
+  }
+
   var cut = parseFloat(slider.value);
   function readouts() {
     var approved = 0, wrong = 0;
@@ -478,13 +557,14 @@
     document.getElementById("r-approved").textContent = Math.round(share * 100) + "%";
     document.getElementById("r-wrong").textContent = approved ? (100 * wrong / approved).toFixed(1) + "%" : "–";
     document.getElementById("r-person").textContent = Math.round((1 - share) * 100) + "%";
+    verdict(approved, wrong);
   }
 
   var W = 0, H = 0, colors = {};
   function palette() {
     var css = getComputedStyle(document.documentElement);
-    ["go", "hold", "miss", "soft", "rule", "ink", "band"].forEach(function (n) { colors[n] = css.getPropertyValue("--" + n).trim(); });
-    colors.font = css.getPropertyValue("--data").trim() || "monospace";
+    ["on-house", "on-house-2", "stamp", "house-deep", "ink"].forEach(function (n) { colors[n] = css.getPropertyValue("--" + n).trim(); });
+    colors.font = css.getPropertyValue("--display").trim() || "sans-serif";
   }
   function resize() {
     var box = canvas.getBoundingClientRect();
@@ -516,50 +596,50 @@
   function draw() {
     var gx = gateX(), cy = laneY(cut), lanesBottom = H - TRAY - 26;
     ctx.clearRect(0, 0, W, H);
-    ctx.font = "500 11px " + colors.font;
+    ctx.font = "600 13px " + colors.font;
     ctx.textBaseline = "middle";
 
-    // approved zone, right of the gate and above the cut
-    ctx.globalAlpha = 0.09; ctx.fillStyle = colors.go; ctx.fillRect(gx, TOP - 14, W - gx, Math.max(0, cy - TOP + 14));
-    // review tray
-    ctx.globalAlpha = 0.1; ctx.fillStyle = colors.hold; ctx.fillRect(gx, H - TRAY, W - gx, TRAY);
+    // approved zone, right of the gate and above the pass mark; the review tray below
+    ctx.fillStyle = colors["house-deep"]; ctx.fillRect(gx, TOP - 14, W - gx, Math.max(0, cy - TOP + 14));
+    ctx.globalAlpha = 0.16; ctx.fillStyle = colors.stamp; ctx.fillRect(gx, H - TRAY, W - gx, TRAY);
     ctx.globalAlpha = 1;
 
-    // the gate and the cut
-    ctx.strokeStyle = colors.rule; ctx.lineWidth = 1;
+    // the gate and the pass mark
+    ctx.strokeStyle = colors["on-house-2"]; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(gx + 0.5, TOP - 14); ctx.lineTo(gx + 0.5, H); ctx.stroke();
-    ctx.strokeStyle = colors.ink; ctx.lineWidth = 1.5; ctx.setLineDash([6, 5]);
-    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle = colors.ink;
-    ctx.beginPath(); ctx.arc(gx + 0.5, cy, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = colors.stamp; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+    ctx.fillStyle = colors.stamp;
+    ctx.beginPath(); ctx.arc(gx + 0.5, cy, 6, 0, Math.PI * 2); ctx.fill();
 
     // labels
-    ctx.fillStyle = colors.soft; ctx.textAlign = "left";
-    ctx.fillText("MORE CERTAIN", 14, 12);
-    ctx.fillText("LESS CERTAIN", 14, lanesBottom + 14);
-    ctx.fillStyle = colors.ink;
-    ctx.fillText("CUT " + cut.toFixed(2), 14, cy - 11 < TOP ? cy + 12 : cy - 11);
+    ctx.fillStyle = colors["on-house-2"]; ctx.textAlign = "left";
+    ctx.fillText("more certain", 2, 12);
+    ctx.fillText("less certain", 2, lanesBottom + 14);
+    var tag = "pass mark " + cut.toFixed(2), tw = ctx.measureText(tag).width, ty = cy - 13 < TOP ? cy + 14 : cy - 13;
+    ctx.fillStyle = colors.stamp; ctx.fillRect(0, ty - 10, tw + 12, 20);
+    ctx.fillStyle = colors.ink; ctx.fillText(tag, 6, ty + 0.5);
     ctx.textAlign = "right";
-    ctx.fillStyle = colors.go; ctx.fillText("APPROVED", W - 14, 12);
-    ctx.fillStyle = colors.hold; ctx.fillText("TO A PERSON", W - 14, H - TRAY + 11);
+    ctx.fillStyle = colors["on-house"]; ctx.fillText("approved", W - 4, 12);
+    ctx.fillStyle = colors["on-house-2"]; ctx.fillText("to a person", W - 4, H - TRAY + 12);
 
     // the fields
     for (var k = 0; k < dots.length; k++) {
-      var d = dots[k], y = d.y, r = 3, color = colors.soft, alpha = 0.7;
+      var d = dots[k], y = d.y, r = 3, color = colors["on-house-2"], alpha = 0.55;
       if (d.decided) {
         var t = (d.x - gx) / (W - gx);
         if (d.pass) {
-          color = d.right ? colors.go : colors.miss; alpha = 1; r = d.right ? 3.2 : 4.6;
+          color = d.right ? colors["on-house"] : colors.stamp; alpha = 1; r = d.right ? 3.2 : 4.6;
         } else {
           y = d.y + (d.tray - d.y) * ease(t * 3.2);
-          color = colors.hold; alpha = 0.95 - 0.5 * ease((t - 0.6) / 0.4);
+          color = colors["on-house-2"]; alpha = 0.75 - 0.4 * ease((t - 0.6) / 0.4);
         }
       }
       ctx.globalAlpha = alpha; ctx.fillStyle = color;
       ctx.beginPath(); ctx.arc(d.x, y, r, 0, Math.PI * 2); ctx.fill();
       if (d.decided && d.pass && !d.right) {         // a wrong value that got through: ringed so it reads without colour
-        ctx.globalAlpha = 0.9; ctx.strokeStyle = colors.miss; ctx.lineWidth = 1.25;
-        ctx.beginPath(); ctx.arc(d.x, y, 8, 0, Math.PI * 2); ctx.stroke();
+        ctx.globalAlpha = 1; ctx.strokeStyle = colors.stamp; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(d.x, y, 8.5, 0, Math.PI * 2); ctx.stroke();
       }
     }
     ctx.globalAlpha = 1;
@@ -569,7 +649,7 @@
   function frame(now) {
     if (!running) { return; }
     var dt = Math.min(0.05, (now - last) / 1000 || 0); last = now;
-    var speed = W / 7.5, gx = gateX();              // a field crosses the instrument in 7.5 seconds
+    var speed = W / 7.5, gx = gateX();              // a field crosses the rig in 7.5 seconds
     clock += dt;
     var every = 9 / speed;                          // keep the spacing of the prefill
     while (clock > every) { clock -= every; spawn(-6); }
@@ -599,12 +679,6 @@
   function relayout() { resize(); prefill(); draw(); }
   palette(); relayout(); readouts();
   if ("ResizeObserver" in window) { new ResizeObserver(relayout).observe(canvas); } else { window.addEventListener("resize", relayout); }
-  if (window.matchMedia) {
-    var scheme = window.matchMedia("(prefers-color-scheme: dark)");
-    var repaint = function () { palette(); draw(); };
-    if (scheme.addEventListener) { scheme.addEventListener("change", repaint); }
-    if ("MutationObserver" in window) { new MutationObserver(repaint).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); }
-  }
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { palette(); draw(); }); }
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; if (visible) { start(); } else { stop(); } }).observe(canvas);

@@ -34,7 +34,7 @@ def svg() -> str:
     lx = X0
     for name, cls, _, _ in reversed(SERIES):
         out.append(f'<path class="s-{cls}" d="M{lx} 18 h26"/><text x="{lx + 34}" y="22">{name}</text>')
-        lx += 34 + 7.3 * len(name) + 22
+        lx += 34 + 6.4 * len(name) + 24
     out.append(f'<path class="s-ref" d="M{lx:.0f} 18 h26"/><text x="{lx + 34:.0f}" y="22">No cache</text>')
     for tick in (1, 2, 5, 10, 20, 50):
         out.append(f'<path class="gridline" d="M{X0} {y(tick):.1f} H{X1}"/><text x="{X0 - 10}" y="{y(tick) + 4:.1f}" text-anchor="end">${tick}</text>')

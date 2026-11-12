@@ -16,7 +16,10 @@ python3 -m http.server 8000     # then http://localhost:8000
 - **Numbers:** each project's figures sit in its `<dl class="readings">` block. They are copied from the reports in
   the project repositories (`fieldgate/docs/results/cord.md`, `longhaul/README.md`,
   `ai-knowledge-system/docs/*.md`); update them there first, then here.
-- **Colours and type:** the tokens at the top of the `<style>` block. Light and dark values are defined together.
+- **Colours and type:** the tokens at the top of the `<style>` block (light only, by design). `DESIGN.md` records the
+  system: an independent test report with cobalt fields, a yellow verdict stamp, Archivo and Source Serif 4.
+- **Design tooling:** the redesign was made with [Impeccable](https://github.com/pbakaus/impeccable). `PRODUCT.md`,
+  `DESIGN.md`, `.impeccable/design.json` and `.impeccable/surfaces/` are its context files; commit them.
 
 ## Put it online with GitHub Pages
 
