@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Eagle AI Portfolio</title>
+<meta name="description" content="AI engineer building document, agent and knowledge systems on open-source foundations, each with a measured answer to a question customers ask.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  /* Layout: an engineer's test report. Each project is one entry: the customer's question on the left,
+     the readings that answer it on the right, and the limits of the measurement stated underneath. */
+  :root {
+    --paper: #f2f4f3;  --sheet: #fbfcfb;  --ink: #131c1a;  --soft: #55625e;  --rule: #cdd5d2;
+    --mark: #2343c9;   --mark-wash: #e3e8fb;  --limit: #8a5200;  --limit-wash: #f6ecd9;  --pass: #1d6b45;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --measure: 64ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0f1514;  --sheet: #161d1c;  --ink: #e7edeb;  --soft: #9aa8a4;  --rule: #2c3836;
+      --mark: #94aaff;   --mark-wash: #1b2444;  --limit: #e8b765;  --limit-wash: #2e2412;  --pass: #7fd0a4;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0f1514;  --sheet: #161d1c;  --ink: #e7edeb;  --soft: #9aa8a4;  --rule: #2c3836;
+    --mark: #94aaff;   --mark-wash: #1b2444;  --limit: #e8b765;  --limit-wash: #2e2412;  --pass: #7fd0a4;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 72rem; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  a { color: var(--mark); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--mark); outline-offset: 3px; border-radius: 2px; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  .label { font: 500 0.75rem/1.3 var(--data); letter-spacing: 0.09em; text-transform: uppercase; color: var(--soft); }
+
+  /* masthead */
+  .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 2rem; padding-block: 1.25rem; border-bottom: 1px solid var(--rule); }
+  .top .name { font: 700 1.125rem/1 var(--display); }
+  .top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-size: 0.9375rem; }
+  .top nav a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+  .top nav a:hover { border-bottom-color: var(--ink); }
+
+  /* opening statement */
+  .lead { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 2.5rem 4rem; padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(2.5rem, 6vw, 4.5rem); align-items: end; }
+  .lead h1 { font-weight: 700; font-size: clamp(2.25rem, 5.4vw, 4.25rem); line-height: 1.02; letter-spacing: -0.025em; }
+  .lead h1 em { font-style: normal; color: var(--mark); }
+  .lead .say { display: grid; gap: 1.1rem; max-width: 34rem; }
+  .lead .say p { color: var(--soft); }
+  .lead .say p strong { color: var(--ink); font-weight: 500; }
+  .seeking { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0; list-style: none; }
+  .seeking li { font: 500 0.8125rem/1 var(--data); padding: 0.5rem 0.7rem; border: 1px solid var(--rule); border-radius: 2px; background: var(--sheet); }
+
+  /* the index of questions */
+  .index { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+  .index a { display: grid; gap: 0.6rem; padding: 1.25rem 1.5rem 1.4rem 0; color: var(--ink); text-decoration: none; align-content: start; }
+  .index a + a { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  .index a:hover .q { color: var(--mark); }
+  .index .q { font: 500 1.25rem/1.25 var(--display); }
+  .index .a { font-size: 0.9375rem; color: var(--soft); }
+
+  /* one project */
+  .entry { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 2rem 4rem; padding-block: clamp(3rem, 7vw, 5.5rem); border-bottom: 1px solid var(--rule); scroll-margin-top: 1rem; }
+  .entry .ask { display: grid; gap: 1.1rem; align-content: start; }
+  .entry h2 { font-weight: 700; font-size: clamp(1.75rem, 3.4vw, 2.625rem); line-height: 1.08; letter-spacing: -0.02em; }
+  .entry .project { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; align-items: baseline; font: 500 0.875rem/1.4 var(--data); }
+  .entry .project .repo { color: var(--ink); }
+  .entry .built { color: var(--soft); max-width: var(--measure); }
+  .stack { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0; margin: 0; list-style: none; font: 400 0.8125rem/1.4 var(--data); color: var(--soft); }
+  .evidence { display: grid; gap: 1.75rem; min-width: 0; }
+
+  /* a reading: the number, what it is, and a bar drawn to scale where the number is a share */
+  .readings { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--ink); }
+  .reading { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.25rem 1.5rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); align-items: start; }
+  .reading dt { font: 500 1.75rem/1.05 var(--data); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .reading dt small { display: block; margin-top: 0.3rem; font: 400 0.75rem/1.3 var(--data); letter-spacing: 0; color: var(--soft); }
+  .reading dd { margin: 0; display: grid; gap: 0.55rem; }
+  .reading dd b { font-weight: 600; }
+  .scale { position: relative; height: 0.5rem; background: var(--mark-wash); border-radius: 1px; }
+  .scale i { position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 100%); background: var(--mark); border-radius: 1px; }
+  .scale.pair { background: none; height: auto; display: grid; gap: 0.3rem; }
+  .scale.pair span { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.6rem; align-items: center; font: 400 0.75rem/1 var(--data); color: var(--soft); }
+  .scale.pair span::before { content: ""; height: 0.5rem; width: calc(var(--v) * 100%); min-width: 2px; background: var(--soft); border-radius: 1px; }
+  .scale.pair span.is::before { background: var(--mark); }
+
+  .limits { padding: 1rem 1.15rem; background: var(--limit-wash); border-radius: 2px; display: grid; gap: 0.35rem; }
+  .limits .label { color: var(--limit); }
+  .limits p { font-size: 0.9688rem; }
+
+  figure { margin: 0; display: grid; gap: 0.6rem; }
+  figure .frame { border: 1px solid var(--rule); border-radius: 2px; overflow-x: auto; background: var(--sheet); }
+  figure img, figure svg { display: block; width: 100%; min-width: 34rem; height: auto; }
+  figcaption { font-size: 0.875rem; color: var(--soft); }
+
+  /* the gate diagram for fieldgate */
+  .gate text { font-family: var(--data); font-size: 12px; fill: var(--soft); }
+  .gate .strong { fill: var(--ink); font-weight: 500; }
+  .gate .box { fill: var(--sheet); stroke: var(--rule); }
+  .gate .flow { fill: none; stroke: var(--soft); stroke-width: 1.25; }
+  .gate .ok { fill: var(--mark); } .gate .hold { fill: var(--limit); }
+  .gate .tip { fill: var(--soft); }
+
+  /* method */
+  .method { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 2rem 4rem; padding-block: clamp(3rem, 7vw, 5rem); border-bottom: 1px solid var(--rule); }
+  .method h2 { font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .method ol { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; border-top: 1px solid var(--ink); }
+  .method li { counter-increment: step; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.25rem 1rem; padding-block: 1.1rem; border-bottom: 1px solid var(--rule); }
+  .method li::before { content: counter(step); font: 500 0.9375rem/1.7 var(--data); color: var(--mark); }
+  .method li h3 { font: 600 1.0625rem/1.4 var(--body); }
+  .method li p { grid-column: 2; color: var(--soft); max-width: var(--measure); }
+
+  .also { padding-block: 2.5rem; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 1rem 4rem; border-bottom: 1px solid var(--rule); }
+  .also p { color: var(--soft); max-width: var(--measure); }
+
+  footer { padding-block: 3rem 4rem; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 1.5rem 4rem; }
+  footer h2 { font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.125rem); line-height: 1.1; letter-spacing: -0.02em; }
+  footer .reach { display: grid; gap: 0.75rem; }
+  footer .reach p { color: var(--soft); max-width: var(--measure); }
+  footer .reach .link { font: 500 1.0625rem/1.4 var(--data); }
+  .fine { margin-top: 1.5rem; font-size: 0.8125rem; color: var(--soft); }
+
+  @media (max-width: 860px) {
+    .lead, .entry, .method, .also, footer { grid-template-columns: minmax(0, 1fr); }
+    .index { grid-template-columns: minmax(0, 1fr); }
+    .index a, .index a + a { padding: 1.1rem 0; border-left: 0; }
+    .index a + a { border-top: 1px solid var(--rule); }
+    .reading { grid-template-columns: 6.25rem minmax(0, 1fr); gap: 0.25rem 1rem; }
+    .reading dt { font-size: 1.375rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <span class="name">Eagle</span>
+  <nav aria-label="Sections">
+    <a href="#fieldgate">Documents</a>
+    <a href="#longhaul">Agents</a>
+    <a href="#knowledge">Knowledge</a>
+    <a href="#method">How I work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="lead" aria-labelledby="thesis">
+    <h1 id="thesis">I build AI systems for real workflows, then <em>measure</em> whether they hold up.</h1>
+    <div class="say">
+      <p><strong>AI engineer.</strong> Before a customer trusts an AI system they ask three things: can I check its work, what will it cost, and when does a person still have to look. Each project here answers one of them with a number, and says what that number does not show.</p>
+      <ul class="seeking" aria-label="Roles I am looking for">
+        <li>Forward-deployed engineer</li>
+        <li>AI engineer</li>
+        <li>Solutions engineer</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="index" aria-label="Projects">
+    <a href="#fieldgate"><span class="label">Documents · fieldgate</span><span class="q">Which extracted fields can skip human review?</span><span class="a">A certified approval threshold, tested on 1,000 scanned receipts.</span></a>
+    <a href="#longhaul"><span class="label">Agents · longhaul</span><span class="q">What does a long-running agent cost, and what does it forget?</span><span class="a">Context strategies compared with prompt caching priced in.</span></a>
+    <a href="#knowledge"><span class="label">Knowledge · knowledge system</span><span class="q">Can I check the AI's work before it counts?</span><span class="a">Every claim carries a quote that code re-checks and a person approves.</span></a>
+  </nav>
+
+  <!-- ============================== fieldgate ============================== -->
+  <article class="entry" id="fieldgate">
+    <div class="ask">
+      <p class="label">Documents</p>
+      <h2>Which extracted fields can skip human review?</h2>
+      <p class="project"><span class="repo">fieldgate</span><a href="https://github.com/yiklin22/fieldgate">github.com/yiklin22/fieldgate</a></p>
+      <p class="built">Document extraction tools report a confidence score. Few say what error rate you get if you trust it. fieldgate reads scanned receipts with docling OCR and a small language model on a CPU, scores every field from four independent kinds of evidence, and picks the approval threshold with a statistical guarantee. What falls below the threshold goes to a review queue with the supporting text outlined on the image.</p>
+      <ul class="stack" aria-label="Built with">
+        <li>docling</li><li>RapidOCR</li><li>Qwen3 1.7B, local</li><li>scikit-learn</li><li>SciPy</li><li>FastAPI</li>
+      </ul>
+    </div>
+    <div class="evidence">
+      <figure>
+        <div class="frame">
+          <svg class="gate" viewBox="0 0 640 196" role="img" aria-label="Each extracted field is scored from the model, repeat sampling, the page and arithmetic rules. Fields at or above the certified cut are approved; the rest go to a person. A random sample of approved fields is audited to detect drift.">
+            <rect class="box" x="8" y="30" width="132" height="136" rx="2"/>
+            <text class="strong" x="20" y="52">Evidence</text>
+            <text x="20" y="76">model probability</text>
+            <text x="20" y="96">repeat sampling</text>
+            <text x="20" y="116">printed on page?</text>
+            <text x="20" y="136">amounts add up?</text>
+            <path class="flow" d="M140 98 H196"/><path class="tip" d="M196 93 l9 5 -9 5z"/>
+            <rect class="box" x="206" y="64" width="112" height="68" rx="2"/>
+            <text class="strong" x="218" y="88">One score</text>
+            <text x="218" y="108">chance the value</text>
+            <text x="218" y="124">is right</text>
+            <path class="flow" d="M318 98 H352"/>
+            <path class="flow" d="M352 98 V52 H420"/><path class="tip" d="M420 47 l9 5 -9 5z"/>
+            <path class="flow" d="M352 98 V148 H420"/><path class="tip" d="M420 143 l9 5 -9 5z"/>
+            <rect class="ok" x="430" y="30" width="6" height="44"/>
+            <text class="strong" x="446" y="48">At or above the cut</text>
+            <text x="446" y="66">approved, no one looks</text>
+            <rect class="hold" x="430" y="126" width="6" height="44"/>
+            <text class="strong" x="446" y="144">Below the cut</text>
+            <text x="446" y="162">a person checks it</text>
+            <path class="flow" stroke-dasharray="3 4" d="M540 76 V122"/>
+            <text x="548" y="103">1 in 10 audited</text>
+          </svg>
+        </div>
+        <figcaption>The cut is chosen on labelled receipts so that, with 95% confidence, the error rate among approved fields stays at or under the target. Audited approvals feed a monitor that raises an alarm when that stops being true.</figcaption>
+      </figure>
+      <dl class="readings" id="fieldgate-readings">
+        <div class="reading">
+          <dt>43% → 1.6%<small>simulation, 1,000 runs</small></dt>
+          <dd><span><b>How often the threshold misses its target.</b> Picking the loosest cut that looked fine on a labelled sample broke a 2% error target in 43% of simulated deployments. The certified cut broke it in 1.6%, inside its 5% allowance.</span>
+            <div class="scale pair" aria-hidden="true"><span style="--v:.435">usual way</span><span class="is" style="--v:.016">certified</span></div></dd>
+        </div>
+        <div class="reading">
+          <dt>0.957 → 0.979<small>pairwise F1, 200 receipts</small></dt>
+          <dd><span><b>Rebuilding printed rows from OCR boxes.</b> Layout models read columns, which separates a label from its amount. Estimating the photo's tilt from the boxes and regrouping rows recovered most of the lost pairings, scored against the dataset's own row labels.</span></dd>
+        </div>
+      </dl>
+      <div class="limits">
+        <p class="label">What this does not show</p>
+        <p>One dataset (CORD receipts) and one 1.7B model. The guarantee holds only while new documents resemble the labelled ones, which is why the audit monitor exists. A tilt that shifts a receipt by exactly one row cannot be detected from upright boxes, and the tests pin that case down.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================== longhaul ============================== -->
+  <article class="entry" id="longhaul">
+    <div class="ask">
+      <p class="label">Agents</p>
+      <h2>What does a long-running agent cost, and what does it forget?</h2>
+      <p class="project"><span class="repo">longhaul</span><a href="https://github.com/yiklin22/longhaul">github.com/yiklin22/longhaul</a></p>
+      <p class="built">Long agent runs outgrow their context, so every team picks a strategy: send everything, trim, clear old tool results, or summarise. Most comparisons price every input token at full rate, which is not what a cached agent loop pays. longhaul is an eval on Inspect AI that replays a 120-turn support shift through Inspect's own compaction strategies and prices each call with cache reads and writes counted separately.</p>
+      <ul class="stack" aria-label="Built with">
+        <li>Inspect AI</li><li>Anthropic prompt caching</li><li>LongMemEval adapter</li><li>CI regression gate</li>
+      </ul>
+    </div>
+    <div class="evidence">
+      <dl class="readings">
+        <div class="reading">
+          <dt>$1.84 vs $28.56<small>per shift, modelled</small></dt>
+          <dd><span><b>Caching outweighs the choice of strategy.</b> Sending full history costs about 15 times more with caching off. The best strategy saves a further 38% on top of caching.</span>
+            <div class="scale pair" aria-hidden="true"><span class="is" style="--v:.064">cached</span><span style="--v:1">uncached</span></div></dd>
+        </div>
+        <div class="reading">
+          <dt>94% vs 48%<small>evidence kept, 320 probes</small></dt>
+          <dd><span><b>Clearing old tool results beat trimming on both axes.</b> It kept more of the facts the agent needed later and cost less. Trimming also made the agent wrong, not just forgetful: on counting questions it gave a confident undercount 95% of the time.</span>
+            <div class="scale pair" aria-hidden="true"><span class="is" style="--v:.94">clear tool results</span><span style="--v:.48">trim</span></div></dd>
+        </div>
+        <div class="reading">
+          <dt>13×<small>cost jump at a 5-minute pause</small></dt>
+          <dd><span><b>Pauses between turns change the answer.</b> A pause just over five minutes makes a plain five-minute cache rewrite the whole prompt every turn. Past an hour, caching full history costs more than not caching at all.</span></dd>
+        </div>
+      </dl>
+      <figure>
+        <div class="frame">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="assets/pause-cost-dark.svg">
+            <img src="assets/pause-cost-light.svg" width="860" height="440" alt="Line chart of modelled cost per shift against the pause between operator turns. Full history costs $1.84 up to a 4.7-minute pause, $2.06 up to 40 minutes and $38.60 at 67 minutes, above the $28.56 no-cache cost. With only a 5-minute cache it jumps to $24.33 once pauses pass five minutes.">
+          </picture>
+        </div>
+        <figcaption>Modelled cost per shift as the operator's pause between turns grows, at published Opus 5.5 prices.</figcaption>
+      </figure>
+      <div class="limits">
+        <p class="label">What this does not show</p>
+        <p>No live-model run yet. The memory numbers come from a mock model that reads perfectly, so they measure whether the evidence survived each strategy, which is an upper bound on what any model could score. Costs are modelled from published prices and estimated token counts.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================== knowledge system ============================== -->
+  <article class="entry" id="knowledge">
+    <div class="ask">
+      <p class="label">Knowledge</p>
+      <h2>Can I check the AI's work before it counts?</h2>
+      <p class="project"><span class="repo">Personal Knowledge System</span><a href="https://github.com/yiklin22/ai-knowledge-system">github.com/yiklin22/ai-knowledge-system</a></p>
+      <p class="built">Chat-with-your-documents tools answer fluently and invent citations. In this local app the AI only proposes. Every claim carries a verbatim quote that code re-checks against the source, and a person approves before anything becomes knowledge. On top of the approved notes sit hybrid search with cited answers, spaced repetition, a Socratic tutor, a browser clipper and a read-only MCP server.</p>
+      <ul class="stack" aria-label="Built with">
+        <li>FastAPI</li><li>Claude Code as the agent</li><li>SQLite FTS5 + embeddings</li><li>MCP</li><li>Chrome extension</li>
+      </ul>
+    </div>
+    <div class="evidence">
+      <dl class="readings">
+        <div class="reading">
+          <dt>18 of 18<small>attacks blocked by code</small></dt>
+          <dd><span><b>A hostile document cannot make the agent approve its own work.</b> Every prompt-injection attack that needed a forbidden action was stopped by the tool policy or the validation gate, whatever the model did. The red team also found a real hole in the quote check, which is now fixed.</span>
+            <div class="scale" aria-hidden="true"><i style="--v:1"></i></div></dd>
+        </div>
+        <div class="reading">
+          <dt>160 of 160<small>quotes found verbatim</small></dt>
+          <dd><span><b>The quotes are real.</b> Every quote in the approved notes appears word for word in its source, and every citation carries a page, section or timestamp.</span>
+            <div class="scale" aria-hidden="true"><i style="--v:1"></i></div></dd>
+        </div>
+        <div class="reading">
+          <dt>75% vs 50%<small>right source ranked first</small></dt>
+          <dd><span><b>Hybrid search finds the right source more often.</b> Fusing keyword and embedding rankings put the answering source first for 15 of 20 questions, against 10 for keyword search alone, over about 7,700 passages.</span>
+            <div class="scale pair" aria-hidden="true"><span class="is" style="--v:.75">hybrid</span><span style="--v:.5">keyword</span></div></dd>
+        </div>
+      </dl>
+      <div class="limits">
+        <p class="label">What this does not show</p>
+        <p>The live numbers are small samples from one model on one day. The 20 retrieval questions were written by me, and a difference of one question is five points. It is a single-user tool that runs on one machine.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================== method ============================== -->
+  <section class="method" id="method" aria-labelledby="method-h">
+    <div>
+      <p class="label">How I work</p>
+      <h2 id="method-h">The same four steps in every project</h2>
+    </div>
+    <ol>
+      <li><h3>Agree the number before building</h3><p>Each project starts from the question a buyer asks and the metric that would answer it: error rate among approved fields, cost per session, quotes that check out.</p></li>
+      <li><h3>Build on what already exists</h3><p>docling for parsing, Inspect AI for evals, Claude Code as the agent. The work goes into the part nobody has built yet, and the results describe tools people already run.</p></li>
+      <li><h3>Test the test</h3><p>A known-good and a known-bad case run through each pipeline in CI. A perfect reader must score 100%, a model that always abstains must fail, and the statistical guarantee is checked against a population whose true error rate is known.</p></li>
+      <li><h3>Publish the limits with the result</h3><p>Every number comes with its sample size and what it does not show. Offline results are labelled offline. A result that needs a live run says so.</p></li>
+    </ol>
+  </section>
+
+  <section class="also" aria-labelledby="also-h">
+    <p class="label" id="also-h">Also</p>
+    <p><a href="https://github.com/yiklin22/looking-game">Looking Game</a>, a co-op demo for two to four players in Godot 4. Looking at a teammate makes them grow and looking away lets them shrink, and the three puzzles depend on it.</p>
+  </section>
+
+</main>
+
+<footer class="wrap" id="contact">
+  <div>
+    <p class="label">Contact</p>
+    <h2>Have a workflow where the AI needs to earn trust?</h2>
+  </div>
+  <div class="reach">
+    <p>I am looking for forward-deployed, AI engineering and solutions roles where the job is to take a messy customer process, agree what success means, and ship something that can be checked.</p>
+    <p class="link"><a href="https://github.com/yiklin22">github.com/yiklin22</a></p>
+    <p class="fine">The report behind each figure is in the linked repository, with the command that produced it.</p>
+  </div>
+</footer>
+
+</body>
+</html>
