@@ -1,0 +1,144 @@
+/* Case-study pages (projects/<name>.html): four screens, each one idea.
+   1 the problem, the figure and the limit beside real UI; 2 SOAR in four cards; 3 the decision and what
+   was dropped beside a second piece of real output; 4 how to run it. Built on the kit; no new colours. */
+
+::selection { background: #c6f19d; color: #0f1f10; }
+html { scrollbar-color: #2c4a2d #0f1f10; }
+
+/* the figure: one reading in Sora, its sample in the running line */
+.case-fig { display: grid; gap: var(--s-2); padding-top: var(--s-5); border-top: 1px solid var(--line); }
+.case-fig__n { font: 400 clamp(40px, 2.4vw + 10px, 56px)/1 var(--font-display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+.case-fig p { color: var(--ink); }
+.case-limit { color: var(--ink); }
+.case-limit b, .case-step b { font-weight: 500; }
+
+/* the hero row: words on columns 1 to 5, the picture on 6 to 12, down to the section's foot */
+.case-hero { align-items: stretch; flex: 1 1 0; min-height: 0; }
+.case-hero > .frame { height: 100%; }
+.case-hero .split-col > .btn { align-self: start; }
+
+/* real UI in a browser window: the screenshot as the app draws it, cut by the frame's lower edge */
+.shot.ui { background: #fbfaf8; border-radius: var(--r-md); overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / .18), 0 24px 56px -24px rgb(0 0 0 / .55); }
+.shot .ui-win__bar { background: #f1f4ec; color: #3d4a3a; border-bottom: 1px solid rgb(15 31 16 / .12); }
+.shot .ui-win__crumb { color: #3d4a3a; }
+.shot img { display: block; width: 100%; height: auto; }
+
+/* a terminal block: real output, copied from the project's README or its docs */
+.term.ui { background: #0b170c; color: #e9efe6; border: 1px solid rgb(255 255 255 / .1); border-radius: var(--r-md); overflow: hidden; box-shadow: 0 24px 56px -24px rgb(0 0 0 / .6); }
+.term .ui-win__bar { color: #9aa39a; border-bottom: 1px solid rgb(255 255 255 / .08); }
+.term .ui-win__crumb { color: #9aa39a; }
+.term pre { margin: 0; padding: 20px 24px 28px; font: 400 13px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 2; }
+.term .ui-win__crumb b { color: #e9efe6; }
+.shot .ui-win__crumb b { color: #0f1f10; }
+.term .p { color: #9aa39a; }          /* the prompt and comments */
+.term .ok { color: #c6f19d; }         /* a check that passed */
+.term .hit { color: #f0b48a; }        /* a finding */
+
+/* SOAR: four plain cards in two rows, the step name over its lines at the lead size */
+.soar { flex: 1 1 auto; align-content: stretch; }
+.soar > .card { display: flex; flex-direction: column; gap: var(--s-4); grid-column: auto / span 6; }
+.soar > .card > p { font-size: var(--t-lead); line-height: 1.5; }
+.soar > .card > h3 { font: 500 var(--t-body)/1.4 var(--font-text); color: var(--muted); letter-spacing: 0; }
+.soar > .card > p { max-width: none; }
+.case-cons { color: var(--ink); margin-top: var(--s-6); }
+.case-cons b { font-weight: 500; }
+
+/* the decision and what was dropped: two steps, each a hairline over its words */
+.case-step { display: grid; gap: var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--line); }
+.case-step h3 { font: 500 var(--t-body)/1.4 var(--font-text); color: var(--muted); letter-spacing: 0; }
+.case-step p { color: var(--ink); }
+
+/* the second visual and the run block share one frame shape */
+.case-split { align-items: stretch; flex: 1 1 0; min-height: 0; }
+.case-split > .frame { height: 100%; }
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .term pre { font-size: 12px; padding: 16px 18px 24px; }
+}
+@media (max-width: 1023px) {
+  .case-hero > .frame, .case-split > .frame { height: auto; min-height: 360px; }
+}
+@media (max-width: 639px) {
+  .soar > .card { grid-column: 1 / -1; }
+  .soar > .card > p { font-size: var(--t-body); }
+  .case-hero > .frame, .case-split > .frame { min-height: 0; }
+  .term pre { font-size: 11px; padding: 14px 16px 20px; }
+  .case-fig__n { font-size: 40px; }
+}
+
+/* a frame beside the words runs down to the section's foot */
+.hero-visual > .case-frame { height: 100%; }
+.case-frame { --ratio: 0px; }
+@media (max-width: 1023px) { .case-split > .case-frame { min-height: 420px; } }
+@media (max-width: 639px) { .case-split > .case-frame { min-height: 380px; } }
+
+/* the window list holds file names: its columns widened from the kit's helpdesk queue */
+.case-win { width: 100%; }
+.case-win .ui-win__cols, .case-win .ui-win__row { grid-template-columns: 24px 96px minmax(0, 1fr) 112px 32px; }
+
+/* the longhaul chart, as on the homepage (drawn by tools/chart.py) */
+.case-frame > .lh-chart { width: 100%; padding: 28px 24px; }
+.lh-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lh-chart text { fill: #2f3d2f; font: 400 12.5px var(--font-text); }
+.lh-chart text.strong { fill: #0f1f10; font-weight: 500; }
+.lh-chart path { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.lh-chart .gridline { stroke: rgb(15 31 16 / .1); stroke-width: 1; }
+.lh-chart .axis { stroke: rgb(15 31 16 / .45); stroke-width: 1; }
+.lh-chart .s-go { stroke: #0f1f10; }
+.lh-chart .s-hold { stroke: #b4541a; }
+.lh-chart .s-aux { stroke: #3f7d2c; }
+.lh-chart .s-ref { stroke: rgb(15 31 16 / .55); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.lh-chart .f-go { fill: #0f1f10; } .lh-chart .f-hold { fill: #b4541a; } .lh-chart .f-aux { fill: #3f7d2c; }
+.lh-chart .ring { stroke: #cdd6c6; stroke-width: 2; }
+.case-frame > .lh-bars { display: none; width: 100%; padding: 24px; color: #0f1f10; font: 400 16px/1.5 var(--font-text); }
+.lh-bars p { margin: 0 0 12px; }
+.lh-bars .bl { display: flex; justify-content: space-between; font-weight: 500; }
+.lh-bars .bar { height: 14px; border-radius: 3px; background: #0f1f10; margin: 6px 0 16px; }
+.lh-bars .bar--lit { background: #4c8f2f; min-width: 14px; }
+@media (max-width: 639px) { .case-frame > .lh-chart { display: none; } .case-frame > .lh-bars { display: block; } }
+
+/* the receipt on the lit frame: a white page in the frame's own ink */
+.case-frame .ui-doc { --fx-bg: #ffffff; --fx-surface: #f2f4ef; --fx-ink: #0f1f10; --fx-muted: #3d4a3a; --fx-accent: #4c8f2f; --fx-accent-ink: #ffffff; }
+
+/* the h1 at the homepage's display size, one step over the h2 */
+.hero-copy > h1.case-h1 { font-size: clamp(32px, 1.9vw + 19.4px, 46.8px); line-height: 1.08; letter-spacing: -0.035em; }
+
+/* every piece of UI on a lit frame is a white page in the frame's own ink */
+.case-frame .stage { --fx-bg: #ffffff; --fx-surface: #f2f4ef; --fx-ink: #0f1f10; --fx-muted: #3d4a3a; --fx-accent: #4c8f2f; --fx-accent-ink: #ffffff; }
+
+/* the terminal keeps its own dark bar on the lit frame */
+.term .ui-win__bar { background: #142515; }
+/* the run block sits in the middle of its frame, whole */
+.case-frame > .stage > .at-rise:not(.to-edge) { top: 50%; translate: 0 -50%; }
+/* system.js outlines bracketed text as a leftover placeholder; in a terminal block the brackets are the
+   program's real output ([PERSON_1], ".[pipeline,app]"), so the outline is not drawn there. The mark
+   itself stays on the element and on <html data-placeholders>, where the checker still reads it. */
+.term pre[data-placeholder], .term pre [data-placeholder] { outline: none; }
+
+/* a phone: the hero keeps its words, figure, limit and button on the first screen; the real UI follows
+   in the decision and run sections, where it has the width to be read */
+@media (max-width: 639px) {
+  .hero-split > .hero-visual { display: none; }
+  .case-split { flex: none; }
+}
+
+/* a check that passed is ticked, not struck through (as on the homepage) */
+.case-frame .ui-check.is-done .ui-check__label { text-decoration: none; color: var(--u-ink); opacity: 1; }
+
+/* a small laptop (1024 to 1279): the words take half the row and sit closer, so the hero and the decision
+   stay on their screens */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero-split > .hero-copy { grid-column: 1 / span 6; }
+  .hero-split > .hero-visual { grid-column: 7 / -1; }
+  .hero-copy > * + * { margin-top: var(--s-4); }
+  .hero .t-lead { font-size: 17px; }
+  .case-fig { padding-top: var(--s-4); }
+  .case-fig__n { font-size: 36px; }
+  .case-split > .span-5 { grid-column: 1 / span 6; }
+  .case-split > .case-frame { grid-column: 7 / -1; }
+  .case-step { padding-top: var(--s-4); gap: var(--s-2); }
+}
+/* a phone: the four cards keep their own height; the two screens' spare room goes under the constraints */
+@media (max-width: 639px) { .soar { flex: none; align-content: start; } }
+/* a table of output keeps its columns: a step smaller, never wrapped mid-row */
+.term--table pre { font-size: 11.5px; white-space: pre; overflow: hidden; }

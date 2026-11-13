@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="sharp" data-ground="sage" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eagle: Knowledge system</title>
+<meta name="description" content="A knowledge system where an agent proposes notes with quotes, code checks every quote, and a person approves. Case study: problem, decision, result and limit.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eagle: Knowledge system">
+<meta property="og:description" content="A knowledge system where an agent proposes notes with quotes, code checks every quote, and a person approves. Case study: problem, decision, result and limit.">
+<meta property="og:image" content="../share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1f10">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Figtree:wght@400..600&family=Martian+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/system.css">
+<link rel="stylesheet" href="../assets/ui/cards.css">
+<link rel="stylesheet" href="../assets/motion/motion.css">
+<link rel="stylesheet" href="../assets/layout/layout.css">
+<style>
+:root {
+  --p-bg: #0f1f10; --p-surface: #162a17; --p-ink: #ffffff; --p-muted: #9aa39a;
+  --p-accent: #c6f19d; --p-accent-ink: #0f1f10; --p-action: #c6f19d; --p-action-ink: #0f1f10;
+  --p-inv-bg: #ffffff; --p-inv-surface: #ecedec; --p-inv-ink: #0f1f10; --p-inv-muted: #606c60;
+  --p-inv-accent: #0f1f10; --p-inv-accent-ink: #ffffff; --p-inv-action: #0f1f10; --p-inv-action-ink: #ffffff;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.9;
+  --t-h2: clamp(28px, 1.14vw + 23.5px, 40px);
+}
+</style>
+<link rel="stylesheet" href="../assets/ui/base.css">
+<link rel="stylesheet" href="../assets/ui/window/fragment.css">
+<link rel="stylesheet" href="../assets/ui/diff-review/fragment.css">
+<link rel="stylesheet" href="../assets/ui/checklist/fragment.css">
+<link rel="stylesheet" href="case.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="../index.html"><span class="mark mark--initial" aria-hidden="true">E</span>Eagle</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="../index.html#gate">Demo</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">Documents</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agents</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">Knowledge</a></div>
+      <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">Projects</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#questions">Questions</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="https://github.com/yiklin22">See my GitHub</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" data-enter aria-labelledby="case-h">
+    <div class="wrap"><div class="hero-text grid hero-split">
+      <div class="hero-copy span-5">
+        <h1 id="case-h" class="case-h1">Knowledge system. <span class="muted">AI proposes, a person approves.</span></h1>
+        <p class="t-lead">Chat-with-your-documents tools answer fluently and invent citations. Here an agent proposes notes from saved sources, code checks every quote word for word, and nothing becomes knowledge until a person approves it.</p>
+        <div class="case-fig"><span class="case-fig__n">18 of 18</span><p>red-team attacks that need a forbidden action or a poisoned page stopped by code, whatever the model did. The other 8 of the 26 only try to change what the model says; in live runs it resisted all 8.</p></div>
+        <p class="case-limit"><b>Limit:</b> one person&rsquo;s vault, and small live samples from one model on one day. Search was tested on 20 questions the builder wrote; it ranked the right source first for 75%.</p>
+        <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/ai-knowledge-system">Open the repository</a>
+      </div>
+      <div class="hero-visual span-6 start-7">
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 480px; --ax: 24px; --ay: 32px; --ay-sm: 24px">
+              <div class="ui ui-panel ui-diff" data-ui="diff-review">
+                <div class="ui-diff__head">
+                  <svg class="ui-icon ui-diff__fold" viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 6.25 3.5 3.5 3.5-3.5"/></svg>
+                  <span class="ui-diff__tool" aria-hidden="true"><img src="../assets/ui/icons/md.svg" alt=""></span>
+                  <span class="ui-diff__repo">vault</span><i class="ui-diff__slash" aria-hidden="true">/</i>
+                  <span class="ui-diff__path"><span class="ui-diff__dir">agents/</span><b>what-is-an-agent.md</b></span>
+                  <span class="ui-spacer"></span>
+                  <span class="ui-diff__stat"><b class="is-add"><span class="ui-diff__was">+3</span><span class="ui-diff__now">+3</span></b><b class="is-del"><span class="ui-diff__was">&minus;0</span><span class="ui-diff__now">&minus;0</span></b><span class="ui-diff__bar" aria-hidden="true"><i class="is-add"></i><i class="is-add"></i><i class="is-add"></i><i></i><i></i></span></span>
+                </div>
+                <div class="ui-diff__hunk"><span>@@ -4,6 +4,9 @@</span></div>
+                <div class="ui-diff__lines">
+                  <div class="ui-diff__ln"><i>4</i><i>4</i><span class="ui-diff__code" data-i="0"><span class="k">## What an agent is</span></span></div>
+                  <div class="ui-diff__ln is-add"><i></i><i>5</i><span class="ui-diff__code" data-i="0">An agent runs tools in a loop.</span></div>
+                  <div class="ui-diff__ln is-add is-target" data-diff-target><i></i><i>6</i><span class="ui-diff__code" data-i="0"><span class="s">&gt; "runs tools in a loop"</span></span></div>
+                  <div class="ui-diff__thread">
+                    <div class="ui-diff__by">
+                      <span class="ui-avatar" data-tone="4">E</span>
+                      <span class="ui-diff__name">You</span>
+                      <span class="ui-diff__time">now</span>
+                      <span class="ui-spacer"></span>
+                      <span class="ui-diff__act" data-diff-act>
+                        <button class="ui-btn ui-btn--sm ui-diff__apply" type="button" tabindex="-1" data-diff-apply><span class="ui-diff__lbl">Approve note</span><i class="ui-diff__spin" aria-hidden="true"></i></button>
+                        <span class="ui-chip ui-diff__done"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 8.4 2.6 2.6L12 5.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Approved</span>
+                      </span>
+                    </div>
+                    <div class="ui-diff__msg">Quote found in <code>section 2</code> of the source.</div>
+                  </div>
+                  <div class="ui-diff__ln is-add"><i></i><i>7</i><span class="ui-diff__code" data-i="0">Source: saved 10 Nov, section 2.</span></div>
+                  <div class="ui-diff__ln"><i>5</i><i>8</i><span class="ui-diff__code" data-i="0"></span></div>
+                  <div class="ui-diff__ln"><i>6</i><i>9</i><span class="ui-diff__code" data-i="0"><span class="k">## Related notes</span></span></div>
+                  <div class="ui-diff__ln"><i>7</i><i>10</i><span class="ui-diff__code" data-i="0">- Agentic engineering</span></div>
+                  <div class="ui-diff__ln"><i>8</i><i>11</i><span class="ui-diff__code" data-i="0">- Tool use and loops</span></div>
+                  <div class="ui-diff__ln"><i>9</i><i>12</i><span class="ui-diff__code" data-i="0">- Context strategies</span></div>
+                </div>
+              </div>
+            </div></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="soar" style="--hm: 2" aria-labelledby="soar-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="soar-h">Notes a person can audit</h2></div>
+      <div class="grid soar">
+          <article class="card span-3"><h3>Situation</h3><p>Teams read vendor docs, chats, PDFs and videos, then cannot answer &ldquo;where did we learn that, and can we trust it?&rdquo; Chat tools answer fluently, but nobody can audit what they cite.</p></article>
+          <article class="card span-3"><h3>Obstacle</h3><p>A hostile web page or PDF can carry orders for the agent that reads it. A prompt that says &ldquo;never fabricate quotes&rdquo; is a request, not a guarantee.</p></article>
+          <article class="card span-3"><h3>Action</h3><p>The digest agent runs with an allow-list: it writes only inside proposals/, has no web access and cannot approve. A validator re-checks every quote against its source, and approval happens in the browser.</p></article>
+          <article class="card span-3"><h3>Result</h3><p>18 of 18 attacks that need a forbidden action stopped by the allow-list or the validator. The validator refuses any quote it cannot find word for word, and all 160 approved quotes pass.</p></article>
+      </div>
+      <p class="case-cons"><b>Constraints:</b> one user, local only, live red-team and judge runs that cost $0.79 and $0.14, 96 tests in CI.</p>
+    </div>
+  </section>
+
+  <section class="section" id="decision" aria-labelledby="decision-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="decision-h">Evidence checked by code, not by the prompt</h2>
+          <div class="case-step"><h3>The decision</h3><p>A validator re-checks every quote verbatim against its raw file, requires a locator with each one, and the approval gate refuses a batch with errors. It checks that the quote exists; whether the quote supports the claim is for the person who approves.</p></div>
+          <div class="case-step"><h3>What was dropped</h3><p>The first quote check had a hole the red team found: a source page could name a file the agent had just written in proposals/ as its raw text, so an invented quote passed as verbatim. Raw paths must now resolve inside raw/, and a test replays the attack.</p></div>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 440px; --ax: max(24px, 50% - 220px); --ay: 56px; --ay-sm: 24px"><div class="ui ui-panel ui-checks" data-ui="checklist"><div class="ui-checks__head"><div class="ui-title">Red team, enforced by code</div><span class="ui-spacer"></span><div class="ui-meta">18 of 18 blocked</div></div><div class="ui-checks__bar"><i style="--k:1"></i></div><ul class="ui-checks__list"><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P1 Run approve directly</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P4 Approve through the local web API</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W1 Write straight into the vault</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W2 Path traversal out of proposals</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">X1 Fetch a URL with private data</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K1 Fabricated quote</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K6 Verify a quote against a file the agent wrote</span></li></ul></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="run" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="run-h">Run Knowledge system yourself</h2>
+          <p>Python; Docker if you prefer a container. The demo runs on a small sample vault in a throwaway copy, so nothing you do in it is kept. The structural red team is free and runs in CI.</p>
+          <div class="case-step"><h3>Where the figure comes from</h3><p><code>docs/redteam-results.md</code>, written by <code>python -m tools.kb.redteam</code>, with every attack, its category and what stopped it.</p></div>
+          <p class="split-col__end"><a class="link" href="https://github.com/yiklin22/ai-knowledge-system">Read the README and the full results</a></p>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="Commands to install and run Knowledge system, from its README"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">ai-knowledge-system <i>/</i> <b>terminal</b></span></div><pre><span class="p">$</span> uv venv &amp;&amp; uv pip install -r requirements.txt
+<span class="p">$</span> ./demo.sh  <span class="p"># http://127.0.0.1:8766, sample vault</span>
+<span class="p">$</span> docker compose -f docker-compose.demo.yml up --build  <span class="p"># same, in a container</span>
+<span class="p">$</span> .venv/bin/python -m unittest discover -s tests -t .
+<span class="p">$</span> .venv/bin/python -m tools.kb.redteam  <span class="p"># 26 injection attacks, structural layers (free, in CI)</span></pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Open to forward-deployed and AI engineering roles</h2>
+        <p>Next project: <a class="link" href="invoice-check.html">invoice-check</a></p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="https://github.com/yiklin22">See my GitHub<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="../index.html">Eagle</a>
+          <p class="footer__lede wide-only">AI systems, built and then measured.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Site</h3><ul><li><a href="../index.html">Home</a></li><li><a href="../projects.html">All projects</a></li><li><a href="../index.html#gate">Review queue</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Documents</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Safety</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">Knowledge system</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agents</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Eagle &nbsp; Product names and logos are trademarks of their owners</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../assets/system.js"></script>
+<script type="module" src="../assets/motion/motion.js"></script>
+<script type="module" src="../assets/layout/layout.js"></script>
+</body>
+</html>
