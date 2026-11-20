@@ -10,6 +10,8 @@
 <meta property="og:description" content="ndacheck answers 17 standard questions about an NDA and quotes the clause behind each answer. Case study: problem, decision, result and limit.">
 <meta property="og:image" content="../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/ndacheck.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://yiklin22.github.io/zh-tw/projects/ndacheck.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#0f1f10">
 <meta name="site-kind" content="software">
@@ -42,6 +44,20 @@
 <link rel="stylesheet" href="case.css">
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&text=%E7%B9%81%E4%B8%AD&display=swap" rel="stylesheet">
+<style>
+  /* the language switch at the right of the bar: EN | 繁中, the page's own language in ink and underlined */
+  .lang { display: flex; align-items: center; font-size: 14px; font-weight: 500; line-height: 1; }
+  .lang__opt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--muted); white-space: nowrap; transition: color var(--dur) var(--ease); }
+  .lang__opt + .lang__opt::before { content: ""; width: 1px; height: 14px; margin: 0 8px 0 -8px; background: var(--line-strong); }
+  .lang__opt:hover, .lang__opt:focus-visible, .lang__opt[aria-current] { color: var(--ink); }
+  .lang__opt[aria-current] { text-decoration: underline 2px; text-underline-offset: 6px; }
+  .lang__opt[lang="zh-Hant-TW"] { font-family: var(--font-text), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+  @media (max-width: 1023px) {
+    .nav:not(.is-open) .nav__actions > .lang { display: flex; }
+    .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
+  }
+</style>
 </head>
 <body>
 <header class="nav nav--centre">
@@ -57,6 +73,10 @@
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">Questions</a></div>
     </nav>
     <div class="nav__actions">
+      <div class="lang" role="group" aria-label="Language / 語言" translate="no">
+        <a class="lang__opt" href="ndacheck.html" lang="en" hreflang="en" aria-current="true">EN</a>
+        <a class="lang__opt" href="../zh-tw/projects/ndacheck.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW">繁中</a>
+      </div>
       <a class="btn btn--primary" href="https://github.com/yiklin22">See my GitHub</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">

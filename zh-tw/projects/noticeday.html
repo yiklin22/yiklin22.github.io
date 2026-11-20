@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-type="software" data-radius="sharp" data-ground="sage" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eagle：noticeday</title>
+<meta name="description" content="noticeday 找出自動續約合約的最後解約日，並附上每個日期所依據的條款。案例研究：問題、決策、結果與限制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eagle：noticeday">
+<meta property="og:description" content="noticeday 找出自動續約合約的最後解約日，並附上每個日期所依據的條款。案例研究：問題、決策、結果與限制。">
+<meta property="og:image" content="../../share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/noticeday.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://yiklin22.github.io/zh-tw/projects/noticeday.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1f10">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Figtree:wght@400..600&family=Martian+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/system.css">
+<link rel="stylesheet" href="../../assets/ui/cards.css">
+<link rel="stylesheet" href="../../assets/motion/motion.css">
+<link rel="stylesheet" href="../../assets/layout/layout.css">
+<style>
+:root {
+  --p-bg: #0f1f10; --p-surface: #162a17; --p-ink: #ffffff; --p-muted: #9aa39a;
+  --p-accent: #c6f19d; --p-accent-ink: #0f1f10; --p-action: #c6f19d; --p-action-ink: #0f1f10;
+  --p-inv-bg: #ffffff; --p-inv-surface: #ecedec; --p-inv-ink: #0f1f10; --p-inv-muted: #606c60;
+  --p-inv-accent: #0f1f10; --p-inv-accent-ink: #ffffff; --p-inv-action: #0f1f10; --p-inv-action-ink: #ffffff;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.9;
+  --t-h2: clamp(28px, 1.14vw + 23.5px, 40px);
+}
+</style>
+<link rel="stylesheet" href="../../assets/ui/base.css">
+<link rel="stylesheet" href="../../assets/ui/window/fragment.css">
+<link rel="stylesheet" href="../../projects/case.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&text=%E7%B9%81%E4%B8%AD&display=swap" rel="stylesheet">
+<style>
+  /* the language switch at the right of the bar: EN | 繁中, the page's own language in ink and underlined */
+  .lang { display: flex; align-items: center; font-size: 14px; font-weight: 500; line-height: 1; }
+  .lang__opt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--muted); white-space: nowrap; transition: color var(--dur) var(--ease); }
+  .lang__opt + .lang__opt::before { content: ""; width: 1px; height: 14px; margin: 0 8px 0 -8px; background: var(--line-strong); }
+  .lang__opt:hover, .lang__opt:focus-visible, .lang__opt[aria-current] { color: var(--ink); }
+  .lang__opt[aria-current] { text-decoration: underline 2px; text-underline-offset: 6px; }
+  .lang__opt[lang="zh-Hant-TW"] { font-family: var(--font-text), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+  @media (max-width: 1023px) {
+    .nav:not(.is-open) .nav__actions > .lang { display: flex; }
+    .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* zh-tw: Chinese characters fall back to a Traditional Chinese face (Noto Sans TC, loaded above, where the device
+     has no PingFang); headings drop the tight Latin tracking */
+  :root { --font-display: "Sora", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; --font-text: "Figtree", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+          --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+          --display-tracking: -0.01em; --display-tracking-xl: -0.015em; }
+  /* letters-assemble keeps each space-separated word on one line; a Chinese statement has no spaces, so it
+     wraps between characters instead (html: outranks moment.css, which loads later) */
+  html .mo-la.is-live .mo-w { display: inline; white-space: normal; }
+  html .mo-la__type { letter-spacing: 0; }
+</style>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">跳至主要內容</a>
+    <a class="nav__logo" href="../index.html"><span class="mark mark--initial" aria-hidden="true">E</span>Eagle</a>
+    <nav class="nav__links" aria-label="主選單">
+      <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
+      <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
+    </nav>
+    <div class="nav__actions">
+      <div class="lang" role="group" aria-label="Language / 語言" translate="no">
+        <a class="lang__opt" href="../../projects/noticeday.html" lang="en" hreflang="en">EN</a>
+        <a class="lang__opt" href="noticeday.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW" aria-current="true">繁中</a>
+      </div>
+      <a class="btn btn--primary" href="https://github.com/yiklin22">看我的 GitHub</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="選單">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" data-enter aria-labelledby="case-h">
+    <div class="wrap"><div class="hero-text grid hero-split">
+      <div class="hero-copy span-5">
+        <h1 data-enter-whole id="case-h" class="case-h1">noticeday。<span class="muted">合約的最後解約日。</span></h1>
+        <p class="t-lead">服務合約會自動續約，除非有人在合約期滿前 30 至 180 天發出通知。noticeday 讀取合約、標出每個日期所依據的條款，而且只在人工確認之後，才把期限放進行事曆。</p>
+        <div class="case-fig"><span class="case-fig__n">11 / 13</span><p>份律師有記錄通知期的測試合約，規則都讀對了，沒有讀錯，另有 2 次誤報。測試集是來自 SEC 申報文件的 102 份真實合約（CUAD）。</p></div>
+        <p class="case-limit"><b>限制：</b>只靠規則時，59 份測試合約中到期日只對 26 份，所以「最晚通知日」只有十分之三是對的。測試集已執行過七次。</p>
+        <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/noticeday">開啟儲存庫</a>
+      </div>
+      <div class="hero-visual span-6 start-7">
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>合約</b></span></div><img src="../../assets/projects/noticeday.webp" alt="noticeday 針對一份授權與代管協議的審閱頁面：最晚通知日標示為未確認，每項事實（起始日、合約期、續約、通知期）都附上讀取來源的合約文字並以醒目標示。" width="1100" height="1350" loading="eager"></div></div></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="soar" style="--hm: 2" aria-labelledby="soar-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="soar-h">沒人追蹤的期限，從條款中讀出來</h2></div>
+      <div class="grid soar">
+          <article class="card span-3"><h3>情境</h3><p>小型企業簽下的垃圾清運、租賃與軟體合約，若沒有及時發出通知就會自動續約。沒有人追蹤通知日，期限一過，企業又被綁住一年。</p></article>
+          <article class="card span-3"><h3>阻礙</h3><p>錯的期限比沒有期限更糟。有標註的資料集 CUAD 來自大公司的 SEC 附件，而不是咖啡店的影印機租約，而且測試合約中有載明通知期的本來就不多。</p></article>
+          <article class="card span-3"><h3>行動</h3><p>規則讀取起始日、合約期、續約與通知期，每一項都顯示在其來源文字旁。一個可選的本機模型會以第二讀者的身分讀取每份上傳的檔案，而且只有經過確認的期限才會進入行事曆。</p></article>
+          <article class="card span-3"><h3>結果</h3><p>13 份測試合約中，通知期有 11 份正確、0 份錯誤、2 次誤報。行事曆檔案只包含已確認的期限，每個都會在 14 天前提醒。</p></article>
+      </div>
+      <p class="case-cons"><b>條件限制：</b>一顆 CPU（可選的 4B 模型在 8 執行緒上每份合約約需 46 秒）、不用 API、經律師標註的公開資料（CUAD，CC BY 4.0）、一個含 102 份合約的測試集。</p>
+    </div>
+  </section>
+
+  <section class="section" id="decision" aria-labelledby="decision-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="decision-h">模型給的值必須附上引文</h2>
+          <div class="case-step"><h3>決策</h3><p>只有當本機模型的引文確實出現在合約中，而且能從那段引文解析回同樣的值時，才會保留模型給的值。在開發集上，這道關卡擋掉了模型自行計算或改寫的值。代價是：有些正確的值也會被擋掉，顯示為「找不到」，交由人工填寫。</p></div>
+          <div class="case-step"><h3>捨棄了什麼</h3><p>針對起始日的改進，讓開發集的正確數從 340 份中的 260 份升到 281 份；但在測試集上，規則反而少讀對了一個到期日。這項進步沒有延續下去，而測試集的錯誤也刻意不去研究，以免測試集左右規則的設計。</p></div>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>第二讀者</b></span></div><img src="../../assets/projects/noticeday-second-reader.webp" alt="第二讀者在一份策略聯盟協議上的結果：每個值都標示「第二讀者同意」，唯獨續約期間例外，模型在那裡引用了「will be automatically renewed for one (1) additional twelve month period」。" width="1100" height="1500" loading="lazy"></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="run" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="run-h">自己執行 noticeday</h2>
+          <p>需要 Python。第二讀者需要 Qwen3-4B-Instruct-2507 權重和約 8 GB 記憶體。一個 MCP 伺服器讓 Claude 能列出期限；它沒有任何寫入工具，所以確認動作只能在網頁應用程式中進行。</p>
+          <div class="case-step"><h3>數字從哪裡來</h3><p><code>docs/results/test-*.md</code>，由 <code>scripts/evaluate.py --split test</code> 產生，列出每個欄位的原始計數、錯誤值與誤報。</p></div>
+          <p class="split-col__end"><a class="link" href="https://github.com/yiklin22/noticeday">閱讀 README 與完整結果</a></p>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="安裝並執行 noticeday 的指令，取自其 README"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">noticeday <i>/</i> <b>終端機</b></span></div><pre><span class="p">$</span> uv venv &amp;&amp; uv pip install -e . pytest httpx
+<span class="p">$</span> pytest -q  <span class="p"># 41 tests (4 need &#x27;.[mcp]&#x27;)</span>
+<span class="p">$</span> python scripts/seed_demo.py demo.db  <span class="p"># needs data/cuad; or upload your own</span>
+<span class="p">$</span> NOTICEDAY_DB=demo.db uvicorn noticeday.app:app --port 8830
+<span class="p">$</span> python scripts/prepare_cuad.py
+<span class="p">$</span> python scripts/evaluate.py --split test --method rules</pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">正在尋找駐點工程師與 AI 工程職位</h2>
+        <p>下一個專案：<a class="link" href="mcp-pin.html">mcp-pin</a></p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="https://github.com/yiklin22">看我的 GitHub<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="../index.html">Eagle</a>
+          <p class="footer__lede wide-only">AI 系統，先打造，再實測。</p>
+        </div>
+        <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../../assets/system.js"></script>
+<script type="module" src="../../assets/motion/motion.js"></script>
+<script type="module" src="../../assets/layout/layout.js"></script>
+</body>
+</html>

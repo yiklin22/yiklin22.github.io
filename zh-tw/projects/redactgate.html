@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-type="software" data-radius="sharp" data-ground="sage" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eagle：redactgate</title>
+<meta name="description" content="redactgate 在文字送到 ChatGPT 或 Claude 之前拿掉其中的個人資料，再於回覆中放回去。案例研究：問題、決策、結果與限制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eagle：redactgate">
+<meta property="og:description" content="redactgate 在文字送到 ChatGPT 或 Claude 之前拿掉其中的個人資料，再於回覆中放回去。案例研究：問題、決策、結果與限制。">
+<meta property="og:image" content="../../share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/redactgate.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://yiklin22.github.io/zh-tw/projects/redactgate.html">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1f10">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Figtree:wght@400..600&family=Martian+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/system.css">
+<link rel="stylesheet" href="../../assets/ui/cards.css">
+<link rel="stylesheet" href="../../assets/motion/motion.css">
+<link rel="stylesheet" href="../../assets/layout/layout.css">
+<style>
+:root {
+  --p-bg: #0f1f10; --p-surface: #162a17; --p-ink: #ffffff; --p-muted: #9aa39a;
+  --p-accent: #c6f19d; --p-accent-ink: #0f1f10; --p-action: #c6f19d; --p-action-ink: #0f1f10;
+  --p-inv-bg: #ffffff; --p-inv-surface: #ecedec; --p-inv-ink: #0f1f10; --p-inv-muted: #606c60;
+  --p-inv-accent: #0f1f10; --p-inv-accent-ink: #ffffff; --p-inv-action: #0f1f10; --p-inv-action-ink: #ffffff;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.9;
+  --t-h2: clamp(28px, 1.14vw + 23.5px, 40px);
+}
+</style>
+<link rel="stylesheet" href="../../assets/ui/base.css">
+<link rel="stylesheet" href="../../assets/ui/window/fragment.css">
+<link rel="stylesheet" href="../../projects/case.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&text=%E7%B9%81%E4%B8%AD&display=swap" rel="stylesheet">
+<style>
+  /* the language switch at the right of the bar: EN | 繁中, the page's own language in ink and underlined */
+  .lang { display: flex; align-items: center; font-size: 14px; font-weight: 500; line-height: 1; }
+  .lang__opt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--muted); white-space: nowrap; transition: color var(--dur) var(--ease); }
+  .lang__opt + .lang__opt::before { content: ""; width: 1px; height: 14px; margin: 0 8px 0 -8px; background: var(--line-strong); }
+  .lang__opt:hover, .lang__opt:focus-visible, .lang__opt[aria-current] { color: var(--ink); }
+  .lang__opt[aria-current] { text-decoration: underline 2px; text-underline-offset: 6px; }
+  .lang__opt[lang="zh-Hant-TW"] { font-family: var(--font-text), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+  @media (max-width: 1023px) {
+    .nav:not(.is-open) .nav__actions > .lang { display: flex; }
+    .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* zh-tw: Chinese characters fall back to a Traditional Chinese face (Noto Sans TC, loaded above, where the device
+     has no PingFang); headings drop the tight Latin tracking */
+  :root { --font-display: "Sora", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; --font-text: "Figtree", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+          --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+          --display-tracking: -0.01em; --display-tracking-xl: -0.015em; }
+  /* letters-assemble keeps each space-separated word on one line; a Chinese statement has no spaces, so it
+     wraps between characters instead (html: outranks moment.css, which loads later) */
+  html .mo-la.is-live .mo-w { display: inline; white-space: normal; }
+  html .mo-la__type { letter-spacing: 0; }
+</style>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">跳至主要內容</a>
+    <a class="nav__logo" href="../index.html"><span class="mark mark--initial" aria-hidden="true">E</span>Eagle</a>
+    <nav class="nav__links" aria-label="主選單">
+      <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
+      <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
+    </nav>
+    <div class="nav__actions">
+      <div class="lang" role="group" aria-label="Language / 語言" translate="no">
+        <a class="lang__opt" href="../../projects/redactgate.html" lang="en" hreflang="en">EN</a>
+        <a class="lang__opt" href="redactgate.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW" aria-current="true">繁中</a>
+      </div>
+      <a class="btn btn--primary" href="https://github.com/yiklin22">看我的 GitHub</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="選單">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" data-enter aria-labelledby="case-h">
+    <div class="wrap"><div class="hero-text grid hero-split">
+      <div class="hero-copy span-5">
+        <h1 data-enter-whole id="case-h" class="case-h1">redactgate。<span class="muted">個資在送出提示詞前就先拿掉。</span></h1>
+        <p class="t-lead">把客戶的電子郵件貼進 ChatGPT 或 Claude，就等於把個人資料送出了你的電腦。redactgate 在你自己的電腦上，把姓名、卡號、IBAN 和地址換成佔位符，再把真實的值放回模型的回覆中。</p>
+        <div class="case-fig"><span class="case-fig__n">84.1%</span><p>的已標註個人資料值被遮蔽；這是在 2,891 份英文測試文件（8,205 個中的 6,900 個）上量得。Microsoft Presidio 預設設定：52.7%。</p></div>
+        <p class="case-limit"><b>限制：</b>仍有 24.0% 的文件洩漏至少一個值，所以送出前要有人先讀過遮蔽後的文字。</p>
+        <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/redactgate">開啟儲存庫</a>
+      </div>
+      <div class="hero-visual span-6 start-7">
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8840 <i>/</i> <b>redactgate</b></span></div><img src="../../assets/projects/redactgate.webp" alt="redactgate 頁面：一封含有姓名、電子郵件、電話、卡號和地址的客戶郵件；下方是可安全送出的文字，每個值都被換成編號標籤（例如 PERSON_1），以及留在本機的對照表。" width="1000" height="1318" loading="eager"></div></div></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="soar" style="--hm: 2" aria-labelledby="soar-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="soar-h">送出提示詞前拿掉姓名，回來後再放回去</h2></div>
+      <div class="grid soar">
+          <article class="card span-3"><h3>情境</h3><p>貸款表單、SWIFT 電文和客戶郵件裡都有姓名、卡號和 IBAN。把它們貼進雲端託管的模型，就是把個人資料送出電腦；受 GDPR 規範的歐盟企業必須為此負責。</p></article>
+          <article class="card span-3"><h3>阻礙</h3><p>模型仍需要知道誰做了什麼，所以不能直接刪掉這些值。測試資料是合成的，它的標註也漏掉了一些真實個資，因此量得「遮蔽確實命中真實個資」的比例 65.1% 只是下限；人工抽查 100 個遮蔽後，估計接近 88%。</p></article>
+          <article class="card span-3"><h3>行動</h3><p>卡號和 IBAN 以模式比對找出，再用檢查碼確認；姓名和地點由一個在 CPU 上執行的多語言命名實體辨識（NER）模型找出；接著為每個值配一個編號標籤。規則在開發集上調校；英文測試集共執行五次，每個版本一次，每次執行後都不再調整。</p></article>
+          <article class="card span-3"><h3>結果</h3><p>在英文測試集上遮蔽了 84.1% 的值，Presidio 預設設定為 52.7%；在其他五種語言上也有 71.5% 以上。這是預設設定之間的比較：若為 Presidio 加上自訂辨識器，差距會縮小許多。</p></article>
+      </div>
+      <p class="case-cons"><b>條件限制：</b>一顆 CPU、不用 API 金鑰、一個公開的合成資料集（Gretel 的 synthetic_pii_finance_multilingual）、標註漏掉了部分真實個資。</p>
+    </div>
+  </section>
+
+  <section class="section" id="decision" aria-labelledby="decision-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="decision-h">用佔位符，而不是刪除</h2>
+          <div class="case-step"><h3>決策</h3><p>每個值都變成一個加上方括號的編號標籤（例如 PERSON_1），而且同樣的值永遠得到同樣的標籤，讓模型仍能以姓名稱呼客戶。對照表永遠不會離開這台電腦，而還原步驟會把真實的值換回去，即使模型把方括號拿掉了也一樣。</p></div>
+          <div class="case-step"><h3>捨棄了什麼</h3><p>針對開發集的洩漏分析，為每個被漏掉的值排出原因。第二大原因是 NER 模型把姓名標成公司；嘗試遮蔽這些之後又捨棄了，因為這讓每個開發集上量得的精確率都下降。最大的原因是地址模式，這部分予以保留。</p></div>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 640px; --ax: max(24px, 50% - 320px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="redactgate 示範的輸出：以佔位符取代後送給模型的郵件，以及留在本機的對照表。"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">redactgate <i>/</i> <b>python scripts/demo.py</b></span></div><pre>== 2. What is sent to the model
+
+From: [PERSON_1] &lt;[EMAIL_1]&gt;
+Subject: Refund for double charge
+
+Hi, I was charged twice for my March invoice on card [CARD_1].
+Please refund the second payment to my account [IBAN_1].
+My address is [ADDRESS_1] and you can reach me
+on [PHONE_1]. Thanks, [PERSON_1]
+
+== 3. Mapping (stays on your machine)
+
+[PERSON_1]     Daniel Okafor
+[EMAIL_1]      d.okafor@example.com
+[CARD_1]       4111 1111 1111 1111
+[IBAN_1]       GB82 WEST 1234 5698 7654 32
+[ADDRESS_1]    742 Maple Avenue, Springfield, IL 62704
+[PHONE_1]      +1 (217) 555-0148</pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="run" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="run-h">自己執行 redactgate</h2>
+          <p>需要 Python，以及約 1 GB 給 NER 模型，首次執行時下載。示範不呼叫任何 API：它的模型回覆是手寫的。評測會從 Hugging Face 下載 Gretel 的測試集。</p>
+          <div class="case-step"><h3>數字從哪裡來</h3><p><code>docs/results-en-test-multi-model.md</code>，由 <code>scripts/evaluate.py --split test</code> 產生，附有逐類型表格，並列出 Presidio 的執行結果作為對照。</p></div>
+          <p class="split-col__end"><a class="link" href="https://github.com/yiklin22/redactgate">閱讀 README 與完整結果</a></p>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="安裝並執行 redactgate 的指令，取自其 README"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">redactgate <i>/</i> <b>終端機</b></span></div><pre><span class="p">$</span> uv venv &amp;&amp; uv pip install -r requirements.txt
+<span class="p">$</span> source .venv/bin/activate
+<span class="p">$</span> python scripts/demo.py  <span class="p"># first run downloads the NER model (about 1 GB)</span>
+<span class="p">$</span> uvicorn redactgate.app:app --port 8840  <span class="p"># page at http://localhost:8840</span>
+<span class="p">$</span> pytest -q -m &quot;not model&quot;  <span class="p"># fast tests, no model download</span>
+<span class="p">$</span> python scripts/evaluate.py --split dev  <span class="p"># first 500 train documents</span>
+<span class="p">$</span> python scripts/evaluate.py --split test  <span class="p"># run once</span></pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">正在尋找駐點工程師與 AI 工程職位</h2>
+        <p>下一個專案：<a class="link" href="ndacheck.html">ndacheck</a></p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="https://github.com/yiklin22">看我的 GitHub<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="../index.html">Eagle</a>
+          <p class="footer__lede wide-only">AI 系統，先打造，再實測。</p>
+        </div>
+        <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../../assets/system.js"></script>
+<script type="module" src="../../assets/motion/motion.js"></script>
+<script type="module" src="../../assets/layout/layout.js"></script>
+</body>
+</html>
