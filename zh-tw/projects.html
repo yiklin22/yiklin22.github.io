@@ -230,6 +230,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -252,7 +261,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#questions">問答</a></div>
@@ -281,7 +290,7 @@
           <article class="card span-6">
             <h3>fieldgate</h3>
             <p>在 CPU 上讀取掃描收據，並決定哪些欄位可以不經人工。</p>
-            <p class="proj__fig">在 200 張未參與調校的收據上，錯誤核准率從 17.2% 降到 2.7%。</p>
+            <p class="proj__fig">在保留測試集的 200 張收據上，錯誤核准率從 17.2% 降到 2.7%。</p>
             <p>限制：只有一個收據資料集和一個模型。</p>
             <a class="card__link" href="projects/fieldgate.html">閱讀案例研究</a>
           </article>
@@ -295,14 +304,14 @@
           <article class="card span-6">
             <h3>ndacheck</h3>
             <p>回答關於保密協議（NDA）的 17 個標準問題，並引用每個答案所依據的條款。</p>
-            <p class="proj__fig">在 123 份未參與調校的 NDA 上正確率 73.8%，而一律給出常見答案的基準為 65.9%。</p>
+            <p class="proj__fig">在保留測試集的 123 份 NDA 上正確率 73.8%，而一律給出常見答案的基準為 65.9%。</p>
             <p>限制：風險最高的「否」答案，正是表現最弱的部分。</p>
             <a class="card__link" href="projects/ndacheck.html">閱讀案例研究</a>
           </article>
           <article class="card span-6">
             <h3>noticeday</h3>
             <p>找出自動續約合約的最後解約日。每個日期都由人工確認後才放進行事曆。</p>
-            <p class="proj__fig">在 13 份經律師標註的測試合約中，通知期有 11 份正確、0 份錯誤、2 次誤報。</p>
+            <p class="proj__fig">在 13 份經律師標註的測試合約中，解約通知期有 11 份正確、0 份錯誤、2 次誤報。</p>
             <p>限制：到期日是弱點，59 份中只對 26 份。</p>
             <a class="card__link" href="projects/noticeday.html">閱讀案例研究</a>
           </article>
@@ -315,7 +324,7 @@
     <div class="wrap">
       <div class="group">
         <div class="section-head">
-          <h2 id="more-h">代理、資安與發票</h2>
+          <h2 id="more-h">Agent、資安與發票</h2>
         </div>
         <div class="grid proj">
           <article class="card span-6">
@@ -327,14 +336,14 @@
           </article>
           <article class="card span-6">
             <h3>longhaul</h3>
-            <p>以四種上下文策略為一個 120 輪的代理班次計算成本，快取讀取與寫入分開計算。</p>
+            <p>以四種上下文策略為一個 120 輪的 Agent 班次計算成本，快取讀取與寫入分開計算。</p>
             <p class="proj__fig">關閉快取時，完整歷史的成本約高出 15 倍。</p>
             <p>限制：成本是建模估算的。目前還沒有用真實模型執行過。</p>
             <a class="card__link" href="projects/longhaul.html">閱讀案例研究</a>
           </article>
           <article class="card span-6">
             <h3>知識系統</h3>
-            <p>代理提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。</p>
+            <p>Agent 提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。</p>
             <p class="proj__fig">在 26 次紅隊攻擊中，需要禁止動作的 18 次全數被程式碼擋下。</p>
             <p>限制：只用了一個人的筆記庫。搜尋只在作者自己寫的 20 個問題上測試過。</p>
             <a class="card__link" href="projects/knowledge.html">閱讀案例研究</a>
@@ -357,8 +366,8 @@
         <div class="span-5 stack-4">
           <h2 id="about-h">關於 Eagle</h2>
           <p class="t-lead">在任何人依賴系統之前，先量測它多常出錯的 AI 工程師。</p>
-          <p>我打造處理文件、AI 代理與私人資料的 AI 系統，然後測試它們。這裡的每個專案，都在回答一個我預期客戶在信任系統前會問的問題：我能查核它的成果嗎？它要花多少錢？會洩漏什麼？什麼時候仍需要人工檢查？</p>
-          <p>fieldgate、redactgate、ndacheck 和 noticeday 都在筆電 CPU 上，以開放模型和公開資料集執行。每份 README 都說明數字如何量測，以及這個數字「無法」說明什麼。</p>
+          <p>我打造處理文件、AI Agent 與私人資料的 AI 系統，然後測試它們。這裡的每個專案，都在回答一個我預期客戶在信任系統前會問的問題：我能查核它的成果嗎？它要花多少錢？會洩漏什麼？什麼時候仍需要人工檢查？</p>
+          <p>fieldgate、redactgate、ndacheck 和 noticeday 都在筆電 CPU 上，以開源模型和公開資料集執行。每份 README 都說明數字如何量測，以及這個數字「無法」說明什麼。</p>
           <p>我想從事前線部署工程或 AI 工程工作：接手一項緩慢的人工檢查（收據、發票、NDA、續約日期），交付一個錯誤率經過量測的成果，並清楚說明它的極限在哪裡。</p>
         </div>
         <ul class="proof span-6 start-7" aria-label="技能，以及各自的證明">
@@ -366,7 +375,7 @@
           <li><b>人工審核分流：</b>每個收據欄位都有自己的核准門檻，選定標準是讓錯誤核准率維持在目標以下；從 17.2% 降到 2.7%。<a class="link" href="projects/fieldgate.html">fieldgate</a></li>
           <li><b>LLM 資安：</b>18 次紅隊攻擊全數被程式碼擋下；MCP 工具定義在 CI 中鎖定。<a class="link" href="projects/knowledge.html">知識系統</a> <a class="link" href="projects/mcp-pin.html">mcp-pin</a></li>
           <li><b>隱私工程：</b>個人資料在送出提示詞前就於使用者的電腦上遮蔽，84.1% 對比 Presidio 的 52.7%。<a class="link" href="projects/redactgate.html">redactgate</a></li>
-          <li><b>代理成本：</b>在 Inspect AI 上為一個 120 輪的班次計算成本，快取讀取與寫入分開計算。<a class="link" href="projects/longhaul.html">longhaul</a></li>
+          <li><b>Agent 成本：</b>在 Inspect AI 上為一個 120 輪的班次計算成本，快取讀取與寫入分開計算。<a class="link" href="projects/longhaul.html">longhaul</a></li>
           <li><b>軟體開發：</b>noticeday 有一個唯讀的 MCP 伺服器，讓 Claude 列出期限；invoice-check 的帳號彼此看不到對方的發票，並有 132 項在真實 PostgreSQL 上執行的測試。<a class="link" href="projects/noticeday.html">noticeday</a> <a class="link" href="projects/invoice-check.html">invoice-check</a></li>
         </ul>
       </div>
@@ -392,7 +401,7 @@
         <div class="span-2 footer__col"><h3>示範</h3><ul><li><a href="index.html#gate">審核佇列</a></li><li><a href="projects.html">所有專案</a></li><li><a href="index.html#questions">問答</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="projects/fieldgate.html">fieldgate</a></li><li><a href="projects/ndacheck.html">ndacheck</a></li><li><a href="projects/noticeday.html">noticeday</a></li><li><a href="projects/invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="projects/redactgate.html">redactgate</a></li><li><a href="projects/mcp-pin.html">mcp-pin</a></li><li><a href="projects/knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>

@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle：知識系統</title>
-<meta name="description" content="一個知識系統：代理提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。案例研究：問題、決策、結果與限制。">
+<meta name="description" content="一個知識系統：Agent 提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。案例研究：問題、決策、結果與限制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Eagle：知識系統">
-<meta property="og:description" content="一個知識系統：代理提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。案例研究：問題、決策、結果與限制。">
+<meta property="og:description" content="一個知識系統：Agent 提議附有引文的筆記，程式碼查核每一則引文，最後由人工核准。案例研究：問題、決策、結果與限制。">
 <meta property="og:image" content="../../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/knowledge.html">
@@ -59,6 +59,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -81,7 +90,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
@@ -104,8 +113,8 @@
     <div class="wrap"><div class="hero-text grid hero-split">
       <div class="hero-copy span-5">
         <h1 data-enter-whole id="case-h" class="case-h1">知識系統。<span class="muted">AI 提議，人工核准。</span></h1>
-        <p class="t-lead">「與文件對話」類的工具回答得很流暢，卻會捏造引用。在這裡，代理從已儲存的來源提議筆記，程式碼逐字查核每一則引文，而且在人工核准之前，什麼都不會成為知識。</p>
-        <div class="case-fig"><span class="case-fig__n">18 / 18</span><p>次需要禁止動作或被汙染頁面的紅隊攻擊，無論模型怎麼做，都被程式碼擋下。26 次中其餘 8 次只試圖改變模型說的話；在真實執行中，模型 8 次全都抵擋住了。</p></div>
+        <p class="t-lead">「與文件對話」類的工具回答得很流暢，卻會捏造引用。在這裡，Agent 從已儲存的來源提議筆記，程式碼逐字查核每一則引文，而且在人工核准之前，什麼都不會成為知識。</p>
+        <div class="case-fig"><span class="case-fig__n">18 / 18</span><p>次需要禁止動作或被投毒頁面的紅隊攻擊，無論模型怎麼做，都被程式碼擋下。26 次中其餘 8 次只試圖改變模型說的話；在真實執行中，模型 8 次全都抵擋住了。</p></div>
         <p class="case-limit"><b>限制：</b>只用了一個人的筆記庫，真實執行的樣本也很小，只有一個模型、在同一天跑的。搜尋只在作者自己寫的 20 個問題上測試過；正確來源排在第一的比例是 75%。</p>
         <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/ai-knowledge-system">開啟儲存庫</a>
       </div>
@@ -122,8 +131,8 @@
                 </div>
                 <div class="ui-diff__hunk"><span>@@ -4,6 +4,9 @@</span></div>
                 <div class="ui-diff__lines">
-                  <div class="ui-diff__ln"><i>4</i><i>4</i><span class="ui-diff__code" data-i="0"><span class="k">## 代理是什麼</span></span></div>
-                  <div class="ui-diff__ln is-add"><i></i><i>5</i><span class="ui-diff__code" data-i="0">代理會在迴圈中執行工具。</span></div>
+                  <div class="ui-diff__ln"><i>4</i><i>4</i><span class="ui-diff__code" data-i="0"><span class="k">## Agent 是什麼</span></span></div>
+                  <div class="ui-diff__ln is-add"><i></i><i>5</i><span class="ui-diff__code" data-i="0">Agent 會在迴圈中執行工具。</span></div>
                   <div class="ui-diff__ln is-add is-target" data-diff-target><i></i><i>6</i><span class="ui-diff__code" data-i="0"><span class="s">&gt; "runs tools in a loop"</span></span></div>
                   <div class="ui-diff__thread">
                     <div class="ui-diff__by">
@@ -134,7 +143,7 @@
                   <div class="ui-diff__ln is-add"><i></i><i>7</i><span class="ui-diff__code" data-i="0">來源：11 月 10 日儲存，第 2 節。</span></div>
                   <div class="ui-diff__ln"><i>5</i><i>8</i><span class="ui-diff__code" data-i="0"></span></div>
                   <div class="ui-diff__ln"><i>6</i><i>9</i><span class="ui-diff__code" data-i="0"><span class="k">## 相關筆記</span></span></div>
-                  <div class="ui-diff__ln"><i>7</i><i>10</i><span class="ui-diff__code" data-i="0">- 代理式工程</span></div>
+                  <div class="ui-diff__ln"><i>7</i><i>10</i><span class="ui-diff__code" data-i="0">- Agentic 工程</span></div>
                   <div class="ui-diff__ln"><i>8</i><i>11</i><span class="ui-diff__code" data-i="0">- 工具使用與迴圈</span></div>
                   <div class="ui-diff__ln"><i>9</i><i>12</i><span class="ui-diff__code" data-i="0">- 上下文策略</span></div>
                 </div>
@@ -149,8 +158,8 @@
       <div class="section-head"><h2 id="soar-h">可供人工稽核的筆記</h2></div>
       <div class="grid soar">
           <article class="card span-3"><h3>情境</h3><p>團隊會讀廠商文件、聊天紀錄、PDF 和影片，事後卻答不出「我們是從哪裡知道這件事的？可以相信嗎？」。聊天工具回答得很流暢，但沒有人能稽核它們引用了什麼。</p></article>
-          <article class="card span-3"><h3>阻礙</h3><p>一個惡意網頁或 PDF，可以夾帶指令給讀取它的代理。寫著「絕不捏造引文」的提示詞只是請求，不是保證。</p></article>
-          <article class="card span-3"><h3>行動</h3><p>摘要代理以允許清單執行：它只能寫入 proposals/，沒有網路存取，也不能核准。驗證器會拿每則引文重新比對來源，而核准則在瀏覽器中進行。</p></article>
+          <article class="card span-3"><h3>阻礙</h3><p>一個惡意網頁或 PDF，可以夾帶指令給讀取它的 Agent。寫著「絕不捏造引文」的提示詞只是請求，不是保證。</p></article>
+          <article class="card span-3"><h3>行動</h3><p>摘要 Agent 以允許清單執行：它只能寫入 proposals/，沒有網路存取，也不能核准。驗證器會拿每則引文重新比對來源，而核准則在瀏覽器中進行。</p></article>
           <article class="card span-3"><h3>結果</h3><p>18 次需要禁止動作的攻擊，全數被允許清單或驗證器擋下。驗證器會拒絕任何無法逐字找到的引文，而所有 160 則已核准的引文都通過檢查。</p></article>
       </div>
       <p class="case-cons"><b>條件限制：</b>單一使用者、僅限本機、真實紅隊與評審執行分別花費 $0.79 和 $0.14，CI 中有 96 項測試。</p>
@@ -163,9 +172,9 @@
         <div class="span-5 split-col">
           <h2 id="decision-h">證據由程式碼查核，而不是靠提示詞</h2>
           <div class="case-step"><h3>決策</h3><p>驗證器會拿每則引文與原始檔逐字重新比對，要求每則都附上定位資訊，而核准關卡會拒絕含有錯誤的批次。它檢查的是引文是否存在；至於引文是否支持論點，則由核准的人判斷。</p></div>
-          <div class="case-step"><h3>捨棄了什麼</h3><p>第一版引文檢查有個漏洞被紅隊找到：來源頁面可以把代理剛寫進 proposals/ 的檔案指定為自己的原始文字，於是捏造的引文就被當成逐字引文而通過。現在原始路徑必須解析到 raw/ 之內，並有一項測試重播這次攻擊。</p></div>
+          <div class="case-step"><h3>捨棄了什麼</h3><p>第一版引文檢查有個漏洞被紅隊找到：來源頁面可以把 Agent 剛寫進 proposals/ 的檔案指定為自己的原始文字，於是捏造的引文就被當成逐字引文而通過。現在原始路徑必須解析到 raw/ 之內，並有一項測試重播這次攻擊。</p></div>
         </div>
-        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 440px; --ax: max(24px, 50% - 220px); --ay: 56px; --ay-sm: 24px"><div class="ui ui-panel ui-checks" data-ui="checklist"><div class="ui-checks__head"><div class="ui-title">紅隊攻擊，由程式碼把關</div><span class="ui-spacer"></span><div class="ui-meta">18 / 18 已攔截</div></div><div class="ui-checks__bar"><i style="--k:1"></i></div><ul class="ui-checks__list"><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P1 直接執行核准</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P4 透過本機網頁 API 核准</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W1 直接寫入筆記庫</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W2 以路徑穿越跳出 proposals</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">X1 帶著私人資料存取網址</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K1 捏造的引文</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K6 拿代理自己寫的檔案驗證引文</span></li></ul></div></div></div></div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 440px; --ax: max(24px, 50% - 220px); --ay: 56px; --ay-sm: 24px"><div class="ui ui-panel ui-checks" data-ui="checklist"><div class="ui-checks__head"><div class="ui-title">紅隊攻擊，由程式碼把關</div><span class="ui-spacer"></span><div class="ui-meta">18 / 18 已攔截</div></div><div class="ui-checks__bar"><i style="--k:1"></i></div><ul class="ui-checks__list"><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P1 直接執行核准</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">P4 透過本機網頁 API 核准</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W1 直接寫入筆記庫</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">W2 以路徑遍歷跳出 proposals</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">X1 帶著私人資料存取網址</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K1 捏造的引文</span></li><li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">K6 拿 Agent 自己寫的檔案驗證引文</span></li></ul></div></div></div></div>
       </div>
     </div>
   </section>
@@ -207,7 +216,7 @@
         <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>

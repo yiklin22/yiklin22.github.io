@@ -57,6 +57,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -79,7 +88,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
@@ -102,13 +111,13 @@
     <div class="wrap"><div class="hero-text grid hero-split">
       <div class="hero-copy span-5">
         <h1 data-enter-whole id="case-h" class="case-h1">mcp-pin。<span class="muted">MCP 工具定義的鎖定檔。</span></h1>
-        <p class="t-lead">MCP 伺服器為 AI 代理提供工具，而模型會把每個工具的描述當成指令來讀。你核准過的伺服器，之後可能會修改那段描述。mcp-pin 會在工具定義改變時讓 CI 失敗，並掃描描述中常見的隱藏提示詞注入模式。</p>
+        <p class="t-lead">MCP 伺服器為 AI Agent 提供工具，而模型會把每個工具的描述當成指令來讀。你核准過的伺服器，之後可能會修改那段描述。mcp-pin 會在工具定義改變時讓 CI 失敗，並掃描描述中常見的隱藏提示詞注入模式。</p>
         <div class="case-fig"><span class="case-fig__n">0.18%</span><p>是在 3,288 則描述字串上的誤報率；這些字串取自五個它從未見過的伺服器原始碼：標記了 6 則，沒有一則是攻擊。粗略來說：這 6 則中有 4 則根本不是工具描述。</p></div>
-        <p class="case-limit"><b>限制：</b>掃描是一串正規表示式，依它能抓到的 12 個被汙染範例調校而成；對未見過攻擊的攔截率尚未量測。鎖定檔才是更強的控制手段。</p>
+        <p class="case-limit"><b>限制：</b>掃描是一串正規表示式，依它能抓到的 12 個被投毒範例調校而成；對未見過攻擊的攔截率尚未量測。鎖定檔才是更強的控制手段。</p>
         <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/mcp-pin">開啟儲存庫</a>
       </div>
       <div class="hero-visual span-6 start-7">
-        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="mcp-pin 鎖定一個只有一個工具的伺服器、通過檢查，接著在描述被換成被汙染的版本時檢查失敗，掃描列出三項發現。"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">mcp-pin <i>/</i> <b>終端機</b></span></div><pre>$ mcp-pin lock -- python tests/fixture_server.py
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="mcp-pin 鎖定一個只有一個工具的伺服器、通過檢查，接著在描述被換成被投毒的版本時檢查失敗，掃描列出三項發現。"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">mcp-pin <i>/</i> <b>終端機</b></span></div><pre>$ mcp-pin lock -- python tests/fixture_server.py
 locked 1 tools in mcp-lock.json
 $ mcp-pin check -- python tests/fixture_server.py
 1 tools, 0 changes
@@ -128,7 +137,7 @@ add: sensitive-path: &quot;~/.cursor&quot; -- names a file that holds keys, cred
     <div class="wrap">
       <div class="section-head"><h2 id="soar-h">被改過的工具描述，在 CI 中被抓到</h2></div>
       <div class="grid soar">
-          <article class="card span-3"><h3>情境</h3><p>代理可以執行來自第三方 MCP 伺服器的工具。用戶端只在安裝時顯示工具描述，不會在每次更新時顯示，所以之後被改寫的描述沒有人會讀。</p></article>
+          <article class="card span-3"><h3>情境</h3><p>Agent 可以執行來自第三方 MCP 伺服器的工具。用戶端只在安裝時顯示工具描述，不會在每次更新時顯示，所以之後被改寫的描述沒有人會讀。</p></article>
           <article class="card span-3"><h3>阻礙</h3><p>單靠模式掃描很容易被繞過，而會標記普通描述的掃描器最後會被關掉。它必須能在 CI 中執行，不需要帳號、本身不發出網路呼叫，也不需要 API 金鑰。</p></article>
           <article class="card span-3"><h3>行動</h3><p>lock 會為每個工具的名稱、描述、輸入和註記存下指紋（SHA-256）。只要任何指紋改變，check 就會讓建置失敗，直到有人重新鎖定。scan 會標記九種模式，從 &lt;IMPORTANT&gt; 標籤到不可見字元都有。</p></article>
           <article class="card span-3"><h3>結果</h3><p>在未見過的測試集上，3,288 則描述中標記了 6 則，全是誤報。有發現時以 1 結束，設定損壞時以 2 結束，所以 CI 能分辨兩者。</p></article>
@@ -207,7 +216,7 @@ jobs:
         <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>

@@ -59,6 +59,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 </head>
 <body>

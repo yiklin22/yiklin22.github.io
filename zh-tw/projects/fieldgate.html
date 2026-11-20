@@ -58,6 +58,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -80,7 +89,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
@@ -117,7 +126,7 @@
                   <div class="ui-doc__title">Warung Sari</div>
                   <div class="ui-doc__text">Nasi goreng x2 56,000. Sate ayam 32,000. Es teh x2 10,000. Kerupuk 5,000.</div>
                   <div class="ui-doc__text">小計 103,000。稅 10% 10,300。<mark class="ui-doc__mark is-on">總計 113,300</mark>。現金 120,000。找零 6,700。</div>
-                  <div class="ui-doc__text">本收據品項數：<mark class="ui-doc__mark" data-kind="轉交人工" data-msg="數量與讀到的品項列數不符。" data-where="分數 0.41，低於 0.90 門檻">5</mark>。第 7 桌，服務人員 Dewi。</div>
+                  <div class="ui-doc__text">本收據品項數：<mark class="ui-doc__mark" data-kind="交由人工審核" data-msg="數量與讀到的品項列數不符。" data-where="分數 0.41，低於 0.90 門檻">5</mark>。第 7 桌，服務人員 Dewi。</div>
                   <div class="ui-doc__text">Terima kasih。價格已含服務費。請保留本收據，七天內可辦理退貨。</div>
                   <div class="ui-doc__text">於櫃檯以現金付款。列印時間 3 月 12 日 19:42，2 號收銀機。會員點數於隔天入帳。</div>
                   <div class="ui-doc__text">每日營業 10:00 至 22:00。如需附統一編號的收據副本，請洽櫃檯。</div>
@@ -144,7 +153,7 @@
           <article class="card span-3"><h3>行動</h3><p>每個值都有四類共 20 個訊號：模型對自己寫下的值給出多高的機率、3 次重複作答是否一致、這個數字是否印在頁面上、收據是否加總相符。另有 400 張收據只用來為每個欄位挑選門檻。</p></article>
           <article class="card span-3"><h3>結果</h3><p>在 200 張保留的收據上，以 5% 為目標時，已核准欄位中的錯誤值比例從 17.2% 降到 2.7%，且 47% 的欄位無需審核即獲核准。每個欄位都維持在目標以下。</p></article>
       </div>
-      <p class="case-cons"><b>條件限制：</b>一台筆電的 CPU、一個 17 億參數的開放模型、不用 API 金鑰、一個公開資料集（CORD v2），完整擷取一次約需四小時。</p>
+      <p class="case-cons"><b>條件限制：</b>一台筆電的 CPU、一個 17 億參數的開源模型、不用 API 金鑰、一個公開資料集（CORD v2），完整擷取一次約需四小時。</p>
     </div>
   </section>
 
@@ -156,7 +165,7 @@
           <div class="case-step"><h3>決策</h3><p>每個欄位的門檻都來自一個已發表的方法：Learn-then-Test。它從嚴到寬逐一嘗試門檻，並停在第一個「用於挑選門檻的保留收據已無法以 95% 信心證明錯誤率低於目標」的地方。三組各自獨立的收據分別用來擬合評分器、挑選門檻、回報每個數字；不過在確定訊號清單時，回報用的那組曾被看過。本頁的收據與佇列以模擬分數示範這個概念。</p></div>
           <div class="case-step"><h3>捨棄了什麼</h3><p>第一版在只有幾十個值的地方就開始認證流程，在那裡只要一個錯誤就會中止。結果折扣欄位在 2% 和 5% 時獲得認證，在 10% 時卻什麼都沒有，這不可能是對的。於是起點被移動，現在有一項測試確保較寬鬆的目標永遠不會核准得更少，整個分析也重跑了一次。</p></div>
         </div>
-        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 600px; --ax: max(24px, 50% - 300px); --ay: 48px; --ay-sm: 24px"><div class="ui ui-panel ui-win case-win" data-ui-static><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">fieldgate <i>/</i> <b>審核佇列</b></span></div><div class="ui-win__main"><div class="ui-win__cols" aria-hidden="true"><span>欄位</span><span>值</span><span>狀態</span><span>分數</span></div><ul class="ui-win__rows"><li class="ui-win__row"><span class="ui-avatar" data-tone="1">To</span><span class="ui-win__who">總計</span><span class="ui-win__sub">113,300 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.98</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Tx</span><span class="ui-win__who">稅</span><span class="ui-win__sub">10,300 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.96</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">Su</span><span class="ui-win__who">小計</span><span class="ui-win__sub">103,000 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.94</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">Pr</span><span class="ui-win__who">品項單價</span><span class="ui-win__sub">32,000 · 收據 0413</span><span class="ui-win__st is-you">轉人工</span><span class="ui-win__age">0.87</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Qt</span><span class="ui-win__who">數量</span><span class="ui-win__sub">2 · 收據 0413</span><span class="ui-win__st is-you">轉人工</span><span class="ui-win__age">0.82</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">Ch</span><span class="ui-win__who">找零</span><span class="ui-win__sub">6,700 · 收據 0414</span><span class="ui-win__st is-you">轉人工</span><span class="ui-win__age">0.66</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">Ct</span><span class="ui-win__who">品項數</span><span class="ui-win__sub">4 · 收據 0415</span><span class="ui-win__st is-you">轉人工</span><span class="ui-win__age">0.41</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Dt</span><span class="ui-win__who">日期</span><span class="ui-win__sub">3 月 12 日 · 收據 0415</span><span class="ui-win__st is-you">轉人工</span><span class="ui-win__age">0.36</span></li></ul></div></div></div></div></div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 600px; --ax: max(24px, 50% - 300px); --ay: 48px; --ay-sm: 24px"><div class="ui ui-panel ui-win case-win" data-ui-static><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">fieldgate <i>/</i> <b>審核佇列</b></span></div><div class="ui-win__main"><div class="ui-win__cols" aria-hidden="true"><span>欄位</span><span>值</span><span>狀態</span><span>分數</span></div><ul class="ui-win__rows"><li class="ui-win__row"><span class="ui-avatar" data-tone="1">To</span><span class="ui-win__who">總計</span><span class="ui-win__sub">113,300 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.98</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Tx</span><span class="ui-win__who">稅</span><span class="ui-win__sub">10,300 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.96</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">Su</span><span class="ui-win__who">小計</span><span class="ui-win__sub">103,000 · 收據 0412</span><span class="ui-win__st">已核准</span><span class="ui-win__age">0.94</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">Pr</span><span class="ui-win__who">品項單價</span><span class="ui-win__sub">32,000 · 收據 0413</span><span class="ui-win__st is-you">人工審核</span><span class="ui-win__age">0.87</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Qt</span><span class="ui-win__who">數量</span><span class="ui-win__sub">2 · 收據 0413</span><span class="ui-win__st is-you">人工審核</span><span class="ui-win__age">0.82</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">Ch</span><span class="ui-win__who">找零</span><span class="ui-win__sub">6,700 · 收據 0414</span><span class="ui-win__st is-you">人工審核</span><span class="ui-win__age">0.66</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">Ct</span><span class="ui-win__who">品項數</span><span class="ui-win__sub">4 · 收據 0415</span><span class="ui-win__st is-you">人工審核</span><span class="ui-win__age">0.41</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">Dt</span><span class="ui-win__who">日期</span><span class="ui-win__sub">3 月 12 日 · 收據 0415</span><span class="ui-win__st is-you">人工審核</span><span class="ui-win__age">0.36</span></li></ul></div></div></div></div></div>
       </div>
     </div>
   </section>
@@ -202,7 +211,7 @@
         <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>

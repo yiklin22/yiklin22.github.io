@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle：AI 工程師，打造經得起查核的系統</title>
-<meta name="description" content="一位 AI 工程師的作品集。三個分別處理文件、AI 代理與知識工作的 AI 系統，每個都經過測試，並公開錯誤率與限制。">
+<meta name="description" content="一位 AI 工程師的作品集。三個分別處理文件、AI Agent 與知識工作的 AI 系統，每個都經過測試，並公開錯誤率與限制。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Eagle：AI 工程師，打造經得起查核的系統">
-<meta property="og:description" content="三個分別處理文件、AI 代理與知識工作的 AI 系統，每個都經過測試，並公開錯誤率與限制。">
+<meta property="og:description" content="三個分別處理文件、AI Agent 與知識工作的 AI 系統，每個都經過測試，並公開錯誤率與限制。">
 <meta property="og:image" content="../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/">
@@ -204,6 +204,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -231,7 +240,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="projects.html">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="#questions">問答</a></div>
@@ -254,9 +263,9 @@
     <div class="wrap"><div class="hero-text grid hero__grid">
       <div class="span-3">
         <h1 data-enter-whole id="hero-h">會測試成果的 AI 工程師</h1>
-        <p class="hero__lead">我打造處理文件、AI 代理與知識工作的 AI 系統，再實測它們多常出錯。在 200 張未參與調校的收據上，錯誤核准率從 17.2% 降到 2.7%。</p>
+        <p class="hero__lead">我打造處理文件、AI Agent 與知識工作的 AI 系統，再實測它們多常出錯。在保留測試集的 200 張收據上，錯誤核准率從 17.2% 降到 2.7%。</p>
       </div>
-      <div class="ly-collage span-6 start-4" role="img" aria-label="依序呈現三個專案：一張收據的總計已核准、品項數轉交人工；一段長時間代理執行在有無快取下的成本；以及一則引文已查核、等待人工核准的筆記">
+      <div class="ly-collage span-6 start-4" role="img" aria-label="依序呈現三個專案：一張收據的總計已核准、品項數交由人工審核；一段長時間 Agent 執行在有無快取下的成本；以及一則引文已查核、等待人工核准的筆記">
         <div class="ly-collage__set is-on">
           <div class="ly-piece pc-receipt" style="left: 4%; top: 5%; width: 50%">
             <b>Warung Sari</b>
@@ -277,7 +286,7 @@
             <div class="pc-row"><span>分數</span><span>0.98</span></div>
           </div>
           <div class="ly-piece" style="left: 46%; top: 70%; width: 50%; height: 26%">
-            <span class="pc-lbl">轉交人工</span>
+            <span class="pc-lbl">交由人工審核</span>
             <div class="pc-row"><span>品項數</span><span>0.41</span></div>
             <div class="pc-row"><span>找零</span><span>0.66</span></div>
           </div>
@@ -304,7 +313,7 @@
         <div class="ly-collage__set" aria-hidden="true">
           <div class="ly-piece pc-note" style="left: 4%; top: 6%; width: 50%">
             <span class="pc-lbl">提議的筆記</span>
-            <span class="pc-big" style="font-size: 4.4cqw; line-height: 1.15">什麼是 AI 代理</span>
+            <span class="pc-big" style="font-size: 4.4cqw; line-height: 1.15">什麼是 AI Agent</span>
             <blockquote>&ldquo;An agent runs tools in a loop to reach a goal.&rdquo;</blockquote>
             <div class="pc-row"><span>來源</span><span>第 2 節</span></div>
           </div>
@@ -350,13 +359,13 @@
                   <li class="ui-win__row" data-score="0.96"><span class="ui-avatar" data-tone="3">Tx</span><span class="ui-win__who">稅</span><span class="ui-win__sub">10,300 · 收據 0412</span><span class="ui-win__st" data-st>已核准</span><span class="ui-win__age">0.96</span></li>
                   <li class="ui-win__row" data-score="0.94"><span class="ui-avatar" data-tone="4">Su</span><span class="ui-win__who">小計</span><span class="ui-win__sub">103,000 · 收據 0412</span><span class="ui-win__st" data-st>已核准</span><span class="ui-win__age">0.94</span></li>
                   <li class="ui-win__row" data-score="0.91"><span class="ui-avatar" data-tone="2">Ca</span><span class="ui-win__who">現金</span><span class="ui-win__sub">120,000 · 收據 0412</span><span class="ui-win__st" data-st>已核准</span><span class="ui-win__age">0.91</span></li>
-                  <li class="ui-win__row" data-score="0.87"><span class="ui-avatar" data-tone="5">Pr</span><span class="ui-win__who">品項單價</span><span class="ui-win__sub">32,000 · 收據 0413</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.87</span></li>
-                  <li class="ui-win__row" data-score="0.82"><span class="ui-avatar" data-tone="3">Qt</span><span class="ui-win__who">數量</span><span class="ui-win__sub">2 · 收據 0413</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.82</span></li>
-                  <li class="ui-win__row" data-score="0.74"><span class="ui-avatar" data-tone="1">Nm</span><span class="ui-win__who">品項名稱</span><span class="ui-win__sub">Sate ayam · 收據 0413</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.74</span></li>
-                  <li class="ui-win__row" data-score="0.66"><span class="ui-avatar" data-tone="4">Ch</span><span class="ui-win__who">找零</span><span class="ui-win__sub">6,700 · 收據 0414</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.66</span></li>
-                  <li class="ui-win__row" data-score="0.58"><span class="ui-avatar" data-tone="2">Sv</span><span class="ui-win__who">服務費</span><span class="ui-win__sub">5,150 · 收據 0414</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.58</span></li>
-                  <li class="ui-win__row" data-score="0.41"><span class="ui-avatar" data-tone="5">Ct</span><span class="ui-win__who">品項數</span><span class="ui-win__sub">4 · 收據 0415</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.41</span></li>
-                  <li class="ui-win__row" data-score="0.36"><span class="ui-avatar" data-tone="3">Dt</span><span class="ui-win__who">日期</span><span class="ui-win__sub">3 月 12 日 · 收據 0415</span><span class="ui-win__st" data-st>轉人工</span><span class="ui-win__age">0.36</span></li>
+                  <li class="ui-win__row" data-score="0.87"><span class="ui-avatar" data-tone="5">Pr</span><span class="ui-win__who">品項單價</span><span class="ui-win__sub">32,000 · 收據 0413</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.87</span></li>
+                  <li class="ui-win__row" data-score="0.82"><span class="ui-avatar" data-tone="3">Qt</span><span class="ui-win__who">數量</span><span class="ui-win__sub">2 · 收據 0413</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.82</span></li>
+                  <li class="ui-win__row" data-score="0.74"><span class="ui-avatar" data-tone="1">Nm</span><span class="ui-win__who">品項名稱</span><span class="ui-win__sub">Sate ayam · 收據 0413</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.74</span></li>
+                  <li class="ui-win__row" data-score="0.66"><span class="ui-avatar" data-tone="4">Ch</span><span class="ui-win__who">找零</span><span class="ui-win__sub">6,700 · 收據 0414</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.66</span></li>
+                  <li class="ui-win__row" data-score="0.58"><span class="ui-avatar" data-tone="2">Sv</span><span class="ui-win__who">服務費</span><span class="ui-win__sub">5,150 · 收據 0414</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.58</span></li>
+                  <li class="ui-win__row" data-score="0.41"><span class="ui-avatar" data-tone="5">Ct</span><span class="ui-win__who">品項數</span><span class="ui-win__sub">4 · 收據 0415</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.41</span></li>
+                  <li class="ui-win__row" data-score="0.36"><span class="ui-avatar" data-tone="3">Dt</span><span class="ui-win__who">日期</span><span class="ui-win__sub">3 月 12 日 · 收據 0415</span><span class="ui-win__st" data-st>人工審核</span><span class="ui-win__age">0.36</span></li>
                 </ul>
               </div>
             </div>
@@ -370,11 +379,11 @@
               <input id="gate-cut" type="range" min="0.40" max="0.99" step="0.01" value="0.90">
             </div>
             <div class="gate__plot"><svg id="gate-plot" viewBox="0 0 640 200" role="img" aria-label="每個點代表一個擷取出的欄位，依分數排列。位於及格線右側的點即獲核准。"></svg></div>
-            <div class="gate__key"><span><i></i>值正確</span><span><i class="w"></i>值錯誤</span><span><i class="h"></i>轉交人工</span></div>
+            <div class="gate__key"><span><i></i>值正確</span><span><i class="w"></i>值錯誤</span><span><i class="h"></i>交由人工審核</span></div>
             <dl class="gate__out" aria-live="polite">
               <div><dt>直接核准，無人檢查</dt><dd id="gate-ok">0%</dd></div>
               <div><dt>核准項目中的錯誤率</dt><dd id="gate-bad">0%</dd></div>
-              <div><dt>轉交人工</dt><dd id="gate-held">0%</dd></div>
+              <div><dt>交由人工審核</dt><dd id="gate-held">0%</dd></div>
             </dl>
           </div>
         </div>
@@ -388,7 +397,7 @@
         <div class="span-5 stack-4">
           <h2 id="fieldgate-h">Fieldgate 決定哪些欄位可以跳過審核</h2>
           <p class="t-lead">它在 CPU 上用 docling OCR 和一個 1.7B 模型讀取掃描收據，以四種證據為每個欄位評分，並選出具統計保證的核准門檻。</p>
-          <p>在 200 張未參與調校的收據上，47% 的欄位無需人工檢查即獲核准，其中錯誤值的比例從 17.2% 降到 2.7%。</p>
+          <p>在保留測試集的 200 張收據上，47% 的欄位無需人工檢查即獲核准，其中錯誤值的比例從 17.2% 降到 2.7%。</p>
           <p>模型自己聲稱的信心度，分辨對錯的能力還不如擲硬幣。</p>
           <p class="wide-only">目前還沒有整張收據能跳過審核。品項數只有一半的時候是對的。</p>
           <p><a class="link" href="projects/fieldgate.html">閱讀 fieldgate 案例研究</a></p>
@@ -402,7 +411,7 @@
                   <div class="ui-doc__title">Warung Sari</div>
                   <div class="ui-doc__text">Nasi goreng x2 56,000. Sate ayam 32,000. Es teh x2 10,000. Kerupuk 5,000.</div>
                   <div class="ui-doc__text">小計 103,000。稅 10% 10,300。<mark class="ui-doc__mark is-on">總計 113,300</mark>。現金 120,000。找零 6,700。</div>
-                  <div class="ui-doc__text">本收據品項數：<mark class="ui-doc__mark" data-kind="轉交人工" data-msg="數量與讀到的品項列數不符。" data-where="分數 0.41，低於 0.90 門檻">5</mark>。第 7 桌，服務人員 Dewi。</div>
+                  <div class="ui-doc__text">本收據品項數：<mark class="ui-doc__mark" data-kind="交由人工審核" data-msg="數量與讀到的品項列數不符。" data-where="分數 0.41，低於 0.90 門檻">5</mark>。第 7 桌，服務人員 Dewi。</div>
                   <div class="ui-doc__text">Terima kasih。價格已含服務費。請保留本收據，七天內可辦理退貨。</div>
                   <div class="ui-doc__text">於櫃檯以現金付款。列印時間 3 月 12 日 19:42，2 號收銀機。會員點數於隔天入帳。</div>
                   <div class="ui-doc__text">每日營業 10:00 至 22:00。如需附統一編號的收據副本，請洽櫃檯。</div>
@@ -432,16 +441,16 @@
     <div class="wrap">
       <div class="grid">
         <div class="span-5 stack-4">
-          <h2 id="longhaul-h">Longhaul 為長時間的代理執行計算成本</h2>
+          <h2 id="longhaul-h">Longhaul 為長時間的 Agent 執行計算成本</h2>
           <p class="t-lead">一套建於 Inspect AI 的評測，以四種上下文策略重播一個 120 輪的客服班次，並為每次呼叫計價，快取讀取與寫入分開計算。</p>
           <p>快取比策略更重要。關閉快取時，完整歷史的成本約高出 15 倍。</p>
-          <p>清除舊的工具結果，保留了代理之後需要的 94% 事實；截短歷史只保留 48%。</p>
+          <p>清除舊的工具結果，保留了 Agent 之後需要的 94% 事實；截短歷史只保留 48%。</p>
           <p class="wide-only">目前還沒有用真實模型執行過。成本依公開價格建模估算。</p>
           <p><a class="link" href="projects/longhaul.html">閱讀 longhaul 案例研究</a></p>
         </div>
         <div class="frame frame--split frame--lit span-7 start-6">
           <div class="lh-bars"><p>一個 120 輪的班次，完整歷史</p><div class="bl"><span>有快取</span><span>$1.84</span></div><div class="bar bar--lit" style="width: 6.5%"></div><div class="bl"><span>無快取</span><span>$28.56</span></div><div class="bar" style="width: 100%"></div></div>
-          <div class="lh-chart"><!--LONGHAUL_CHART--><svg viewBox="0 0 760 372" role="img" aria-label="折線圖：每個班次的模擬成本，對應操作員兩次回合之間的間隔。有快取的完整歷史，間隔在 4.7 分鐘內成本為 $1.84，40 分鐘內為 $2.06，67 分鐘時為 $38.60，高於無快取的 $28.56。若只有 5 分鐘快取，間隔一超過五分鐘就跳到 $24.33。摘要法在 67 分鐘時成本為 $15.53，是最便宜的。"><path class="s-go" d="M64 18 h26"/><text x="98" y="22">完整歷史，有快取</text><path class="s-aux" d="M250.0 18 h26"/><text x="284.0" y="22">摘要</text><path class="s-hold" d="M365.6 18 h26"/><text x="399.6" y="22">僅 5 分鐘快取</text><path class="s-ref" d="M545 18 h26"/><text x="579" y="22">無快取</text><path class="gridline" d="M64 318.0 H540"/><text x="54" y="322.0" text-anchor="end">$1</text><path class="gridline" d="M64 269.5 H540"/><text x="54" y="273.5" text-anchor="end">$2</text><path class="gridline" d="M64 205.3 H540"/><text x="54" y="209.3" text-anchor="end">$5</text><path class="gridline" d="M64 156.7 H540"/><text x="54" y="160.7" text-anchor="end">$10</text><path class="gridline" d="M64 108.2 H540"/><text x="54" y="112.2" text-anchor="end">$20</text><path class="gridline" d="M64 44.0 H540"/><text x="54" y="48.0" text-anchor="end">$50</text><text x="64.0" y="340" text-anchor="middle">10 s</text><text x="143.3" y="340" text-anchor="middle">2 分鐘</text><text x="222.7" y="340" text-anchor="middle">4.7 分鐘</text><text x="302.0" y="340" text-anchor="middle">6.7 分鐘</text><text x="381.3" y="340" text-anchor="middle">15 分鐘</text><text x="460.7" y="340" text-anchor="middle">40 分鐘</text><text x="540.0" y="340" text-anchor="middle">67 分鐘</text><text x="302" y="362" text-anchor="middle">操作員兩次回合之間的間隔</text><path class="axis" d="M64 318 H540"/><path class="s-ref" d="M64 83.2 H540"/><text class="strong" x="552" y="84.2">無快取 $28.56</text><path class="s-hold" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 94.5 L381.3 94.5 L460.7 94.5 L540.0 94.5"/><circle class="f-hold ring" cx="64.0" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 10 秒：$1.84</title></circle><circle class="f-hold ring" cx="143.3" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 2 分鐘：$1.84</title></circle><circle class="f-hold ring" cx="222.7" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 4.7 分鐘：$1.84</title></circle><circle class="f-hold ring" cx="302.0" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 6.7 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="381.3" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 15 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="460.7" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 40 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="540.0" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 67 分鐘：$24.33</title></circle><text class="strong" x="552" y="104.5">僅 5 分鐘快取 $24.33</text><path class="s-aux" d="M64.0 297.5 L143.3 297.5 L222.7 297.0 L302.0 278.0 L381.3 278.0 L460.7 277.2 L540.0 125.9"/><circle class="f-aux ring" cx="64.0" cy="297.5" r="4.5"><title>摘要，間隔 10 秒：$1.34</title></circle><circle class="f-aux ring" cx="143.3" cy="297.5" r="4.5"><title>摘要，間隔 2 分鐘：$1.34</title></circle><circle class="f-aux ring" cx="222.7" cy="297.0" r="4.5"><title>摘要，間隔 4.7 分鐘：$1.35</title></circle><circle class="f-aux ring" cx="302.0" cy="278.0" r="4.5"><title>摘要，間隔 6.7 分鐘：$1.77</title></circle><circle class="f-aux ring" cx="381.3" cy="278.0" r="4.5"><title>摘要，間隔 15 分鐘：$1.77</title></circle><circle class="f-aux ring" cx="460.7" cy="277.2" r="4.5"><title>摘要，間隔 40 分鐘：$1.79</title></circle><circle class="f-aux ring" cx="540.0" cy="125.9" r="4.5"><title>摘要，間隔 67 分鐘：$15.53</title></circle><text class="strong" x="552" y="129.9">摘要 $15.53</text><path class="s-go" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 267.4 L381.3 267.4 L460.7 267.4 L540.0 62.1"/><circle class="f-go ring" cx="64.0" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 10 秒：$1.84</title></circle><circle class="f-go ring" cx="143.3" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 2 分鐘：$1.84</title></circle><circle class="f-go ring" cx="222.7" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 4.7 分鐘：$1.84</title></circle><circle class="f-go ring" cx="302.0" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 6.7 分鐘：$2.06</title></circle><circle class="f-go ring" cx="381.3" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 15 分鐘：$2.06</title></circle><circle class="f-go ring" cx="460.7" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 40 分鐘：$2.06</title></circle><circle class="f-go ring" cx="540.0" cy="62.1" r="4.5"><title>完整歷史，有快取，間隔 67 分鐘：$38.60</title></circle><text class="strong" x="552" y="66.1">完整歷史，有快取 $38.60</text><text x="312.0" y="114.5">每個回合前都已過期</text><text x="64.0" y="263.3">$1.84</text></svg><!--/LONGHAUL_CHART--></div>
+          <div class="lh-chart"><!--LONGHAUL_CHART--><svg viewBox="0 0 760 372" role="img" aria-label="折線圖：每個班次的模擬成本，對應操作員兩輪之間的間隔。有快取的完整歷史，間隔在 4.7 分鐘內成本為 $1.84，40 分鐘內為 $2.06，67 分鐘時為 $38.60，高於無快取的 $28.56。若只有 5 分鐘快取，間隔一超過五分鐘就跳到 $24.33。摘要法在 67 分鐘時成本為 $15.53，是最便宜的。"><path class="s-go" d="M64 18 h26"/><text x="98" y="22">完整歷史，有快取</text><path class="s-aux" d="M250.0 18 h26"/><text x="284.0" y="22">摘要</text><path class="s-hold" d="M365.6 18 h26"/><text x="399.6" y="22">僅 5 分鐘快取</text><path class="s-ref" d="M545 18 h26"/><text x="579" y="22">無快取</text><path class="gridline" d="M64 318.0 H540"/><text x="54" y="322.0" text-anchor="end">$1</text><path class="gridline" d="M64 269.5 H540"/><text x="54" y="273.5" text-anchor="end">$2</text><path class="gridline" d="M64 205.3 H540"/><text x="54" y="209.3" text-anchor="end">$5</text><path class="gridline" d="M64 156.7 H540"/><text x="54" y="160.7" text-anchor="end">$10</text><path class="gridline" d="M64 108.2 H540"/><text x="54" y="112.2" text-anchor="end">$20</text><path class="gridline" d="M64 44.0 H540"/><text x="54" y="48.0" text-anchor="end">$50</text><text x="64.0" y="340" text-anchor="middle">10 s</text><text x="143.3" y="340" text-anchor="middle">2 分鐘</text><text x="222.7" y="340" text-anchor="middle">4.7 分鐘</text><text x="302.0" y="340" text-anchor="middle">6.7 分鐘</text><text x="381.3" y="340" text-anchor="middle">15 分鐘</text><text x="460.7" y="340" text-anchor="middle">40 分鐘</text><text x="540.0" y="340" text-anchor="middle">67 分鐘</text><text x="302" y="362" text-anchor="middle">操作員兩輪之間的間隔</text><path class="axis" d="M64 318 H540"/><path class="s-ref" d="M64 83.2 H540"/><text class="strong" x="552" y="84.2">無快取 $28.56</text><path class="s-hold" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 94.5 L381.3 94.5 L460.7 94.5 L540.0 94.5"/><circle class="f-hold ring" cx="64.0" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 10 秒：$1.84</title></circle><circle class="f-hold ring" cx="143.3" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 2 分鐘：$1.84</title></circle><circle class="f-hold ring" cx="222.7" cy="275.3" r="4.5"><title>僅 5 分鐘快取，間隔 4.7 分鐘：$1.84</title></circle><circle class="f-hold ring" cx="302.0" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 6.7 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="381.3" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 15 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="460.7" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 40 分鐘：$24.33</title></circle><circle class="f-hold ring" cx="540.0" cy="94.5" r="4.5"><title>僅 5 分鐘快取，間隔 67 分鐘：$24.33</title></circle><text class="strong" x="552" y="104.5">僅 5 分鐘快取 $24.33</text><path class="s-aux" d="M64.0 297.5 L143.3 297.5 L222.7 297.0 L302.0 278.0 L381.3 278.0 L460.7 277.2 L540.0 125.9"/><circle class="f-aux ring" cx="64.0" cy="297.5" r="4.5"><title>摘要，間隔 10 秒：$1.34</title></circle><circle class="f-aux ring" cx="143.3" cy="297.5" r="4.5"><title>摘要，間隔 2 分鐘：$1.34</title></circle><circle class="f-aux ring" cx="222.7" cy="297.0" r="4.5"><title>摘要，間隔 4.7 分鐘：$1.35</title></circle><circle class="f-aux ring" cx="302.0" cy="278.0" r="4.5"><title>摘要，間隔 6.7 分鐘：$1.77</title></circle><circle class="f-aux ring" cx="381.3" cy="278.0" r="4.5"><title>摘要，間隔 15 分鐘：$1.77</title></circle><circle class="f-aux ring" cx="460.7" cy="277.2" r="4.5"><title>摘要，間隔 40 分鐘：$1.79</title></circle><circle class="f-aux ring" cx="540.0" cy="125.9" r="4.5"><title>摘要，間隔 67 分鐘：$15.53</title></circle><text class="strong" x="552" y="129.9">摘要 $15.53</text><path class="s-go" d="M64.0 275.3 L143.3 275.3 L222.7 275.3 L302.0 267.4 L381.3 267.4 L460.7 267.4 L540.0 62.1"/><circle class="f-go ring" cx="64.0" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 10 秒：$1.84</title></circle><circle class="f-go ring" cx="143.3" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 2 分鐘：$1.84</title></circle><circle class="f-go ring" cx="222.7" cy="275.3" r="4.5"><title>完整歷史，有快取，間隔 4.7 分鐘：$1.84</title></circle><circle class="f-go ring" cx="302.0" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 6.7 分鐘：$2.06</title></circle><circle class="f-go ring" cx="381.3" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 15 分鐘：$2.06</title></circle><circle class="f-go ring" cx="460.7" cy="267.4" r="4.5"><title>完整歷史，有快取，間隔 40 分鐘：$2.06</title></circle><circle class="f-go ring" cx="540.0" cy="62.1" r="4.5"><title>完整歷史，有快取，間隔 67 分鐘：$38.60</title></circle><text class="strong" x="552" y="66.1">完整歷史，有快取 $38.60</text><text x="312.0" y="114.5">每一輪前都已過期</text><text x="64.0" y="263.3">$1.84</text></svg><!--/LONGHAUL_CHART--></div>
         </div>
       </div>
     </div>
@@ -456,12 +465,12 @@
         <article class="card card--row m-nolift span-4">
           <span class="step-num">1</span>
           <h3>提議附有引文的筆記</h3>
-          <p>代理從已儲存的來源起草筆記，而且只能寫入提議資料夾。</p>
+          <p>Agent 從已儲存的來源起草筆記，而且只能寫入提議資料夾。</p>
           <div class="panel panel--flush">
             <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 380px; --ax: 24px; --ay: calc(100% - 190px); --ay-sm: calc(100% - 190px)">
               <div class="ui ui-notify" data-ui="notify">
                 <ul class="ui-notify__list" data-notify-list>
-                  <li class="ui-note"><span class="ui-agent ui-note__av" aria-hidden="true"></span><span class="ui-note__text"><span class="ui-note__title">已提議 3 則筆記<time>剛剛</time></span><span class="ui-note__body">來自〈什麼是 AI 代理〉</span></span><span class="ui-btn ui-btn--sm ui-note__btn">開啟</span></li>
+                  <li class="ui-note"><span class="ui-agent ui-note__av" aria-hidden="true"></span><span class="ui-note__text"><span class="ui-note__title">已提議 3 則筆記<time>剛剛</time></span><span class="ui-note__body">來自〈什麼是 AI Agent〉</span></span><span class="ui-btn ui-btn--sm ui-note__btn">開啟</span></li>
                   <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg></span><span class="ui-note__text"><span class="ui-note__title">來源已儲存<time>4 分鐘</time></span><span class="ui-note__body">依原樣儲存，從未修改</span></span></li>
                   <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">已核准 2 則筆記<time>1 小時</time></span><span class="ui-note__body">來自〈Libghostty 1.0〉</span></span></li>
                 </ul>
@@ -496,7 +505,7 @@
         <article class="card card--row m-nolift span-4">
           <span class="step-num">3</span>
           <h3>核准權留給你</h3>
-          <p>由你閱讀差異（diff）。核准是代理不被允許執行的動作。</p>
+          <p>由你閱讀差異（diff）。核准是 Agent 不被允許執行的動作。</p>
           <div class="panel panel--flush">
             <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 480px; --ax: 24px; --ay: 32px; --ay-sm: 24px">
               <div class="ui ui-panel ui-diff" data-ui="diff-review">
@@ -510,8 +519,8 @@
                 </div>
                 <div class="ui-diff__hunk"><span>@@ -4,6 +4,9 @@</span></div>
                 <div class="ui-diff__lines">
-                  <div class="ui-diff__ln"><i>4</i><i>4</i><span class="ui-diff__code" data-i="0"><span class="k">## 代理是什麼</span></span></div>
-                  <div class="ui-diff__ln is-add"><i></i><i>5</i><span class="ui-diff__code" data-i="0">代理會在迴圈中執行工具。</span></div>
+                  <div class="ui-diff__ln"><i>4</i><i>4</i><span class="ui-diff__code" data-i="0"><span class="k">## Agent 是什麼</span></span></div>
+                  <div class="ui-diff__ln is-add"><i></i><i>5</i><span class="ui-diff__code" data-i="0">Agent 會在迴圈中執行工具。</span></div>
                   <div class="ui-diff__ln is-add is-target" data-diff-target><i></i><i>6</i><span class="ui-diff__code" data-i="0"><span class="s">&gt; "runs tools in a loop"</span></span></div>
                   <div class="ui-diff__thread">
                     <div class="ui-diff__by">
@@ -522,7 +531,7 @@
                   <div class="ui-diff__ln is-add"><i></i><i>7</i><span class="ui-diff__code" data-i="0">來源：11 月 10 日儲存，第 2 節。</span></div>
                   <div class="ui-diff__ln"><i>5</i><i>8</i><span class="ui-diff__code" data-i="0"></span></div>
                   <div class="ui-diff__ln"><i>6</i><i>9</i><span class="ui-diff__code" data-i="0"><span class="k">## 相關筆記</span></span></div>
-                  <div class="ui-diff__ln"><i>7</i><i>10</i><span class="ui-diff__code" data-i="0">- 代理式工程</span></div>
+                  <div class="ui-diff__ln"><i>7</i><i>10</i><span class="ui-diff__code" data-i="0">- Agentic 工程</span></div>
                   <div class="ui-diff__ln"><i>8</i><i>11</i><span class="ui-diff__code" data-i="0">- 工具使用與迴圈</span></div>
                   <div class="ui-diff__ln"><i>9</i><i>12</i><span class="ui-diff__code" data-i="0">- 上下文策略</span></div>
                 </div>
@@ -578,7 +587,7 @@
         </div>
         <div class="span-2 footer__col"><h3>示範</h3><ul><li><a href="#gate">審核佇列</a></li><li><a href="projects.html">所有專案</a></li><li><a href="#questions">問答</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="projects/fieldgate.html">Fieldgate</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="projects/longhaul.html">Longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="projects/longhaul.html">Longhaul</a></li></ul></div>
         <div class="span-2 footer__col"><h3>知識</h3><ul><li><a href="projects/knowledge.html">三道檢查</a></li></ul></div>
       </div>
       <div class="footer__legal">
@@ -631,7 +640,7 @@
     var pass = ok > 0 && bad / ok <= 0.05;
     out.verdict.textContent = pass ? '達成 5% 錯誤率目標' : '未達 5% 錯誤率目標';
     out.verdict.classList.toggle('ui-chip--accent', pass);
-    rows.forEach(function (r) { var held = +r.dataset.score < c, st = r.querySelector('[data-st]'); st.textContent = held ? '轉人工' : '已核准'; st.classList.toggle('is-held', held); st.classList.toggle('is-done', !held); });
+    rows.forEach(function (r) { var held = +r.dataset.score < c, st = r.querySelector('[data-st]'); st.textContent = held ? '人工審核' : '已核准'; st.classList.toggle('is-held', held); st.classList.toggle('is-done', !held); });
   }
   cut.addEventListener('input', draw);
   draw();

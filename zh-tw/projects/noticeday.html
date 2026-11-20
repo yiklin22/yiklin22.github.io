@@ -57,6 +57,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -79,7 +88,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
@@ -103,12 +112,12 @@
       <div class="hero-copy span-5">
         <h1 data-enter-whole id="case-h" class="case-h1">noticeday。<span class="muted">合約的最後解約日。</span></h1>
         <p class="t-lead">服務合約會自動續約，除非有人在合約期滿前 30 至 180 天發出通知。noticeday 讀取合約、標出每個日期所依據的條款，而且只在人工確認之後，才把期限放進行事曆。</p>
-        <div class="case-fig"><span class="case-fig__n">11 / 13</span><p>份律師有記錄通知期的測試合約，規則都讀對了，沒有讀錯，另有 2 次誤報。測試集是來自 SEC 申報文件的 102 份真實合約（CUAD）。</p></div>
+        <div class="case-fig"><span class="case-fig__n">11 / 13</span><p>份律師有記錄解約通知期的測試合約，規則都讀對了，沒有讀錯，另有 2 次誤報。測試集是來自 SEC 申報文件的 102 份真實合約（CUAD）。</p></div>
         <p class="case-limit"><b>限制：</b>只靠規則時，59 份測試合約中到期日只對 26 份，所以「最晚通知日」只有十分之三是對的。測試集已執行過七次。</p>
         <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/noticeday">開啟儲存庫</a>
       </div>
       <div class="hero-visual span-6 start-7">
-        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>合約</b></span></div><img src="../../assets/projects/noticeday.webp" alt="noticeday 針對一份授權與代管協議的審閱頁面：最晚通知日標示為未確認，每項事實（起始日、合約期、續約、通知期）都附上讀取來源的合約文字並以醒目標示。" width="1100" height="1350" loading="eager"></div></div></div></div>
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>合約</b></span></div><img src="../../assets/projects/noticeday.webp" alt="noticeday 針對一份授權與代管協議的審閱頁面：最晚通知日標示為未確認，每項事實（起始日、合約期、續約、解約通知期）都附上讀取來源的合約文字並以醒目標示。" width="1100" height="1350" loading="eager"></div></div></div></div>
       </div>
     </div></div>
   </section>
@@ -118,9 +127,9 @@
       <div class="section-head"><h2 id="soar-h">沒人追蹤的期限，從條款中讀出來</h2></div>
       <div class="grid soar">
           <article class="card span-3"><h3>情境</h3><p>小型企業簽下的垃圾清運、租賃與軟體合約，若沒有及時發出通知就會自動續約。沒有人追蹤通知日，期限一過，企業又被綁住一年。</p></article>
-          <article class="card span-3"><h3>阻礙</h3><p>錯的期限比沒有期限更糟。有標註的資料集 CUAD 來自大公司的 SEC 附件，而不是咖啡店的影印機租約，而且測試合約中有載明通知期的本來就不多。</p></article>
-          <article class="card span-3"><h3>行動</h3><p>規則讀取起始日、合約期、續約與通知期，每一項都顯示在其來源文字旁。一個可選的本機模型會以第二讀者的身分讀取每份上傳的檔案，而且只有經過確認的期限才會進入行事曆。</p></article>
-          <article class="card span-3"><h3>結果</h3><p>13 份測試合約中，通知期有 11 份正確、0 份錯誤、2 次誤報。行事曆檔案只包含已確認的期限，每個都會在 14 天前提醒。</p></article>
+          <article class="card span-3"><h3>阻礙</h3><p>錯的期限比沒有期限更糟。有標註的資料集 CUAD 來自大公司的 SEC 附件，而不是咖啡店的影印機租約，而且測試合約中有載明解約通知期的本來就不多。</p></article>
+          <article class="card span-3"><h3>行動</h3><p>規則讀取起始日、合約期、續約與解約通知期，每一項都顯示在其來源文字旁。一個可選的本機模型會以第二審閱者的身分讀取每份上傳的檔案，而且只有經過確認的期限才會進入行事曆。</p></article>
+          <article class="card span-3"><h3>結果</h3><p>13 份測試合約中，解約通知期有 11 份正確、0 份錯誤、2 次誤報。行事曆檔案只包含已確認的期限，每個都會在 14 天前提醒。</p></article>
       </div>
       <p class="case-cons"><b>條件限制：</b>一顆 CPU（可選的 4B 模型在 8 執行緒上每份合約約需 46 秒）、不用 API、經律師標註的公開資料（CUAD，CC BY 4.0）、一個含 102 份合約的測試集。</p>
     </div>
@@ -134,7 +143,7 @@
           <div class="case-step"><h3>決策</h3><p>只有當本機模型的引文確實出現在合約中，而且能從那段引文解析回同樣的值時，才會保留模型給的值。在開發集上，這道關卡擋掉了模型自行計算或改寫的值。代價是：有些正確的值也會被擋掉，顯示為「找不到」，交由人工填寫。</p></div>
           <div class="case-step"><h3>捨棄了什麼</h3><p>針對起始日的改進，讓開發集的正確數從 340 份中的 260 份升到 281 份；但在測試集上，規則反而少讀對了一個到期日。這項進步沒有延續下去，而測試集的錯誤也刻意不去研究，以免測試集左右規則的設計。</p></div>
         </div>
-        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>第二讀者</b></span></div><img src="../../assets/projects/noticeday-second-reader.webp" alt="第二讀者在一份策略聯盟協議上的結果：每個值都標示「第二讀者同意」，唯獨續約期間例外，模型在那裡引用了「will be automatically renewed for one (1) additional twelve month period」。" width="1100" height="1500" loading="lazy"></div></div></div></div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 620px; --ax: max(24px, 50% - 310px); --ay: 48px; --ay-sm: 24px"><div class="ui shot"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">localhost:8830 <i>/</i> <b>第二審閱者</b></span></div><img src="../../assets/projects/noticeday-second-reader.webp" alt="第二審閱者在一份策略聯盟協議上的結果：每個值都標示「第二審閱者同意」，唯獨續約期間例外，模型在那裡引用了「will be automatically renewed for one (1) additional twelve month period」。" width="1100" height="1500" loading="lazy"></div></div></div></div>
       </div>
     </div>
   </section>
@@ -144,7 +153,7 @@
       <div class="grid case-split">
         <div class="span-5 split-col">
           <h2 id="run-h">自己執行 noticeday</h2>
-          <p>需要 Python。第二讀者需要 Qwen3-4B-Instruct-2507 權重和約 8 GB 記憶體。一個 MCP 伺服器讓 Claude 能列出期限；它沒有任何寫入工具，所以確認動作只能在網頁應用程式中進行。</p>
+          <p>需要 Python。第二審閱者需要 Qwen3-4B-Instruct-2507 權重和約 8 GB 記憶體。一個 MCP 伺服器讓 Claude 能列出期限；它沒有任何寫入工具，所以確認動作只能在網頁應用程式中進行。</p>
           <div class="case-step"><h3>數字從哪裡來</h3><p><code>docs/results/test-*.md</code>，由 <code>scripts/evaluate.py --split test</code> 產生，列出每個欄位的原始計數、錯誤值與誤報。</p></div>
           <p class="split-col__end"><a class="link" href="https://github.com/yiklin22/noticeday">閱讀 README 與完整結果</a></p>
         </div>
@@ -177,7 +186,7 @@
         <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>

@@ -57,6 +57,15 @@
     .nav:not(.is-open) .nav__actions > .lang { display: flex; }
     .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
   }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..700&display=swap" rel="stylesheet">
 <style>
@@ -79,7 +88,7 @@
     <nav class="nav__links" aria-label="主選單">
       <div class="nav__item"><a class="nav__link" href="../index.html#gate">示範</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">文件</a></div>
-      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">代理</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agent</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">知識</a></div>
       <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">專案</a></div>
       <div class="nav__item"><a class="nav__link" href="../index.html#questions">問答</a></div>
@@ -195,7 +204,7 @@ on [PHONE_1]. Thanks, [PERSON_1]
         <div class="span-2 footer__col"><h3>網站</h3><ul><li><a href="../index.html">首頁</a></li><li><a href="../projects.html">所有專案</a></li><li><a href="../index.html#gate">審核佇列</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>代理</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="longhaul.html">longhaul</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>
