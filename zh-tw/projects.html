@@ -203,14 +203,6 @@
   .proof li { padding: var(--s-4) 0; border-top: 1px solid var(--line); color: var(--ink); }
   .proof li:last-child { border-bottom: 1px solid var(--line); }
   .proof b { font-weight: 500; }
-  /* In a team: the Marley card beside the steps an app takes to sign in, in the case pages' terminal */
-  #team .term.ui { background: #0b170c; color: #e9efe6; border: 1px solid rgb(255 255 255 / .1); border-radius: var(--r-md); overflow: hidden; align-self: start; }
-  #team .term .ui-win__bar { background: #142515; color: #9aa39a; border-bottom: 1px solid rgb(255 255 255 / .08); }
-  #team .term .ui-win__crumb { color: #9aa39a; }
-  #team .term .ui-win__crumb b { color: #e9efe6; }
-  #team .term pre { margin: 0; padding: 20px 24px 28px; font: 400 13px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
-  #team .term .p { color: #9aa39a; }
-  @media (max-width: 639px) { #team .term pre { font-size: 11px; padding: 14px 16px 20px; } }
   .proof .link { margin-left: var(--s-2); }
   /* a row of cards shares its line heights, so every figure starts on one line */
   /* from 1024: the name and sentence on the card's left half, the figure, limit and link on its right,
@@ -297,7 +289,7 @@
         <div class="grid proj">
           <article class="card span-6">
             <h3>fieldgate</h3>
-            <p>在 CPU 上讀取掃描收據，並決定哪些欄位可以不經人工。</p>
+            <p>讀取掃描收據，並決定哪些欄位可以不經人工。</p>
             <p class="proj__fig">在保留測試集的 200 張收據上，錯誤核准率從 17.2% 降到 2.7%。</p>
             <p>限制：只有一個收據資料集和一個模型。</p>
             <a class="card__link" href="projects/fieldgate.html">閱讀案例研究</a>
@@ -371,7 +363,7 @@
     <div class="wrap">
       <div class="group">
         <div class="section-head">
-          <h2 id="team-h">團隊合作。<span class="muted">我在共同產品中負責的部分。</span></h2>
+          <h2 id="team-h">團隊合作。<span class="muted">我在共同作品中負責的部分。</span></h2>
         </div>
         <div class="grid proj">
           <article class="card span-6">
@@ -381,15 +373,12 @@
             <p>限制：只在一個私人儲存庫的分支上，尚未上線；還沒有店主連接過應用程式。</p>
             <a class="card__link" href="projects/marley.html">閱讀案例研究</a>
           </article>
-          <div class="ui term span-6" role="img" aria-label="AI 應用程式讀取 Marley 前的步驟：/mcp 回應 401、取得中繼資料、註冊、以 PKCE 授權、店主允許、取得權杖，最後呼叫只限該餐廳的工具。"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>AI 應用程式的 OAuth</b></span></div><pre><span class="p"># the app asks first and is told where to sign in</span>
-POST /mcp                                  401
-GET  /.well-known/oauth-protected-resource/mcp
-GET  /.well-known/oauth-authorization-server
-POST /oauth/register     https redirect URIs only
-GET  /oauth/authorize    PKCE S256, resource = /mcp
-<span class="p"># on Marley: the owner signs in and taps Allow</span>
-POST /oauth/token        access 1 h, refresh rotates on use
-POST /mcp                tools/call spend, this restaurant only</pre></div>
+          <article class="card span-6">
+            <h3>稀疏編碼文獻回顧</h3>
+            <p>一份五人合寫的文獻回顧，探討稀疏自編碼器與轉碼器如何把語言模型的激活值拆解成人看得懂的特徵，再追蹤成電路。我負責撰寫限制、未來方向與結論。</p>
+            <p class="proj__fig">回顧了 36 份文獻；我負責的章節指出四項尚未解決的限制，從失效的潛在特徵到沒有標準答案可對照的評估指標。</p>
+            <p>限制：這是對已發表研究的回顧，為大學課程而寫，本身沒有進行實驗。</p>
+          </article>
         </div>
       </div>
     </div>
@@ -402,8 +391,6 @@ POST /mcp                tools/call spend, this restaurant only</pre></div>
           <h2 id="about-h">關於 Eagle</h2>
           <p class="t-lead">在任何人依賴系統之前，先量測它多常出錯的 AI 工程師。</p>
           <p>我打造處理文件、AI Agent 與私人資料的 AI 系統，然後測試它們。這裡的每個專案，都在回答一個我預期客戶在信任系統前會問的問題：我能查核它的成果嗎？它要花多少錢？會洩漏什麼？什麼時候仍需要人工檢查？</p>
-          <p>fieldgate、redactgate、ndacheck 和 noticeday 都在筆電 CPU 上，以開源模型和公開資料集執行。每份 README 都說明數字如何量測，以及這個數字「無法」說明什麼。</p>
-          <p>我想從事前線部署工程或 AI 工程工作：接手一項緩慢的人工檢查（收據、發票、NDA、續約日期），交付一個錯誤率經過量測的成果，並清楚說明它的極限在哪裡。</p>
         </div>
         <ul class="proof span-6 start-7" aria-label="技能，以及各自的證明">
           <li><b>評測設計：</b>在 ndacheck 中，門檻值以訓練資料擬合、分數旁附上基準，且測試集評分後不再做任何調整。<a class="link" href="projects/ndacheck.html">ndacheck</a></li>

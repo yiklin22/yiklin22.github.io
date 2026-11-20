@@ -128,10 +128,10 @@
       <div class="grid soar">
           <article class="card span-3"><h3>情境</h3><p>貸款表單、SWIFT 電文和客戶郵件裡都有姓名、卡號和 IBAN。把它們貼進雲端託管的模型，就是把個人資料送出電腦；受 GDPR 規範的歐盟企業必須為此負責。</p></article>
           <article class="card span-3"><h3>阻礙</h3><p>模型仍需要知道誰做了什麼，所以不能直接刪掉這些值。測試資料是合成的，它的標註也漏掉了一些真實個資，因此量得「遮蔽確實命中真實個資」的比例 65.1% 只是下限；人工抽查 100 個遮蔽後，估計接近 88%。</p></article>
-          <article class="card span-3"><h3>行動</h3><p>卡號和 IBAN 以模式比對找出，再用檢查碼確認；姓名和地點由一個在 CPU 上執行的多語言命名實體辨識（NER）模型找出；接著為每個值配一個編號標籤。規則在開發集上調校；英文測試集共執行五次，每個版本一次，每次執行後都不再調整。</p></article>
+          <article class="card span-3"><h3>行動</h3><p>卡號和 IBAN 以模式比對找出，再用檢查碼確認；姓名和地點由一個多語言命名實體辨識（NER）模型找出；接著為每個值配一個編號標籤。規則在開發集上調校；英文測試集共執行五次，每個版本一次，每次執行後都不再調整。</p></article>
           <article class="card span-3"><h3>結果</h3><p>在英文測試集上遮蔽了 84.1% 的值，Presidio 預設設定為 52.7%；在其他五種語言上也有 71.5% 以上。這是預設設定之間的比較：若為 Presidio 加上自訂辨識器，差距會縮小許多。</p></article>
       </div>
-      <p class="case-cons"><b>條件限制：</b>一顆 CPU、不用 API 金鑰、一個公開的合成資料集（Gretel 的 synthetic_pii_finance_multilingual）、標註漏掉了部分真實個資。</p>
+      <p class="case-cons"><b>條件限制：</b>不用 API 金鑰、一個公開的合成資料集（Gretel 的 synthetic_pii_finance_multilingual）、標註漏掉了部分真實個資。</p>
     </div>
   </section>
 

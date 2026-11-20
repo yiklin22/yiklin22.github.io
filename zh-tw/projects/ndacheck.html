@@ -127,11 +127,11 @@
       <div class="section-head"><h2 id="soar-h">十七個問題，各附其條款</h2></div>
       <div class="grid soar">
           <article class="card span-3"><h3>情境</h3><p>NDA 的第一輪審閱既慢又重複，而在禁止挖角員工的條款上答錯「是」代價很高。ContractNLI 提供 607 份真實 NDA，每份都針對 17 個問題標註了答案所依據的條款。</p></article>
-          <article class="card span-3"><h3>阻礙</h3><p>在只有 CPU 的預算下不做微調。一個現成、用來判斷條款是支持還是矛盾於某個陳述的模型（NLI），不會把「不得向任何第三方揭露」讀成與同一份 NDA 其他地方給予的許可相矛盾。</p></article>
+          <article class="card span-3"><h3>阻礙</h3><p>一個現成、用來判斷條款是支持還是矛盾於某個陳述的模型（NLI），不會把「不得向任何第三方揭露」讀成與同一份 NDA 其他地方給予的許可相矛盾。</p></article>
           <article class="card span-3"><h3>行動</h3><p>用關鍵字為每個問題挑出最多四個候選條款，由 NLI 模型為每個條款評分，再用在訓練集上逐題擬合的門檻值，把分數轉成是、否或未提及。</p></article>
           <article class="card span-3"><h3>結果</h3><p>在測試集上正確率 73.8%，常見答案基準為 65.9%，且在 17 個問題中有 15 個勝過基準。測試集評分過三次，每次之後都沒有做任何調整。</p></article>
       </div>
-      <p class="case-cons"><b>條件限制：</b>一顆 CPU、一個約 0.7 GB 的現成模型（cross-encoder/nli-deberta-v3-base）、不做微調、一個公開資料集（ContractNLI，CC BY 4.0）、僅限英文。</p>
+      <p class="case-cons"><b>條件限制：</b>一個約 0.7 GB 的現成模型（cross-encoder/nli-deberta-v3-base）、不做微調、一個公開資料集（ContractNLI，CC BY 4.0）、僅限英文。</p>
     </div>
   </section>
 

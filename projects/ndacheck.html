@@ -115,11 +115,11 @@
       <div class="section-head"><h2 id="soar-h">Seventeen questions, each with its clause</h2></div>
       <div class="grid soar">
           <article class="card span-3"><h3>Situation</h3><p>A first-pass NDA review is slow and repetitive, and a wrong &ldquo;yes&rdquo; on a clause banning the hiring of staff is costly. ContractNLI gives 607 real NDAs, each annotated for 17 questions with the clause behind the answer.</p></article>
-          <article class="card span-3"><h3>Obstacle</h3><p>No fine-tuning on a CPU-only budget. An off-the-shelf model that judges whether a clause supports or contradicts a statement (NLI) does not read &ldquo;shall not disclose to any third party&rdquo; as contradicting a permission granted elsewhere in the same NDA.</p></article>
+          <article class="card span-3"><h3>Obstacle</h3><p>An off-the-shelf model that judges whether a clause supports or contradicts a statement (NLI) does not read &ldquo;shall not disclose to any third party&rdquo; as contradicting a permission granted elsewhere in the same NDA.</p></article>
           <article class="card span-3"><h3>Action</h3><p>Keywords pick up to four candidate clauses per question, the NLI model scores each one, and thresholds fitted per question on the train split turn the scores into yes, no or not mentioned.</p></article>
           <article class="card span-3"><h3>Result</h3><p>73.8% right on the test split, against 65.9% for the usual-answer baseline, and ahead of it on 15 of 17 questions. The test set was scored three times, and nothing was tuned after any of them.</p></article>
       </div>
-      <p class="case-cons"><b>Constraints:</b> a CPU, an off-the-shelf model of about 0.7 GB (cross-encoder/nli-deberta-v3-base), no fine-tuning, a public dataset (ContractNLI, CC BY 4.0), English only.</p>
+      <p class="case-cons"><b>Constraints:</b> an off-the-shelf model of about 0.7 GB (cross-encoder/nli-deberta-v3-base), no fine-tuning, a public dataset (ContractNLI, CC BY 4.0), English only.</p>
     </div>
   </section>
 

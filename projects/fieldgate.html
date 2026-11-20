@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle: fieldgate</title>
-<meta name="description" content="fieldgate reads scanned receipts on a CPU and certifies which fields can skip a person. Case study: problem, decision, result and limit.">
+<meta name="description" content="fieldgate reads scanned receipts and certifies which fields can skip a person. Case study: problem, decision, result and limit.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Eagle: fieldgate">
-<meta property="og:description" content="fieldgate reads scanned receipts on a CPU and certifies which fields can skip a person. Case study: problem, decision, result and limit.">
+<meta property="og:description" content="fieldgate reads scanned receipts and certifies which fields can skip a person. Case study: problem, decision, result and limit.">
 <meta property="og:image" content="../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/fieldgate.html">
@@ -100,7 +100,7 @@
     <div class="wrap"><div class="hero-text grid hero-split">
       <div class="hero-copy span-5">
         <h1 id="case-h" class="case-h1">fieldgate. <span class="muted">Which receipt fields can skip a person.</span></h1>
-        <p class="t-lead">A finance team cannot sign off on &ldquo;the model said it was confident&rdquo;. fieldgate reads scanned receipts on a laptop CPU, scores every field, and picks, per field, the lowest score it may approve on its own while wrong approvals stay under a target.</p>
+        <p class="t-lead">A finance team cannot sign off on &ldquo;the model said it was confident&rdquo;. fieldgate reads scanned receipts, scores every field, and picks, per field, the lowest score it may approve on its own while wrong approvals stay under a target.</p>
         <div class="case-fig"><span class="case-fig__n">2.7%</span><p>of auto-approved values wrong on 200 receipts kept aside and never used to build or tune it (23 of 843), against 17.2% if every value were approved. At this 5% target, 47% of fields were approved alone; the rest went to a person.</p></div>
         <p class="case-limit"><b>Limit:</b> one receipt dataset and one 1.7B model. No whole receipt can skip review yet: the item count is right only 51% of the time.</p>
         <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/fieldgate">Open the repository</a>
@@ -141,7 +141,7 @@
           <article class="card span-3"><h3>Action</h3><p>Every value gets 20 signals of four kinds: how likely the model rated the value it wrote, whether 3 repeat answers agree, whether the number is printed on the page, whether the receipt adds up. 400 receipts are used only to choose each field&rsquo;s cut.</p></article>
           <article class="card span-3"><h3>Result</h3><p>On the 200 kept-aside receipts, wrong values among approved fields fell from 17.2% to 2.7% at a 5% target, with 47% of fields approved without review. Every field stayed under its target.</p></article>
       </div>
-      <p class="case-cons"><b>Constraints:</b> a laptop CPU, a 1.7-billion-parameter open model, no API key, a public dataset (CORD v2), about four hours for a full extraction run.</p>
+      <p class="case-cons"><b>Constraints:</b> a 1.7-billion-parameter open model, no API key, a public dataset (CORD v2).</p>
     </div>
   </section>
 

@@ -203,14 +203,6 @@
   .proof li { padding: var(--s-4) 0; border-top: 1px solid var(--line); color: var(--ink); }
   .proof li:last-child { border-bottom: 1px solid var(--line); }
   .proof b { font-weight: 500; }
-  /* In a team: the Marley card beside the steps an app takes to sign in, in the case pages' terminal */
-  #team .term.ui { background: #0b170c; color: #e9efe6; border: 1px solid rgb(255 255 255 / .1); border-radius: var(--r-md); overflow: hidden; align-self: start; }
-  #team .term .ui-win__bar { background: #142515; color: #9aa39a; border-bottom: 1px solid rgb(255 255 255 / .08); }
-  #team .term .ui-win__crumb { color: #9aa39a; }
-  #team .term .ui-win__crumb b { color: #e9efe6; }
-  #team .term pre { margin: 0; padding: 20px 24px 28px; font: 400 13px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
-  #team .term .p { color: #9aa39a; }
-  @media (max-width: 639px) { #team .term pre { font-size: 11px; padding: 14px 16px 20px; } }
   .proof .link { margin-left: var(--s-2); }
   /* a row of cards shares its line heights, so every figure starts on one line */
   /* from 1024: the name and sentence on the card's left half, the figure, limit and link on its right,
@@ -285,7 +277,7 @@
         <div class="grid proj">
           <article class="card span-6">
             <h3>fieldgate</h3>
-            <p>Reads scanned receipts on a CPU and decides which fields can skip a person.</p>
+            <p>Reads scanned receipts and decides which fields can skip a person.</p>
             <p class="proj__fig">Wrong approvals fell from 17.2% to 2.7% on 200 held-out receipts.</p>
             <p>Limit: one receipt dataset and one model.</p>
             <a class="card__link" href="projects/fieldgate.html">Read the case study</a>
@@ -359,7 +351,7 @@
     <div class="wrap">
       <div class="group">
         <div class="section-head">
-          <h2 id="team-h">In a team. <span class="muted">My part of a shared product.</span></h2>
+          <h2 id="team-h">In a team. <span class="muted">My part of shared work.</span></h2>
         </div>
         <div class="grid proj">
           <article class="card span-6">
@@ -369,15 +361,12 @@
             <p>Limit: a branch of a private repository, not launched; no owner has connected an app yet.</p>
             <a class="card__link" href="projects/marley.html">Read the case study</a>
           </article>
-          <div class="ui term span-6" role="img" aria-label="The steps an AI app takes before it reads Marley: a 401 from /mcp, the metadata, registration, authorize with PKCE, the owner allowing it, the token, then a tool call for that restaurant only."><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>OAuth for AI apps</b></span></div><pre><span class="p"># the app asks first and is told where to sign in</span>
-POST /mcp                                  401
-GET  /.well-known/oauth-protected-resource/mcp
-GET  /.well-known/oauth-authorization-server
-POST /oauth/register     https redirect URIs only
-GET  /oauth/authorize    PKCE S256, resource = /mcp
-<span class="p"># on Marley: the owner signs in and taps Allow</span>
-POST /oauth/token        access 1 h, refresh rotates on use
-POST /mcp                tools/call spend, this restaurant only</pre></div>
+          <article class="card span-6">
+            <h3>Sparse coding review</h3>
+            <p>A five-person review of how sparse autoencoders and transcoders split a language model&rsquo;s activations into features a person can read, then trace them into circuits. I wrote the limitations, future directions and conclusion.</p>
+            <p class="proj__fig">36 sources reviewed; my sections name four open limits, from dead latents to metrics with no ground truth.</p>
+            <p>Limit: a review of published work, written for a university course; it runs no experiments of its own.</p>
+          </article>
         </div>
       </div>
     </div>
@@ -390,8 +379,6 @@ POST /mcp                tools/call spend, this restaurant only</pre></div>
           <h2 id="about-h">About Eagle</h2>
           <p class="t-lead">AI engineer who measures how often a system is wrong before anyone relies on it.</p>
           <p>I build AI systems for documents, agents and private data, then test them. Each project here answers a question I expect a customer to ask before trusting one: can I check its work, what does it cost, what leaks, and when does a person still have to look.</p>
-          <p>fieldgate, redactgate, ndacheck and noticeday run on a laptop CPU with open models and public datasets. Each README says how its figure was measured and what the figure does not show.</p>
-          <p>I want forward-deployed or AI engineering work: take a slow manual check (receipts, invoices, NDAs, renewal dates), ship something whose errors are measured, and say plainly where it stops.</p>
         </div>
         <ul class="proof span-6 start-7" aria-label="Skills, each with its proof">
           <li><b>Evaluation design:</b> in ndacheck, thresholds fitted on training data, a baseline beside the score, and nothing tuned after the test set was scored. <a class="link" href="projects/ndacheck.html">ndacheck</a></li>

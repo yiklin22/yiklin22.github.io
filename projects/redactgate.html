@@ -116,10 +116,10 @@
       <div class="grid soar">
           <article class="card span-3"><h3>Situation</h3><p>Loan forms, SWIFT messages and customer emails carry names, cards and IBANs. Pasting them into a hosted model sends personal data off the machine, which EU businesses under GDPR have to answer for.</p></article>
           <article class="card span-3"><h3>Obstacle</h3><p>The model still needs to know who did what, so values cannot simply be deleted. The test data is synthetic and its labels miss some real personal data, so the measured share of masks that hit real personal data, 65.1%, is only a floor; a hand check of 100 masks put it near 88%.</p></article>
-          <article class="card span-3"><h3>Action</h3><p>Card numbers and IBANs found by pattern and confirmed by their check digits; names and places found by a multilingual name-finding (NER) model on CPU; then one numbered tag per value. Rules were tuned on dev; the English test split has been run five times, once per version, with no tuning after a run.</p></article>
+          <article class="card span-3"><h3>Action</h3><p>Card numbers and IBANs found by pattern and confirmed by their check digits; names and places found by a multilingual name-finding (NER) model; then one numbered tag per value. Rules were tuned on dev; the English test split has been run five times, once per version, with no tuning after a run.</p></article>
           <article class="card span-3"><h3>Result</h3><p>84.1% of values masked on the English test split, against 52.7% for Presidio&rsquo;s defaults, and 71.5% or more in five other languages. This compares defaults: Presidio with custom recognisers would close much of the gap.</p></article>
       </div>
-      <p class="case-cons"><b>Constraints:</b> a CPU, no API key, a public synthetic dataset (Gretel&rsquo;s synthetic_pii_finance_multilingual), labels that miss some real personal data.</p>
+      <p class="case-cons"><b>Constraints:</b> no API key, a public synthetic dataset (Gretel&rsquo;s synthetic_pii_finance_multilingual), labels that miss some real personal data.</p>
     </div>
   </section>
 

@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle：fieldgate</title>
-<meta name="description" content="fieldgate 在 CPU 上讀取掃描收據，並認證哪些欄位可以不經人工。案例研究：問題、決策、結果與限制。">
+<meta name="description" content="fieldgate 讀取掃描收據，並認證哪些欄位可以不經人工。案例研究：問題、決策、結果與限制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Eagle：fieldgate">
-<meta property="og:description" content="fieldgate 在 CPU 上讀取掃描收據，並認證哪些欄位可以不經人工。案例研究：問題、決策、結果與限制。">
+<meta property="og:description" content="fieldgate 讀取掃描收據，並認證哪些欄位可以不經人工。案例研究：問題、決策、結果與限制。">
 <meta property="og:image" content="../../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/fieldgate.html">
@@ -112,7 +112,7 @@
     <div class="wrap"><div class="hero-text grid hero-split">
       <div class="hero-copy span-5">
         <h1 data-enter-whole id="case-h" class="case-h1">fieldgate。<span class="muted">哪些收據欄位可以不經人工。</span></h1>
-        <p class="t-lead">財務團隊不能憑「模型說它很有把握」就簽核。fieldgate 在筆電 CPU 上讀取掃描收據、為每個欄位評分，並為每個欄位挑出它可以自行核准的最低分數，同時讓錯誤核准率維持在目標以下。</p>
+        <p class="t-lead">財務團隊不能憑「模型說它很有把握」就簽核。fieldgate 讀取掃描收據、為每個欄位評分，並為每個欄位挑出它可以自行核准的最低分數，同時讓錯誤核准率維持在目標以下。</p>
         <div class="case-fig"><span class="case-fig__n">2.7%</span><p>的自動核准值是錯的；這是在 200 張保留下來、從未用於建構或調校的收據上量得（843 個中有 23 個），若全部核准則是 17.2%。在這個 5% 的目標下，47% 的欄位直接核准，其餘交給人工。</p></div>
         <p class="case-limit"><b>限制：</b>只有一個收據資料集和一個 1.7B 模型。目前還沒有整張收據能跳過審核：品項數只有 51% 的時候是對的。</p>
         <a class="btn btn--primary case-repo" href="https://github.com/yiklin22/fieldgate">開啟儲存庫</a>
@@ -153,7 +153,7 @@
           <article class="card span-3"><h3>行動</h3><p>每個值都有四類共 20 個訊號：模型對自己寫下的值給出多高的機率、3 次重複作答是否一致、這個數字是否印在頁面上、收據是否加總相符。另有 400 張收據只用來為每個欄位挑選門檻。</p></article>
           <article class="card span-3"><h3>結果</h3><p>在 200 張保留的收據上，以 5% 為目標時，已核准欄位中的錯誤值比例從 17.2% 降到 2.7%，且 47% 的欄位無需審核即獲核准。每個欄位都維持在目標以下。</p></article>
       </div>
-      <p class="case-cons"><b>條件限制：</b>一台筆電的 CPU、一個 17 億參數的開源模型、不用 API 金鑰、一個公開資料集（CORD v2），完整擷取一次約需四小時。</p>
+      <p class="case-cons"><b>條件限制：</b>一個 17 億參數的開源模型、不用 API 金鑰、一個公開資料集（CORD v2）。</p>
     </div>
   </section>
 
