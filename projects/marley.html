@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="sharp" data-ground="sage" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eagle: Marley</title>
+<meta name="description" content="Marley lets Claude and ChatGPT read a caf&eacute;&rsquo;s invoice prices through MCP once its owner allows the app with OAuth 2.1. Case study: problem, decision, result and limit.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eagle: Marley">
+<meta property="og:description" content="Marley lets Claude and ChatGPT read a caf&eacute;&rsquo;s invoice prices through MCP once its owner allows the app with OAuth 2.1. Case study: problem, decision, result and limit.">
+<meta property="og:image" content="../share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/marley.html">
+<link rel="alternate" hreflang="zh-Hant-TW" href="https://yiklin22.github.io/zh-tw/projects/marley.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1f10">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..700&family=Figtree:wght@400..600&family=Martian+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/system.css">
+<link rel="stylesheet" href="../assets/ui/cards.css">
+<link rel="stylesheet" href="../assets/motion/motion.css">
+<link rel="stylesheet" href="../assets/layout/layout.css">
+<style>
+:root {
+  --p-bg: #0f1f10; --p-surface: #162a17; --p-ink: #ffffff; --p-muted: #9aa39a;
+  --p-accent: #c6f19d; --p-accent-ink: #0f1f10; --p-action: #c6f19d; --p-action-ink: #0f1f10;
+  --p-inv-bg: #ffffff; --p-inv-surface: #ecedec; --p-inv-ink: #0f1f10; --p-inv-muted: #606c60;
+  --p-inv-accent: #0f1f10; --p-inv-accent-ink: #ffffff; --p-inv-action: #0f1f10; --p-inv-action-ink: #ffffff;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.9;
+  --t-h2: clamp(28px, 1.14vw + 23.5px, 40px);
+}
+</style>
+<link rel="stylesheet" href="../assets/ui/base.css">
+<link rel="stylesheet" href="../assets/ui/window/fragment.css">
+<link rel="stylesheet" href="case.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&text=%E7%B9%81%E4%B8%AD&display=swap" rel="stylesheet">
+<style>
+  /* the language switch at the right of the bar: EN | 繁中, the page's own language in ink and underlined */
+  .lang { display: flex; align-items: center; font-size: 14px; font-weight: 500; line-height: 1; }
+  .lang__opt { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--muted); white-space: nowrap; transition: color var(--dur) var(--ease); }
+  .lang__opt + .lang__opt::before { content: ""; width: 1px; height: 14px; margin: 0 8px 0 -8px; background: var(--line-strong); }
+  .lang__opt:hover, .lang__opt:focus-visible, .lang__opt[aria-current] { color: var(--ink); }
+  .lang__opt[aria-current] { text-decoration: underline 2px; text-underline-offset: 6px; }
+  .lang__opt[lang="zh-Hant-TW"] { font-family: var(--font-text), "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+  @media (max-width: 1023px) {
+    .nav:not(.is-open) .nav__actions > .lang { display: flex; }
+    .nav.is-open .nav__actions > .lang { justify-content: center; order: 2; }
+  }
+  @media (max-width: 639px) {
+    /* a phone's bar shows only the other language, so the menu button keeps its place */
+    .nav:not(.is-open) .lang__opt[aria-current] { display: none; }
+    .nav:not(.is-open) .lang__opt + .lang__opt::before { display: none; }
+  }
+  @media (max-width: 359px) {
+    /* under 360 the bar's button would push the menu button off screen; the hero's button and the menu sheet carry it */
+    .nav:not(.is-open) .nav__actions > .btn { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="../index.html"><span class="mark mark--initial" aria-hidden="true">E</span>Eagle</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="../index.html#gate">Demo</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#fieldgate">Documents</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#longhaul">Agents</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#knowledge">Knowledge</a></div>
+      <div class="nav__item"><a class="nav__link" href="../projects.html" aria-current="page">Projects</a></div>
+      <div class="nav__item"><a class="nav__link" href="../index.html#questions">Questions</a></div>
+    </nav>
+    <div class="nav__actions">
+      <div class="lang" role="group" aria-label="Language / 語言" translate="no">
+        <a class="lang__opt" href="marley.html" lang="en" hreflang="en" aria-current="true">EN</a>
+        <a class="lang__opt" href="../zh-tw/projects/marley.html" lang="zh-Hant-TW" hreflang="zh-Hant-TW">繁中</a>
+      </div>
+      <a class="btn btn--primary" href="https://github.com/yiklin22">See my GitHub</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" data-enter aria-labelledby="case-h">
+    <div class="wrap"><div class="hero-text grid hero-split">
+      <div class="hero-copy span-5">
+        <h1 id="case-h" class="case-h1">Marley. <span class="muted">Claude and ChatGPT, let in by the owner.</span></h1>
+        <p class="t-lead">Marley is a team product that reads a caf&eacute;&rsquo;s supplier invoices and tracks what each item costs. My part lets Claude, ChatGPT and other MCP clients read one restaurant&rsquo;s prices through six read-only tools, after its owner signs in and allows the app with OAuth 2.1.</p>
+        <div class="case-fig"><span class="case-fig__n">73 of 73</span><p>tests on the sign-in flow and /mcp pass, among them a reused code or refresh token revoking the grant, a wrong PKCE verifier refused, and a token that reads only the restaurant that allowed it.</p></div>
+        <p class="case-limit"><b>Limit:</b> the work is on a branch of a private repository, not merged or launched, and no restaurant owner has connected an app yet.</p>
+      </div>
+      <div class="hero-visual span-6 start-7">
+        <div class="frame frame--lit case-frame"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="Selected lines from the Marley OAuth and MCP test run: an owner connects an app, a token reads only its own restaurant, reused codes and refresh tokens revoke the grant; 73 passed."><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>tests/test_mcp.py</b></span></div><pre>$ python -m pytest tests/test_mcp.py -v
+test_an_owner_connects_an_app_that_then_reads_their_business PASSED
+test_a_token_reads_only_the_business_that_allowed_it PASSED
+test_guests_and_the_signed_out_cannot_allow PASSED
+test_authorize_refuses_another_resource[https://evil.example/mcp] PASSED
+test_a_consent_link_only_works_in_the_browser_it_was_opened_in PASSED
+test_wrong_pkce_verifier_is_refused PASSED
+test_a_reused_code_revokes_what_it_gave PASSED
+test_refresh_tokens_rotate_and_a_reused_one_revokes_the_grant PASSED
+test_mcp_refuses_writes_and_bad_arguments PASSED
+...
+73 passed in 7.51s</pre></div></div></div></div>
+      </div>
+    </div></div>
+  </section>
+  <section class="section" id="soar" style="--hm: 2" aria-labelledby="soar-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="soar-h">A restaurant&rsquo;s prices, read only by the apps its owner allows</h2></div>
+      <div class="grid soar">
+          <article class="card span-3"><h3>Situation</h3><p>Owners already ask Claude or ChatGPT about their business, but their invoices and prices live in Marley. An MCP endpoint lets those apps read them directly, instead of the owner copying figures across.</p></article>
+          <article class="card span-3"><h3>Obstacle</h3><p>Spending data is private, and any app can register itself under any name. Each app has to be allowed by the restaurant&rsquo;s owner, see only that restaurant, and lose access the moment the owner disconnects it.</p></article>
+          <article class="card span-3"><h3>Action</h3><p>OAuth 2.1 on the MCP SDK&rsquo;s handlers: dynamic registration with https redirects only, PKCE S256 required, the resource pinned to this server&rsquo;s /mcp, and a five-minute one-time code bound to the client, redirect, PKCE challenge and restaurant.</p></article>
+          <article class="card span-3"><h3>Result</h3><p>73 tests pass. Codes, tokens and client secrets are stored hashed, refresh tokens rotate on every use, and owners list and disconnect apps under Account. A separate review of the branch found issues, fixed and tested on the same branch.</p></article>
+      </div>
+      <p class="case-cons"><b>Constraints:</b> FastAPI and the MCP Python SDK, the existing emailed-code sign-in, guest sessions that must never connect an app, and everything off unless PUBLIC_URL is set.</p>
+    </div>
+  </section>
+  <section class="section" id="decision" aria-labelledby="decision-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="decision-h">Consent happens on Marley, in the browser that asked</h2>
+          <div class="case-step"><h3>The decision</h3><p>Authorize sends the browser to Marley&rsquo;s connect screen, where only an owner with an account signs in with the emailed code and taps Allow; a guest never can. A cookie set at authorize ties the request to that browser, and Allow names the restaurant the screen showed, so a browser that has since signed in to another restaurant is asked again.</p></div>
+          <div class="case-step"><h3>What it refuses</h3><p>Any tool that writes: the six tools are the read-only ones Marley&rsquo;s own chat uses. Errors go back only to the known Claude and ChatGPT callbacks; for any other app they stay on Marley, and the consent screen warns when the app&rsquo;s redirect host is not claude.ai or chatgpt.com.</p></div>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage stage--fade-b"><div class="at-rise fit to-edge" style="--fit-max: 600px; --ax: max(24px, 50% - 300px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="The steps an AI app takes before it reads Marley: a 401 from /mcp, the metadata, registration, authorize with PKCE, the owner allowing it, the token, then a tool call for that restaurant only."><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>OAuth for AI apps</b></span></div><pre><span class="p"># the app asks first and is told where to sign in</span>
+POST /mcp                                  401
+GET  /.well-known/oauth-protected-resource/mcp
+GET  /.well-known/oauth-authorization-server
+POST /oauth/register     https redirect URIs only
+GET  /oauth/authorize    PKCE S256, resource = /mcp
+<span class="p"># on Marley: the owner signs in and taps Allow</span>
+POST /oauth/token        access 1 h, refresh rotates on use
+POST /mcp                tools/call spend, this restaurant only</pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="run" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid case-split">
+        <div class="span-5 split-col">
+          <h2 id="run-h">How it was checked</h2>
+          <p>The repository is private. Marley is a team product, and this page covers the part I built: eight commits, from a read-only MCP prototype to the fixes after the OAuth review.</p>
+          <div class="case-step"><h3>Where the figure comes from</h3><p><code>backend/tests/test_mcp.py</code>: 48 test functions, 73 cases with their parameters, run with pytest on 20 November 2026.</p></div>
+        </div>
+        <div class="frame frame--lit case-frame span-7 start-6"><div class="stage"><div class="at-rise fit" style="--fit-max: 660px; --ax: max(24px, 50% - 330px); --ay: 48px; --ay-sm: 24px"><div class="ui term" role="img" aria-label="The six read-only tools Marley offers an AI app at /mcp."><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>/mcp tools</b></span></div><pre><span class="p"># read-only, the same tools Marley&rsquo;s own chat answers with</span>
+find_items
+price_history
+spend
+find_invoices
+savings_opportunities
+supplier_comparison</pre></div></div></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Open to forward-deployed and AI engineering roles</h2>
+        <p><a class="link" href="../projects.html">Back to all nine projects</a></p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="https://github.com/yiklin22">See my GitHub<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="../index.html">Eagle</a>
+          <p class="footer__lede wide-only">AI systems, built and then measured.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Site</h3><ul><li><a href="../index.html">Home</a></li><li><a href="../projects.html">All projects</a></li><li><a href="../index.html#gate">Review queue</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Documents</h3><ul><li><a href="fieldgate.html">fieldgate</a></li><li><a href="ndacheck.html">ndacheck</a></li><li><a href="noticeday.html">noticeday</a></li><li><a href="invoice-check.html">invoice-check</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Safety</h3><ul><li><a href="redactgate.html">redactgate</a></li><li><a href="mcp-pin.html">mcp-pin</a></li><li><a href="knowledge.html">Knowledge system</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agents</h3><ul><li><a href="longhaul.html">longhaul</a></li><li><a href="marley.html">Marley</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Eagle &nbsp; Product names and logos are trademarks of their owners</span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../assets/system.js"></script>
+<script type="module" src="../assets/motion/motion.js"></script>
+<script type="module" src="../assets/layout/layout.js"></script>
+</body>
+</html>

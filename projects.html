@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle: projects</title>
-<meta name="description" content="Eight AI projects by Eagle, each with one measured figure, one stated limit and a case study.">
+<meta name="description" content="Nine AI projects by Eagle, each with one measured figure, one stated limit and a case study.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Eagle: projects">
-<meta property="og:description" content="Eight AI projects, each with one measured figure and one stated limit.">
+<meta property="og:description" content="Nine AI projects, each with one measured figure and one stated limit.">
 <meta property="og:image" content="share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects.html">
@@ -203,6 +203,14 @@
   .proof li { padding: var(--s-4) 0; border-top: 1px solid var(--line); color: var(--ink); }
   .proof li:last-child { border-bottom: 1px solid var(--line); }
   .proof b { font-weight: 500; }
+  /* In a team: the Marley card beside the steps an app takes to sign in, in the case pages' terminal */
+  #team .term.ui { background: #0b170c; color: #e9efe6; border: 1px solid rgb(255 255 255 / .1); border-radius: var(--r-md); overflow: hidden; align-self: start; }
+  #team .term .ui-win__bar { background: #142515; color: #9aa39a; border-bottom: 1px solid rgb(255 255 255 / .08); }
+  #team .term .ui-win__crumb { color: #9aa39a; }
+  #team .term .ui-win__crumb b { color: #e9efe6; }
+  #team .term pre { margin: 0; padding: 20px 24px 28px; font: 400 13px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  #team .term .p { color: #9aa39a; }
+  @media (max-width: 639px) { #team .term pre { font-size: 11px; padding: 14px 16px 20px; } }
   .proof .link { margin-left: var(--s-2); }
   /* a row of cards shares its line heights, so every figure starts on one line */
   /* from 1024: the name and sentence on the card's left half, the figure, limit and link on its right,
@@ -347,6 +355,33 @@
       </div>
     </div>
   </section>
+  <section class="section" id="team" aria-labelledby="team-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="team-h">In a team. <span class="muted">My part of a shared product.</span></h2>
+        </div>
+        <div class="grid proj">
+          <article class="card span-6">
+            <h3>Marley</h3>
+            <p>Lets Claude and ChatGPT read a caf&eacute;&rsquo;s invoice prices through MCP, once its owner signs in and allows the app with OAuth 2.1. My part of a team product.</p>
+            <p class="proj__fig">73 of 73 tests pass on the sign-in flow and /mcp, from token reuse to another restaurant&rsquo;s data.</p>
+            <p>Limit: a branch of a private repository, not launched; no owner has connected an app yet.</p>
+            <a class="card__link" href="projects/marley.html">Read the case study</a>
+          </article>
+          <div class="ui term span-6" role="img" aria-label="The steps an AI app takes before it reads Marley: a 401 from /mcp, the metadata, registration, authorize with PKCE, the owner allowing it, the token, then a tool call for that restaurant only."><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>OAuth for AI apps</b></span></div><pre><span class="p"># the app asks first and is told where to sign in</span>
+POST /mcp                                  401
+GET  /.well-known/oauth-protected-resource/mcp
+GET  /.well-known/oauth-authorization-server
+POST /oauth/register     https redirect URIs only
+GET  /oauth/authorize    PKCE S256, resource = /mcp
+<span class="p"># on Marley: the owner signs in and taps Allow</span>
+POST /oauth/token        access 1 h, refresh rotates on use
+POST /mcp                tools/call spend, this restaurant only</pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section" id="about" style="--hm: 2" aria-labelledby="about-h">
     <div class="wrap">
@@ -362,6 +397,7 @@
           <li><b>Evaluation design:</b> in ndacheck, thresholds fitted on training data, a baseline beside the score, and nothing tuned after the test set was scored. <a class="link" href="projects/ndacheck.html">ndacheck</a></li>
           <li><b>Human review routing:</b> each receipt field gets its own approval cut, chosen so wrong approvals stay under target; 17.2% fell to 2.7%. <a class="link" href="projects/fieldgate.html">fieldgate</a></li>
           <li><b>LLM security:</b> 18 of 18 red-team attacks stopped by code; MCP tool definitions locked in CI. <a class="link" href="projects/knowledge.html">Knowledge system</a> <a class="link" href="projects/mcp-pin.html">mcp-pin</a></li>
+          <li><b>OAuth for AI apps:</b> Claude and ChatGPT sign in with OAuth 2.1 and PKCE, and each token reads one restaurant&rsquo;s data through read-only MCP tools. <a class="link" href="projects/marley.html">Marley</a></li>
           <li><b>Privacy engineering:</b> personal data masked on the user&rsquo;s machine before the prompt, 84.1% against Presidio&rsquo;s 52.7%. <a class="link" href="projects/redactgate.html">redactgate</a></li>
           <li><b>Agent cost:</b> a 120-turn shift on Inspect AI priced with cache reads and writes counted apart. <a class="link" href="projects/longhaul.html">longhaul</a></li>
           <li><b>Building software:</b> noticeday has a read-only MCP server that lets Claude list deadlines; invoice-check has accounts that cannot see each other&rsquo;s invoices and 132 tests on a real PostgreSQL. <a class="link" href="projects/noticeday.html">noticeday</a> <a class="link" href="projects/invoice-check.html">invoice-check</a></li>
@@ -389,7 +425,7 @@
         <div class="span-2 footer__col"><h3>Demo</h3><ul><li><a href="index.html#gate">Review queue</a></li><li><a href="projects.html">All projects</a></li><li><a href="index.html#questions">Questions</a></li></ul></div>
         <div class="span-2 footer__col"><h3>Documents</h3><ul><li><a href="projects/fieldgate.html">fieldgate</a></li><li><a href="projects/ndacheck.html">ndacheck</a></li><li><a href="projects/noticeday.html">noticeday</a></li><li><a href="projects/invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>Safety</h3><ul><li><a href="projects/redactgate.html">redactgate</a></li><li><a href="projects/mcp-pin.html">mcp-pin</a></li><li><a href="projects/knowledge.html">Knowledge system</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Agents</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agents</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li><li><a href="projects/marley.html">Marley</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; Product names and logos are trademarks of their owners</span>

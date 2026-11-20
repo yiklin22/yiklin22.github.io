@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eagle：專案</title>
-<meta name="description" content="Eagle 的八個 AI 專案，每個都附一個實測數字、一項明說的限制和一篇案例研究。">
+<meta name="description" content="Eagle 的九個 AI 專案，每個都附一個實測數字、一項明說的限制和一篇案例研究。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Eagle：專案">
-<meta property="og:description" content="八個 AI 專案，每個都附一個實測數字和一項明說的限制。">
+<meta property="og:description" content="九個 AI 專案，每個都附一個實測數字和一項明說的限制。">
 <meta property="og:image" content="../share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects.html">
@@ -203,6 +203,14 @@
   .proof li { padding: var(--s-4) 0; border-top: 1px solid var(--line); color: var(--ink); }
   .proof li:last-child { border-bottom: 1px solid var(--line); }
   .proof b { font-weight: 500; }
+  /* In a team: the Marley card beside the steps an app takes to sign in, in the case pages' terminal */
+  #team .term.ui { background: #0b170c; color: #e9efe6; border: 1px solid rgb(255 255 255 / .1); border-radius: var(--r-md); overflow: hidden; align-self: start; }
+  #team .term .ui-win__bar { background: #142515; color: #9aa39a; border-bottom: 1px solid rgb(255 255 255 / .08); }
+  #team .term .ui-win__crumb { color: #9aa39a; }
+  #team .term .ui-win__crumb b { color: #e9efe6; }
+  #team .term pre { margin: 0; padding: 20px 24px 28px; font: 400 13px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  #team .term .p { color: #9aa39a; }
+  @media (max-width: 639px) { #team .term pre { font-size: 11px; padding: 14px 16px 20px; } }
   .proof .link { margin-left: var(--s-2); }
   /* a row of cards shares its line heights, so every figure starts on one line */
   /* from 1024: the name and sentence on the card's left half, the figure, limit and link on its right,
@@ -359,6 +367,33 @@
       </div>
     </div>
   </section>
+  <section class="section" id="team" aria-labelledby="team-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="team-h">團隊合作。<span class="muted">我在共同產品中負責的部分。</span></h2>
+        </div>
+        <div class="grid proj">
+          <article class="card span-6">
+            <h3>Marley</h3>
+            <p>讓 Claude 和 ChatGPT 透過 MCP 讀取一家餐廳的發票價格，前提是店主先登入，並以 OAuth 2.1 允許該應用程式。這是我在一個團隊產品中負責的部分。</p>
+            <p class="proj__fig">登入流程與 /mcp 的 73 項測試全數通過，從權杖重複使用到讀取其他餐廳的資料都有涵蓋。</p>
+            <p>限制：只在一個私人儲存庫的分支上，尚未上線；還沒有店主連接過應用程式。</p>
+            <a class="card__link" href="projects/marley.html">閱讀案例研究</a>
+          </article>
+          <div class="ui term span-6" role="img" aria-label="AI 應用程式讀取 Marley 前的步驟：/mcp 回應 401、取得中繼資料、註冊、以 PKCE 授權、店主允許、取得權杖，最後呼叫只限該餐廳的工具。"><div class="ui-win__bar"><span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ui-win__crumb">Marley <i>/</i> <b>AI 應用程式的 OAuth</b></span></div><pre><span class="p"># the app asks first and is told where to sign in</span>
+POST /mcp                                  401
+GET  /.well-known/oauth-protected-resource/mcp
+GET  /.well-known/oauth-authorization-server
+POST /oauth/register     https redirect URIs only
+GET  /oauth/authorize    PKCE S256, resource = /mcp
+<span class="p"># on Marley: the owner signs in and taps Allow</span>
+POST /oauth/token        access 1 h, refresh rotates on use
+POST /mcp                tools/call spend, this restaurant only</pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section" id="about" style="--hm: 2" aria-labelledby="about-h">
     <div class="wrap">
@@ -374,6 +409,7 @@
           <li><b>評測設計：</b>在 ndacheck 中，門檻值以訓練資料擬合、分數旁附上基準，且測試集評分後不再做任何調整。<a class="link" href="projects/ndacheck.html">ndacheck</a></li>
           <li><b>人工審核分流：</b>每個收據欄位都有自己的核准門檻，選定標準是讓錯誤核准率維持在目標以下；從 17.2% 降到 2.7%。<a class="link" href="projects/fieldgate.html">fieldgate</a></li>
           <li><b>LLM 資安：</b>18 次紅隊攻擊全數被程式碼擋下；MCP 工具定義在 CI 中鎖定。<a class="link" href="projects/knowledge.html">知識系統</a> <a class="link" href="projects/mcp-pin.html">mcp-pin</a></li>
+          <li><b>AI 應用程式的 OAuth：</b>Claude 和 ChatGPT 以 OAuth 2.1 加 PKCE 登入，每個權杖只能透過唯讀的 MCP 工具讀取一家餐廳的資料。<a class="link" href="projects/marley.html">Marley</a></li>
           <li><b>隱私工程：</b>個人資料在送出提示詞前就於使用者的電腦上遮蔽，84.1% 對比 Presidio 的 52.7%。<a class="link" href="projects/redactgate.html">redactgate</a></li>
           <li><b>Agent 成本：</b>在 Inspect AI 上為一個 120 輪的班次計算成本，快取讀取與寫入分開計算。<a class="link" href="projects/longhaul.html">longhaul</a></li>
           <li><b>軟體開發：</b>noticeday 有一個唯讀的 MCP 伺服器，讓 Claude 列出期限；invoice-check 的帳號彼此看不到對方的發票，並有 132 項在真實 PostgreSQL 上執行的測試。<a class="link" href="projects/noticeday.html">noticeday</a> <a class="link" href="projects/invoice-check.html">invoice-check</a></li>
@@ -401,7 +437,7 @@
         <div class="span-2 footer__col"><h3>示範</h3><ul><li><a href="index.html#gate">審核佇列</a></li><li><a href="projects.html">所有專案</a></li><li><a href="index.html#questions">問答</a></li></ul></div>
         <div class="span-2 footer__col"><h3>文件</h3><ul><li><a href="projects/fieldgate.html">fieldgate</a></li><li><a href="projects/ndacheck.html">ndacheck</a></li><li><a href="projects/noticeday.html">noticeday</a></li><li><a href="projects/invoice-check.html">invoice-check</a></li></ul></div>
         <div class="span-2 footer__col"><h3>資安</h3><ul><li><a href="projects/redactgate.html">redactgate</a></li><li><a href="projects/mcp-pin.html">mcp-pin</a></li><li><a href="projects/knowledge.html">知識系統</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Agent</h3><ul><li><a href="projects/longhaul.html">longhaul</a></li><li><a href="projects/marley.html">Marley</a></li></ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Eagle &nbsp; 產品名稱與標誌為其各自所有者之商標</span>
