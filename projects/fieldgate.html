@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="en" href="https://yiklin22.github.io/projects/fieldgate.html">
 <link rel="alternate" hreflang="zh-Hant-TW" href="https://yiklin22.github.io/zh-tw/projects/fieldgate.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0f1f10">
+<meta name="theme-color" content="#071008">
 <meta name="site-kind" content="software">
 <meta name="page-type" content="software">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +43,9 @@
 <link rel="stylesheet" href="../assets/ui/window/fragment.css">
 <link rel="stylesheet" href="../assets/ui/doc/fragment.css">
 <link rel="stylesheet" href="case.css">
+<link rel="stylesheet" href="../assets/site/fx.css">
+<script>/* fx: hold the lime cover when arriving from a page wipe; fx.js lifts it */
+try{var d=document.documentElement,q=matchMedia('(prefers-reduced-motion: reduce)').matches,w=Date.now()-(+sessionStorage.getItem('fx-wipe')||0)<4000;if(!q&&w)d.classList.add('fx-wiping');setTimeout(function(){d.classList.remove('fx-wiping')},3000)}catch(e){}</script>
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&text=%E7%B9%81%E4%B8%AD&display=swap" rel="stylesheet">
@@ -212,5 +215,9 @@
 <script type="module" src="../assets/system.js"></script>
 <script type="module" src="../assets/motion/motion.js"></script>
 <script type="module" src="../assets/layout/layout.js"></script>
+<script defer src="../assets/vendor/gsap-3.13.0/gsap.min.js"></script>
+<script defer src="../assets/vendor/gsap-3.13.0/ScrollTrigger.min.js"></script>
+<script defer src="../assets/vendor/gsap-3.13.0/SplitText.min.js"></script>
+<script defer src="../assets/site/fx.js"></script>
 </body>
 </html>
