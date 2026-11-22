@@ -1,0 +1,239 @@
+{
+ "schemaVersion": 2,
+ "generatedAt": "2026-11-13T04:27:18.646002+00:00",
+ "title": "Design System: Eagle Review Desk",
+ "extensions": {
+  "colorMeta": {
+   "forest": {
+    "role": "neutral",
+    "displayName": "Forest",
+    "canonical": "#0f1f10",
+    "tonalRamp": [
+     "#040804",
+     "#081008",
+     "#0b170c",
+     "#0f1f10",
+     "#4b574c",
+     "#878f88",
+     "#c3c7c3",
+     "#e7e9e7"
+    ]
+   },
+   "forest-surface": {
+    "role": "neutral",
+    "displayName": "Forest Surface",
+    "canonical": "#162a17",
+    "tonalRamp": [
+     "#060a06",
+     "#0b150c",
+     "#102011",
+     "#162a17",
+     "#505f51",
+     "#8a948b",
+     "#c5cac5",
+     "#e8eae8"
+    ]
+   },
+   "ink": {
+    "role": "neutral",
+    "displayName": "Ink",
+    "canonical": "#ffffff",
+    "tonalRamp": [
+     "#404040",
+     "#808080",
+     "#bfbfbf",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff"
+    ]
+   },
+   "muted": {
+    "role": "neutral",
+    "displayName": "Muted",
+    "canonical": "#9aa39a",
+    "tonalRamp": [
+     "#262926",
+     "#4d524d",
+     "#747a74",
+     "#9aa39a",
+     "#b3bab3",
+     "#ccd1cc",
+     "#e6e8e6",
+     "#f5f6f5"
+    ]
+   },
+   "lime": {
+    "role": "accent",
+    "displayName": "Lime",
+    "canonical": "#c6f19d",
+    "tonalRamp": [
+     "#323c27",
+     "#63784e",
+     "#94b576",
+     "#c6f19d",
+     "#d4f4b6",
+     "#e2f8ce",
+     "#f1fce6",
+     "#f9fef5"
+    ]
+   },
+   "band": {
+    "role": "neutral",
+    "displayName": "Band",
+    "canonical": "#ffffff",
+    "tonalRamp": [
+     "#404040",
+     "#808080",
+     "#bfbfbf",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff",
+     "#ffffff"
+    ]
+   },
+   "band-surface": {
+    "role": "neutral",
+    "displayName": "Band Surface",
+    "canonical": "#ecedec",
+    "tonalRamp": [
+     "#3b3b3b",
+     "#767676",
+     "#b1b2b1",
+     "#ecedec",
+     "#f1f2f1",
+     "#f6f6f6",
+     "#fafafa",
+     "#fdfdfd"
+    ]
+   },
+   "band-ink": {
+    "role": "neutral",
+    "displayName": "Band Ink",
+    "canonical": "#0f1f10",
+    "tonalRamp": [
+     "#040804",
+     "#081008",
+     "#0b170c",
+     "#0f1f10",
+     "#4b574c",
+     "#878f88",
+     "#c3c7c3",
+     "#e7e9e7"
+    ]
+   },
+   "band-muted": {
+    "role": "neutral",
+    "displayName": "Band Muted",
+    "canonical": "#606c60",
+    "tonalRamp": [
+     "#181b18",
+     "#303630",
+     "#485148",
+     "#606c60",
+     "#889188",
+     "#b0b6b0",
+     "#d7dad7",
+     "#eff0ef"
+    ]
+   },
+   "sage": {
+    "role": "neutral",
+    "displayName": "Sage",
+    "canonical": "#cdd6c6",
+    "tonalRamp": [
+     "#333632",
+     "#666b63",
+     "#9aa094",
+     "#cdd6c6",
+     "#dae0d4",
+     "#e6eae2",
+     "#f2f5f1",
+     "#fafbf9"
+    ]
+   },
+   "paper": {
+    "role": "neutral",
+    "displayName": "Paper",
+    "canonical": "#f1f4ec",
+    "tonalRamp": [
+     "#3c3d3b",
+     "#787a76",
+     "#b5b7b1",
+     "#f1f4ec",
+     "#f4f7f1",
+     "#f8faf6",
+     "#fcfcfa",
+     "#fefefd"
+    ]
+   },
+   "receipt": {
+    "role": "neutral",
+    "displayName": "Receipt",
+    "canonical": "#fbfaf4",
+    "tonalRamp": [
+     "#3f3e3d",
+     "#7e7d7a",
+     "#bcbcb7",
+     "#fbfaf4",
+     "#fcfbf7",
+     "#fdfcfa",
+     "#fefefc",
+     "#fffefe"
+    ]
+   },
+   "leaf": {
+    "role": "accent",
+    "displayName": "Leaf",
+    "canonical": "#4c8f2f",
+    "tonalRamp": [
+     "#13240c",
+     "#264818",
+     "#396b23",
+     "#4c8f2f",
+     "#79ab63",
+     "#a6c797",
+     "#d2e3cb",
+     "#edf4ea"
+    ]
+   },
+   "leaf-light": {
+    "role": "accent",
+    "displayName": "Leaf Light",
+    "canonical": "#7fbf4d",
+    "tonalRamp": [
+     "#203013",
+     "#406026",
+     "#5f8f3a",
+     "#7fbf4d",
+     "#9fcf7a",
+     "#bfdfa6",
+     "#dfefd2",
+     "#f2f9ed"
+    ]
+   },
+   "rust": {
+    "role": "accent",
+    "displayName": "Rust",
+    "canonical": "#b4541a",
+    "tonalRamp": [
+     "#2d1506",
+     "#5a2a0d",
+     "#873f14",
+     "#b4541a",
+     "#c77f53",
+     "#daaa8c",
+     "#ecd4c6",
+     "#f8eee8"
+    ]
+   }
+  }
+ },
+ "components": [],
+ "narrative": {
+  "northStar": "The review desk",
+  "overview": "An AI engineer's portfolio shown as the review tools the projects really have, on deep forest green with one pale lime accent that means \"passed\". Built on the taste-skill kit."
+ }
+}

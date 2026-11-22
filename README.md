@@ -13,13 +13,15 @@ python3 -m http.server 8000     # then http://localhost:8000
 ## Change it
 
 - **Name and links:** search `index.html` for `Eagle` and `yiklin22`.
-- **Numbers:** each project's figures sit in its `<dl class="readings">` block. They are copied from the reports in
-  the project repositories (`fieldgate/docs/results/cord.md`, `longhaul/README.md`,
-  `ai-knowledge-system/docs/*.md`); update them there first, then here.
-- **Colours and type:** the tokens at the top of the `<style>` block (light only, by design). `DESIGN.md` records the
-  system: an independent test report with cobalt fields, a yellow verdict stamp, Archivo and Source Serif 4.
-- **Design tooling:** the redesign was made with [Impeccable](https://github.com/pbakaus/impeccable). `PRODUCT.md`,
-  `DESIGN.md`, `.impeccable/design.json` and `.impeccable/surfaces/` are its context files; commit them.
+- **Numbers:** each project keeps one figure in its section's text. They are copied from the reports in the project
+  repositories (`fieldgate/docs/results/cord.md`, `longhaul/README.md`, `ai-knowledge-system/docs/*.md`); update them
+  there first, then here. The pass mark demo in the second section runs on simulated scores and says so.
+- **Colours and type:** the `:root` block at the top of `index.html` (deep forest green, one pale lime accent; Sora,
+  Figtree and Martian Mono). `DESIGN.md` records the system.
+- **Design tooling:** built with [taste-skill](https://github.com/Leonxlnx/taste-skill) and
+  [Impeccable](https://github.com/pbakaus/impeccable). `assets/` holds the taste-skill kit files the page loads (keep
+  them unedited) and the tool icons; `PRODUCT.md`, `DESIGN.md` and `.impeccable/` are Impeccable's context files;
+  `.taste-skill/` holds check reports and can stay out of git.
 
 ## Put it online with GitHub Pages
 
