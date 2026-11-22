@@ -47,13 +47,15 @@
 <link rel="stylesheet" href="assets/ui/notify/fragment.css">
 <link rel="stylesheet" href="assets/ui/checklist/fragment.css">
 <link rel="stylesheet" href="assets/ui/diff-review/fragment.css">
+<link rel="stylesheet" href="assets/site/fx.css">
+<script>/* fx: cover the first paint for the intro count (first visit in a tab) or the arriving wipe; fx.js lifts it */
+try{var d=document.documentElement,q=matchMedia('(prefers-reduced-motion: reduce)').matches,w=Date.now()-(+sessionStorage.getItem('fx-wipe')||0)<4000;if(!q&&w)d.classList.add('fx-wiping');else if(!q&&!sessionStorage.getItem('fx-seen'))d.classList.add('fx-intro');setTimeout(function(){d.classList.remove('fx-intro','fx-wiping')},3000)}catch(e){}</script>
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link rel="modulepreload" href="assets/moments/moments.js">
 <link rel="modulepreload" href="assets/moments/lib.js">
 <link rel="modulepreload" href="assets/moments/letters-assemble/moment.js">
-<link rel="modulepreload" href="assets/moments/iris-opens/moment.js">
 <style>
   /* browser surfaces, themed from the palette */
   ::selection { background: #c6f19d; color: #0f1f10; }
@@ -219,7 +221,9 @@
 <!-- type: software
      deal: hero triptych, nav nav-centre, close close-type, footer footer-columns, rhythm dark-band (the inverse band is #longhaul),
            buttons tonal, mark initial, palette forest-pale-lime, type sora (Sora, Figtree, Martian Mono), radius sharp, ground sage
-     moments: letters-assemble in #method, iris-opens in #longhaul -->
+     moments: letters-assemble in #method
+     fx (assets/site, GSAP 3.13): intro count, hero pass-mark field and split headline, h2 line rises,
+           cursor, magnetic buttons, project reel (#fieldgate, #longhaul, #knowledge), footer mark, page wipe -->
 
 <header class="nav nav--centre">
   <div class="wrap nav__bar">
@@ -247,9 +251,10 @@
 </header>
 
 <main id="top">
-  <section class="hero hero--triptych" data-enter aria-labelledby="hero-h">
+  <section class="hero hero--fx" data-enter="off" aria-labelledby="hero-h">
+    <canvas class="fx-field" aria-hidden="true"></canvas>
     <div class="wrap"><div class="hero-text grid hero__grid">
-      <div class="span-3">
+      <div class="hero__copy">
         <h1 id="hero-h">AI engineer who tests the work</h1>
         <p class="hero__lead">I build AI systems for documents, agents and knowledge work, then test how often they are wrong. On 200 held-out receipts, wrong approvals fell from 17.2% to 2.7%.</p>
       </div>
@@ -321,7 +326,7 @@
           </div>
         </div>
       </div>
-      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="https://github.com/yiklin22">See my GitHub</a></div>
+      <div class="hero__cta"><a class="btn btn--primary" href="https://github.com/yiklin22">See my GitHub</a></div>
     </div></div>
   </section>
 
@@ -392,6 +397,13 @@
     </div>
   </section>
 
+  <section class="section statement" id="method" data-moment="letters-assemble" data-moment-opts='{"spread": 0.5}' aria-labelledby="method-h">
+    <div class="wrap">
+      <h2 class="mo-la__type" id="method-h">Every figure has a limit</h2>
+      <p class="mo-la__sub">Each project ships with the report behind its numbers, the sample size, and a plain list of what the result does not show.</p>
+    </div>
+  </section>
+
   <section class="section" id="fieldgate" aria-labelledby="fieldgate-h">
     <div class="wrap">
       <div class="grid">
@@ -431,14 +443,8 @@
     </div>
   </section>
 
-  <section class="section statement" id="method" data-moment="letters-assemble" data-moment-opts='{"spread": 0.5}' aria-labelledby="method-h">
-    <div class="wrap">
-      <h2 class="mo-la__type" id="method-h">Every figure has a limit</h2>
-      <p class="mo-la__sub">Each project ships with the report behind its numbers, the sample size, and a plain list of what the result does not show.</p>
-    </div>
-  </section>
 
-  <section class="section ground-inverse" id="longhaul" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="longhaul-h">
+  <section class="section ground-inverse" id="longhaul" aria-labelledby="longhaul-h">
     <div class="wrap">
       <div class="grid">
         <div class="span-5 stack-4">
@@ -607,6 +613,10 @@
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
+<script defer src="assets/vendor/gsap-3.13.0/gsap.min.js"></script>
+<script defer src="assets/vendor/gsap-3.13.0/ScrollTrigger.min.js"></script>
+<script defer src="assets/vendor/gsap-3.13.0/SplitText.min.js"></script>
+<script defer src="assets/site/fx.js"></script>
 <script>
 /* the pass mark: 150 simulated fields, each with a score and whether its value is right */
 (function () {
